@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+
+Online Python Tutor
+https://github.com/pgbovine/OnlinePythonTutor/
+
+Copyright (C) Philip J. Guo (philip@pgbovine.net)
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ -->
+
+<head>
+  <title>Checker Framework</title>
+
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+
+<!-- requirements for pytutor.js -->
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/d3.v2.min.js"></script>
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/jquery.ba-bbq.min.js"></script> <!-- for handling back button and URL hashes -->
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/jquery.ba-dotimeout.min.js"></script> <!-- for event debouncing -->
+
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/jquery-ui-1.8.24.custom.min.js"></script> <!-- for sliders and other UI elements -->
+<link type="text/css" href="./OnlinePythonTutor/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" rel="stylesheet" />
+
+
+<!-- for annotation bubbles -->
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/jquery.qtip.min.js"></script>
+<link type="text/css" href="./OnlinePythonTutor/v3/css/jquery.qtip.css" rel="stylesheet" />
+
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/pytutor.js"></script>
+<link rel="stylesheet" href="./OnlinePythonTutor/v3/css/pytutor.css"/>
+
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/holistic.js"></script>
+<link rel="stylesheet" href="./OnlinePythonTutor/v3/css/holistic.css"/>
+
+<!-- requirements for opt-frontend.js -->
+
+<!-- Ace online code editor -->
+<script type="text/javascript" src="./OnlinePythonTutor/v3/js/ace/src-min-noconflict/ace.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="js/cf-frontend-common.js"></script>
+<script type="text/javascript" src="js/cf-frontend.js"></script>
+<link rel="stylesheet" href="css/cf-frontend.css"/>
+
+</head>
+
+<body>
+
+<header>Checker Framework</header>
+
+<div id="pyInputPane">
+
+<div id="codeInputWarnings">Write Java code here:
+
+</div>
+
+<div id="codeInputPane"></div> <!-- populate with a Ace code editor instance -->
+<div id="frontendInfoOutput"></div>
+<div id="reportPane" style="display: none;">
+  <table id="error_table">
+      <tr>
+        <th>NO.</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Line</th>
+        <th>Column</th>
+      </tr>
+      </table>
+</div>
+
+<div id="ck_inputPane">
+<div id="javaOptionsPane" style="margin-top: 20px;">
+Choose type system:
+    <select id="type_system">
+      <option value="aliasing">Aliasing Checker</option>
+      <option value="fake_enum">Fake Enum Checker</option>
+      <option value="format_string">Format String Checker</option>
+      <option value="igj">IGJChecker</option>
+      <option value="interning">Interning Checker</option>
+      <option value="javari">Javari Checker</option>
+      <option value="linear">Linear Checker</option>
+      <option value="lock">Lock Checker</option>
+      <option value="nullness">Nullness Checker</option>
+      <option value="regex">Regex Checker</option>
+      <option value="tainting">Tainting Checker</option>
+    </select><br/>
+
+    <!-- comming soon! -->
+   <!--  <div id="cfgPane" style="display: none;">
+    <input id="cfg" type="checkbox" />Generate Control Flow Graph
+
+    <select id="cfg_level" style="display: none;">
+      <option value="top_level">Top Level</option>
+      <option value="only_type">Only Type</option>
+      <option value="basic_block">Basic Block</option>
+      <option value="full_details">Full Details</option>
+    </select><br/>
+    </div> -->
+    <!-- <input id="verbose" type="checkbox"/>verbose<br/> -->
+</div>
+
+<p >
+<button id="executeBtn" class="bigBtn" type="button">Check</button>
+</p>
+</div>
+
+<div id="examplesPane">
+<p style="margin-top: 25px; font-weight: bold;">Java Examples</p>
+
+<p data-checker-type="nullness">
+Nullness:
+<a class="exampleLink" id="NullnessExampleLink" href="#">NullnessExample</a> |
+<a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="nullness">
+MapKey:
+<a class="exampleLink" id="MapKeyExampleWithWarningsLink" href="#">MapKeyExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="interning">
+Interning:
+<a class="exampleLink" id="InterningExampleLink" href="#">InterningExample</a> |
+<a class="exampleLink" id="InterningExampleWithWarningsLink" href="#">InterningExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="lock">
+Lock:
+<a class="exampleLink" id="GuardedByExampleWithWarningsLink" href="#">GuardedByExampleWithWarnings</a> |
+<a class="exampleLink" id="HoldingExampleWithWarningsLink" href="#">HoldingExampleWithWarnings</a> |
+<a class="exampleLink" id="EnsuresLockHeldExampleLink" href="#">EnsuresLockHeldExample</a> | 
+<a class="exampleLink" id="LockingFreeExampleWithWarningsLink" href="#">LockingFreeExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="fake_enum">
+Fake Enum:
+<a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="format_string">
+Format String:
+<a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a> | <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> |
+</p>
+
+<p data-checker-type="regex">
+Regular Expression:
+<a class="exampleLink" id="RegexExampleWithWarningsLink" href="#">RegexExampleWithWarnings</a> | <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a> | 
+</p>
+
+<p data-checker-type="linear">
+Linear:
+<a class="exampleLink" id="LinearExampleWithWarningsLink" href="#">LinearExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="igj">
+IGJ immutability:
+<a class="exampleLink" id="IGJExampleWithWarningsLink" href="#">IGJExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="javari">
+Javari immutability:
+<a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a> |
+</p>
+
+</div>
+
+</div>
+
+</body>
+</html>
