@@ -1,0 +1,70 @@
+checkerprinter: a Java package that using checkerframework check and print check result of Java programs. This package is modified based on the traceprinter package from java_jail:https://github.com/daveagp/java_jail with  GNU AFFERO GENERAL PUBLIC LICENSE Version 3. Modified by Charles Chen (charleszhuochen@gmail.com) Mar 2016
+===Major modification===
+1. remove traceprinter.VMCommander, traceprinter.shoelace, traceprinter.JSONTracingThread cause we don't need to execute the user code.
+
+2. remove un-need methods in traceprinter.JDI2JSON.
+
+3. Change traceprinter.JDI2JSON to checkerprinter.CHECKER2JSON, change JSON format adapt to the frontend of checkerframework webserver.
+
+4. Modified InMemory.java:
+	1. add initCheckerArgs to init checker arguments
+	2. add printCheckerReport to print checker result in JSON format
+	3. modified InMemory constructor: add JSR308 field to store JSR308 environment variable.(JSR308 will passed as command line argument to InMemory. e.g java -cp ... InMemory $JSR308)
+	4. add checkerMap to store mapping of frontend parameter to real checker
+
+===the original README from traceprinter as below ===
+traceprinter: a Java package to print traces of Java programs
+David Pritchard (daveagp@gmail.com), created May 2013
+
+The contents of this directory are released under the GNU Affero 
+General Public License, versions 3 or later. See LICENSE or visit:
+http://www.gnu.org/licenses/agpl.html
+
+This project would not be possible without the package
+com.sun.tools.example.trace, written by Robert Field. 
+http://www.docjar.com/docs/api/com/sun/tools/example/trace/package-index.html
+The traceprinter package was initially created from that package. 
+
+Try the visualizer this was built for: 
+      http://cscircles.cemc.uwaterloo.ca/java-visualize/
+
+===
+NEWS
+
+A big update on June 11 2013 makes everything compile and execute in memory,
+so no writing to the file system is needed, and no considerations for
+simultaneous users are necessary.
+
+===
+WHAT DOES THIS PACKAGE DO AND WHAT DOES IT CONTAIN?
+
+traceprinter.InMemory: the main class. It takes java file source code 
+                       from standard input. Then it outputs a text (JSON)
+                       version of what the program didwhen executed.
+
+The output format is described here:
+  https://github.com/pgbovine/OnlinePythonTutor/blob/master/v3/docs/opt-trace-format.md
+This allows us to use the javascript frontend from OnlinePythonTutor
+to visualize Java instead of Python. 
+
+traceprinter.ramtools: compiles the java files to bytecode in memory.
+
+Then, InMemory uses the JDI to start a debuggee JVM, load the bytecode into
+it, and then execute it.
+
+traceprinter.VMCommander: drives injection and execution into debuggee.
+
+traceprinter.shoelace: contains all fixed code run by the debugee JVM.
+
+traceprinter.JSONTracingThread: event handling loop.
+
+traceprinter.JDI2JSON: used to convert everything to text output.
+ 
+===
+FLOW OF EXECUTION
+
+InMemory will get things started, and passes the ball briefly to 
+JSONTracingThread. But once the debuggee takes it first step, the
+VMCommander drives the execution of the debuggee VM. Again, the
+code it causes to run, will drive the event loop in JSONTracingThread
+some more, which in turn uses JDI2JSON to output things nicely.
