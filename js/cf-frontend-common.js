@@ -235,8 +235,7 @@ setFronendInfo(["Server error! Your code might be too long for this tool. Shorte
     } else {
       
 setFronendInfo(["Server error! Your code might be taking too much time to run or using too much memory.",
-                       "Report a bug to philip@pgbovine.net by clicking the 'Generate permanent link' button",
-                       "at the bottom of this page and including a URL in your email."], "error");
+                       "Please report a bug to admin."], "error");
     }
 
     doneExecutingCode();
@@ -560,7 +559,7 @@ function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
     backend_url = JAVA_BACKEND_URL;
 
       assert(backend_url);
-      
+
       var inputObj = {};
       inputObj.usercode = codeToExec;
       // TODO: add options, arg, and stdin later ...

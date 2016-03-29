@@ -38,7 +38,7 @@ def get_exec():
     json_output = json.dumps(ret, indent=None)
     out_s.write(json_output)
 
-  java_backend = subprocess.Popen(['./run-checker.sh', request.query.frontend_data],
+  java_backend = subprocess.Popen(['./run-checker.sh', request.query.frontend_data.encode('utf8')],
     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   (stdout, stderr) = java_backend.communicate()
   if java_backend.returncode != 0:
