@@ -43,15 +43,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // this is customized to my own Linode server:
 // these are the REAL endpoints, accessed via jsonp. code is in ../../v4-cokapi/
-if (window.location.protocol === 'https:') {
-  // my certificate for https is registered via cokapi.com, so use it for now:
-  // var JAVA_JSONP_ENDPOINT = 'https://cokapi.com:8001/exec_java_jsonp';
-  var JAVA_BACKEND_URL = 'https://127.0.0.1:8080/exec';
-} else {
-  // var JAVA_JSONP_ENDPOINT = 'http://104.237.139.253:3000/exec_java_jsonp'; // for deployment
-  var JAVA_BACKEND_URL = 'http://127.0.0.1:8080/exec'; // for deployment
-}
 
+//for deployment
+var JAVA_BACKEND_URL;
+//var ENDPOINT_ADDRESS;
+function init_java_backend_url() {
+  var exec_url = $("#exec_url").attr("data-exec-url");
+  if( typeof exec_url == "undefined" ) {
+    exec_url = "/exec"; //fall back to hard code
+  }
+  JAVA_BACKEND_URL = exec_url;
+  /*CheckerFramework: currently we only have java_backend and we don't request by using jsonp.
+   *keep this here for future if decide using jsonp someday*/
+  /*if(window.location.protocol == 'https:') {
+    JAVA_BACKEND_URL = "https://" + ENDPOINT_ADDRESS + exec_url;
+  } else {
+    JAVA_BACKEND_URL = "http://" + ENDPOINT_ADDRESS + exec_url;
+  }*/
+}
 
 // var domain = "http://pythontutor.com/"; // for deployment
 
@@ -527,7 +536,9 @@ function registerChangeErrorState(annotationsArray) {
 function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
                                  outputDiv,
                                  handleSuccessFunc) {
-
+    /*CheckerFramework: callback function of checking user code
+    *the element.type in error_report is related to java backend CheckerPrinter
+    */
     function execCallback(dataFromBackend) {
       var user_code = dataFromBackend.code;
       var error_report = dataFromBackend.error_report;
@@ -573,3 +584,7 @@ function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
         success: execCallback
       });
 }
+
+$(document).ready(function() {
+  init_java_backend_url();
+});

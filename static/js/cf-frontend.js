@@ -1,5 +1,13 @@
-/*
+/*Checker Framework:
+This js is modified based on opt-frontend.js from Online Python Tutor
+Major Modification:
+1. remove all code related to together js (we don't need share editing currently)
+2. simplify all code related to consideration of  multi-language to single-language JAVA
+3. get static file url-prefix from index page
+4. re-write getBaseBackendObj to adapt to checker framework backend parameters
+5. change get_example_file function to dynamic decide checker type of a specific example
 
+===origin comment of opt-frontend.js shown as below===
 Online Python Tutor
 https://github.com/pgbovine/OnlinePythonTutor/
 
@@ -50,7 +58,7 @@ function executeCode(forceStartingInstr, forceRawInputLst) {
 function initAceAndOptions() {
   setAceMode(); // update syntax highlighting mode
 }
-
+var static_url_prefix;
 var JAVA_EXAMPLES = {
   /*Nullness Checker examples*/
   NullnessExampleWithWarningsLink: 'examples/nullness/NullnessExampleWithWarnings.java',
@@ -92,7 +100,11 @@ var JAVA_EXAMPLES = {
 };
 
 $(document).ready(function() {
-
+  //init static url prefix
+  static_url_prefix = $("#static_url_prefix").attr('data-static-url-prefix');
+  if ( typeof static_url_prefix == "undefined" ) {
+    static_url_prefix = "/static/"; //fall back to hard code
+  }
   // canned examples
   $(".exampleLink").click(function() {
     var myId = $(this).attr('id');
@@ -102,7 +114,7 @@ $(document).ready(function() {
       setFronendInfo(["Sorry, cannot find that example on our server:("], "error");
       return false;
     }
-    $.get(exFile, function(dat) {
+    $.get(static_url_prefix + exFile, function(dat) {
       /*CheckerFramework: unbind Ace editor Change listener */
       unbindChangeErrorStateListener();
       pyInputSetValue(dat);

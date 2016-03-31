@@ -1,3 +1,14 @@
+# This wsgi server of checker framework is modified 
+# based on Online Python Tutor's OPT server: https://github.com/pgbovine/OnlinePythonTutor/ with MIT Lisence
+# Major Modification:
+# 1. route_static : a) using template to render index page
+#                   b) add 'static' prefix in @route('<filepath:path>') to get better file struture
+#                   c) pass bottle.get_url to index template, in order to generate correct url inside index page.
+# 2. exec: a) using Popen to fork sub process
+#          b) add a simple exception catch of sub process result
+#          c) add explict encoding transfer on user_data 
+# 3.for mount to apache: add appPath to get correct working directory of the instance of this wsgi server 
+#===Origin comment of this file in OPT server shown as below===
 # Lightweight OPT server that works on both Python 2 and 3
 
 # to invoke, run 'python bottle_server.py'
@@ -12,33 +23,31 @@
 # I had to replace cStringIO with io and urllib2 with urllib, for
 # compatibility from 2.x to 3.x Ii was running from /v3/).
 
+from os.path import join, dirname
 import subprocess
 
-from bottle import route, get, request, run, template, static_file
+from bottle import route, get, request, run, template, static_file, url, default_app, Bottle, TEMPLATE_PATH
+app = Bottle()
+default_app.push(app)
+
 import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
 import urllib
 import urllib2
 
+appPath = dirname(__file__)
 
-@route('/<filepath:path>')
-def index(filepath):
-    # # special-case for testing name_lookup.py ...
-    # if 'name_lookup.py' in filepath:
-    #     return json.dumps(dict(name='TEST NAME', email='TEST EMAIL'))
-    return static_file(filepath, root='.')
+@route('/')
+@route('/static/<filepath:path>', name='static')
+def route_static(filepath=None):
+    if filepath is None:
+        return template('index', root=appPath, get_url=app.get_url)
+    return static_file(filepath, root=join(appPath, 'static'))
 
-@get('/exec')
+@get('/exec', name='exec')
 def get_exec():
-  out_s = StringIO.StringIO()
-
-  def json_finalizer(input_code, output_trace):
-    ret = dict(code=input_code, trace=output_trace)
-    json_output = json.dumps(ret, indent=None)
-    out_s.write(json_output)
-
-  java_backend = subprocess.Popen(['./run-checker.sh', request.query.frontend_data],
+  java_backend = subprocess.Popen(['./run-checker.sh', request.query.frontend_data.encode('utf8')],
     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   (stdout, stderr) = java_backend.communicate()
   if java_backend.returncode != 0:
@@ -50,5 +59,5 @@ def get_exec():
   return result
 
 if __name__ == "__main__":
-    run(host='127.0.0.1', port=8080, reloader=True)
+    run(host='10.211.55.12', port=8081, reloader=True)
     # run(host='0.0.0.0', port=8003, reloader=True) # make it externally visible - DANGER this is very insecure since there's no sandboxing!
