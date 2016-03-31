@@ -59,5 +59,5 @@ def get_exec():
   return result
 
 if __name__ == "__main__":
-    run(host='10.211.55.12', port=8081, reloader=True)
+    run(host='127.0.0.1', port=8080, reloader=True)
     # run(host='0.0.0.0', port=8003, reloader=True) # make it externally visible - DANGER this is very insecure since there's no sandboxing!
