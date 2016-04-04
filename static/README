@@ -1,0 +1,5 @@
+static files directory of checkerweb:
+
+OnlinePythonTutor/: static dependence files of OnlinePythonTutor, this dir contains some unused files, keep for future use.
+
+examples/ : example files of different checkers.
