@@ -109,7 +109,7 @@ class JavariExampleWithWarnings {
         }
 
         // this is ok
-        void mutateInternal(/*@Mutable*/ JavariCell this, String other) {
+        void mutateInternal(/*@Mutable*/ JavariCell this, /*@Mutable*/ String other) {
             s = other;
             this.s = other;
         }

@@ -88,7 +88,7 @@ function initAceEditor(height) {
   pyInputAceEditor.setBehavioursEnabled(false);
 
   // auto-grow height as fit
-  pyInputAceEditor.setOptions({minLines: 18, maxLines: 18});
+  pyInputAceEditor.setOptions({minLines: 25, maxLines: 25});
 
   $('#codeInputPane').css('width', '100%');
   $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!

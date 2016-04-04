@@ -37,19 +37,23 @@ public class InMemory {
     List<String> checkerOptionsList;
     static final Map<String, String> checkerMap;
     static {
-    	HashMap<String, String> tempMap = new HashMap<String, String>();
-    	tempMap.put("nullness", "org.checkerframework.checker.nullness.NullnessChecker");
-    	tempMap.put("regex", "org.checkerframework.checker.regex.RegexChecker");
-    	tempMap.put("interning", "org.checkerframework.checker.interning.InterningChecker");
-    	tempMap.put("aliasing", "org.checkerframework.common.aliasing.AliasingChecker");
-    	tempMap.put("lock", "org.checkerframework.checker.lock.LockChecker");
-    	tempMap.put("fake_enum", "org.checkerframework.checker.fenum.FenumChecker");
-    	tempMap.put("tainting", "org.checkerframework.checker.tainting.TaintingChecker");
-    	tempMap.put("format_string", "org.checkerframework.checker.formatter.FormatterChecker");
-    	tempMap.put("linear", "org.checkerframework.checker.linear.LinearChecker");
-    	tempMap.put("igj", "org.checkerframework.checker.igj.IGJChecker");
-    	tempMap.put("javari", "org.checkerframework.checker.javari.JavariChecker");
-    	checkerMap = Collections.unmodifiableMap(tempMap);
+        HashMap<String, String> tempMap = new HashMap<String, String>();
+        tempMap.put("nullness", "org.checkerframework.checker.nullness.NullnessChecker");
+        tempMap.put("regex", "org.checkerframework.checker.regex.RegexChecker");
+        tempMap.put("interning", "org.checkerframework.checker.interning.InterningChecker");
+        tempMap.put("aliasing", "org.checkerframework.common.aliasing.AliasingChecker");
+        tempMap.put("lock", "org.checkerframework.checker.lock.LockChecker");
+        tempMap.put("fake_enum", "org.checkerframework.checker.fenum.FenumChecker");
+        tempMap.put("tainting", "org.checkerframework.checker.tainting.TaintingChecker");
+        tempMap.put("format_string", "org.checkerframework.checker.formatter.FormatterChecker");
+        tempMap.put("linear", "org.checkerframework.checker.linear.LinearChecker");
+        tempMap.put("igj", "org.checkerframework.checker.igj.IGJChecker");
+        tempMap.put("javari", "org.checkerframework.checker.javari.JavariChecker");
+        tempMap.put("signature", "org.checkerframework.checker.signature.SignatureChecker");
+        tempMap.put("gui_effect", "org.checkerframework.checker.guieffect.GuiEffectChecker");
+        tempMap.put("units", "org.checkerframework.checker.units.UnitsChecker");
+        tempMap.put("cons_value", "org.checkerframework.common.value.ValueChecker");
+        checkerMap = Collections.unmodifiableMap(tempMap);
     }
     private final String JSR308;
     Map<String, byte[]> bytecode;

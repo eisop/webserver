@@ -97,8 +97,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Choose type system:
     <select id="type_system">
       <option value="aliasing">Aliasing Checker</option>
+      <option value="cons_value">Constant Value Checker</option>
       <option value="fake_enum">Fake Enum Checker</option>
       <option value="format_string">Format String Checker</option>
+      <option value="gui_effect">GUI Effect Checker</option>
       <option value="igj">IGJChecker</option>
       <option value="interning">Interning Checker</option>
       <option value="javari">Javari Checker</option>
@@ -106,7 +108,9 @@ Choose type system:
       <option value="lock">Lock Checker</option>
       <option value="nullness">Nullness Checker</option>
       <option value="regex">Regex Checker</option>
+      <option value="signature">Signature Checker</option>
       <option value="tainting">Tainting Checker</option>
+      <option value="units">Units Checker</option>
     </select><br/>
 
     <!-- comming soon! -->
@@ -157,13 +161,14 @@ Lock:
 </p>
 
 <p data-checker-type="fake_enum">
-Fake Enum:
+Fake Enumeration:
 <a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a> |
 </p>
 
 <p data-checker-type="format_string">
 Format String:
-<a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a> | <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> |
+<a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a> |
+<!-- <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> | -->
 </p>
 
 <p data-checker-type="regex">
@@ -171,10 +176,10 @@ Regular Expression:
 <a class="exampleLink" id="RegexExampleWithWarningsLink" href="#">RegexExampleWithWarnings</a> | <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a> | 
 </p>
 
-<p data-checker-type="linear">
+<!-- <p data-checker-type="linear">
 Linear:
 <a class="exampleLink" id="LinearExampleWithWarningsLink" href="#">LinearExampleWithWarnings</a> |
-</p>
+</p> -->
 
 <p data-checker-type="igj">
 IGJ immutability:
@@ -186,6 +191,31 @@ Javari immutability:
 <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a> |
 </p>
 
+<p data-checker-type="tainting">
+Tainting:
+<a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="signature">
+Signature Strings:
+<a class="exampleLink" id="SignatureExampleWithWarningsLink" href="#">SignatureExampleWithWarnings</a> |
+<a class="exampleLink" id="SignatureExampleLink" href="#">SignatureExample</a> |
+</p>
+
+<p data-checker-type="gui_effect">
+GUI Effect:
+<a class="exampleLink" id="GUIEffectExampleWithWarningsLink" href="#">GUIEffectExampleWithWarnings</a> |
+</p>
+
+<p data-checker-type="units">
+Units:
+<a class="exampleLink" id="AdditionWithWarningsLink" href="#">AdditionWithWarnings</a> |
+<a class="exampleLink" id="SubtractionWithWarningsLink" href="#">SubtractionWithWarnings</a> |
+<a class="exampleLink" id="MultiplesWithWarningsLink" href="#">MultiplesWithWarnings</a> |
+<a class="exampleLink" id="DivisionWithWarningsLink" href="#">DivisionWithWarnings</a> |
+
+
+</p>
 </div>
 
 </div>

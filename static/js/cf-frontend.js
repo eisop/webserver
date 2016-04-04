@@ -97,6 +97,23 @@ var JAVA_EXAMPLES = {
 
   /*Javari Checker examples*/
   JavariExampleWithWarningsLink: 'examples/javari/JavariExampleWithWarnings.java',
+
+  /*Tainting Checker examples*/
+  TaintingExampleWithWarningsLink: 'examples/tainting/TaintingExampleWithWarnings.java',
+
+  /*Signature Checker examples*/
+  SignatureExampleWithWarningsLink: 'examples/signature/SignatureExampleWithWarnings.java',
+  SignatureExampleLink: 'examples/signature/SignatureExample.java',
+
+  /*GUIEffect Checker examples*/
+  GUIEffectExampleWithWarningsLink: 'examples/gui_effect/GUIEffectExampleWithWarnings.java',
+
+  /*Units Checker examples*/
+  AdditionWithWarningsLink: 'examples/units/AdditionWithWarnings.java',
+  SubtractionWithWarningsLink: 'examples/units/SubtractionWithWarnings.java',
+  MultiplesWithWarningsLink: 'examples/units/MultiplesWithWarnings.java',
+  DivisionWithWarningsLink: 'examples/units/DivisionWithWarnings.java',
+
 };
 
 $(document).ready(function() {
