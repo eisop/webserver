@@ -43,17 +43,6 @@ public class JsonPrinter extends Printer {
     	     .add("exception_msg", errmsg);
         }
 
-    
-
-    static JsonObject output(String usercode, JsonArray errorReport) {
-        JsonObjectBuilder result = Json.createObjectBuilder();
-        result
-            .add("code", usercode)
-            .add("error_report", errorReport);
-//        if (userlogged != null) result.add("userlog", userlogged.toString());
-        return result.build();
-    }
-    
     @Override
     public void printException(String msg) {
         JsonObjectBuilder output = Json.createObjectBuilder()
@@ -116,7 +105,6 @@ public class JsonPrinter extends Printer {
                             Math.max(0, err.getColumnNumber())
                             );
                     errorReportBuilder.add(errorBuilder);
-            
         }
         JsonArray errorReport = errorReportBuilder.build();
         

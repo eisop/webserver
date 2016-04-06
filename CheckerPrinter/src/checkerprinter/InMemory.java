@@ -110,9 +110,6 @@ public class InMemory {
             this.checkerPrinter.printException(this.exceptionMsg);
             return;
         }
-        	
-        
-
         // not 100% accurate, if people have multiple top-level classes + public inner classes
         Pattern p = Pattern.compile("public\\s+class\\s+([a-zA-Z0-9_]+)\\b");
         Matcher m = p.matcher(usercode);
