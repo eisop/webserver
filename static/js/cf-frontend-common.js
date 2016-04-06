@@ -354,7 +354,7 @@ function updateAppDisplay(newAppMode) {
     appMode = 'display'; // canonicalize
     $("#reportPane").show();
     // $("#javaOptionsPane").hide();
-    $("#codeInputWarnings").text("Please fix the bug and check again!");
+    // $("#codeInputWarnings").text("Please fix the bug and check again!");
 
     doneExecutingCode();
 
@@ -559,11 +559,13 @@ function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
           setFronendInfo(dataFromBackend.exception_msg, "error");
       } 
       else if (backend_status == 'pass') {
+        $("#codeInputWarnings").text("checker pass!");
         setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " pass!"], "success");
         setExecCmd(dataFromBackend.exec_cmd);
         enterDisplayMode();
       } 
       else if (backend_status == 'diagnostic'){
+        $("#codeInputWarnings").text("Please fix the bug and check again!");
         setExecCmd(dataFromBackend.exec_cmd);
         pyInputSetValue(user_code);
         annotationsArray = setErrorAnnotations(error_report);
