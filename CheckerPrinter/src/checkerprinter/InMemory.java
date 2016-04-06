@@ -32,9 +32,12 @@ import javax.json.*;
 
 public class InMemory {
 
-    String usercode;
+//    String usercode;
     String mainClass;
+    String exceptionMsg;
     List<String> checkerOptionsList;
+    Printer checkerPrinter;
+    
     static final Map<String, String> checkerMap;
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
@@ -61,23 +64,25 @@ public class InMemory {
     public final static long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
+        Printer checkerPrinter = new JsonPrinter();     
         try {
             new InMemory(
                          Json.createReader(new InputStreamReader
                                            (System.in, "UTF-8"))
-                         .readObject(), args[0]);
+                         .readObject(), args[0], checkerPrinter);
         } 
         catch (IOException e) {
-            System.out.print(CHECKER2JSON.ExceptionError("[could not read user code]",
-                                                         "Internal IOException"));
+            checkerPrinter.setUsercode(null);
+            checkerPrinter.printException("Internal IOException");
+//            System.out.print(JsonPrinter.buildException("[could not read user code]",
+//                                                         "Internal IOException"));
         }
     }
     
     protected boolean initCheckerArgs(JsonObject optionsObject) {
     	String checker = InMemory.checkerMap.get(optionsObject.getString("checker"));
     	if(checker == null) {
-    		System.out.print(CHECKER2JSON.ExceptionError(this.usercode, 
-    		        "Error: Cannot found indicated checker."));
+    	    this.exceptionMsg = "Error: Cannot found indicated checker.";
     		return false;
     	}
     	this.checkerOptionsList = Arrays.asList(
@@ -95,19 +100,25 @@ public class InMemory {
     
     
     // figure out the class name, then compile and run main([])
-    InMemory(JsonObject frontend_data, String JSR308) {
-        this.usercode = frontend_data.getJsonString("usercode").getString();
+    InMemory(JsonObject frontend_data, String JSR308, Printer checkerPrinter) {
+//        this.usercode = frontend_data.getJsonString("usercode").getString();
+        String usercode = frontend_data.getJsonString("usercode").getString();
         this.JSR308 = JSR308;
-        if(!initCheckerArgs(frontend_data.getJsonObject("options")))
-        	return;
+        this.checkerPrinter = checkerPrinter;
+        this.checkerPrinter.setUsercode(usercode);
+        if(!initCheckerArgs(frontend_data.getJsonObject("options"))) {
+            this.checkerPrinter.printException(this.exceptionMsg);
+            return;
+        }
+        	
         
 
         // not 100% accurate, if people have multiple top-level classes + public inner classes
         Pattern p = Pattern.compile("public\\s+class\\s+([a-zA-Z0-9_]+)\\b");
         Matcher m = p.matcher(usercode);
         if (!m.find()) {
-        	System.out.print(CHECKER2JSON.ExceptionError(this.usercode, 
-        			"Error: Make sure your code includes 'public class \u00ABClassName\u00BB'"));
+            this.exceptionMsg = "Error: Make sure your code includes 'public class \u00ABClassName\u00BB'";
+            this.checkerPrinter.printException(this.exceptionMsg);
             return;
         }
 
@@ -121,64 +132,19 @@ public class InMemory {
         DiagnosticCollector<JavaFileObject> errorCollector = new DiagnosticCollector<>();
         c2b.diagnosticListener = errorCollector;
 
-            bytecode = c2b.compileFile(mainClass, usercode);
+        bytecode = c2b.compileFile(mainClass, usercode);
         
-        printCheckerReport(errorCollector);
-    }
-    
-    protected void printCheckerReport(DiagnosticCollector<JavaFileObject> errorCollector) {
-    	JsonArrayBuilder errorReportBuilder = Json.createArrayBuilder();
-    	List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
-    	if(bytecode != null && diagnosticList.size() == 0) {
-    		errorReportBuilder.add(Json.createObjectBuilder()
-    				.add("type", "pass"));
-    		System.out.print(CHECKER2JSON.output(this.usercode, errorReportBuilder.build()));
-    		return;
-    	}
-
-    	for (Diagnostic<? extends JavaFileObject> err : diagnosticList){
-//    	    System.out.println(err.getKind());
-    	    Diagnostic.Kind errKind = err.getKind();
-    	    String errHeader = "";
-    	    String errType = "";
-    		if(errKind == Diagnostic.Kind.ERROR) {
-    		    errHeader = "Error: ";
-    		    errType = "error";
-    		} else if(errKind == Diagnostic.Kind.WARNING) {
-    		    errHeader = "Warning: ";
-    		    errType = "warning";
-    		} else if(errKind == Diagnostic.Kind.MANDATORY_WARNING) {
-    		    errHeader = "Warning: ";
-                errType = "warning";
-    		} else if(errKind == Diagnostic.Kind.NOTE) {
-    		    errHeader = "Note: ";
-                errType = "info";
-            } else {
-    			System.out.print(CHECKER2JSON.ExceptionError(this.usercode, 
-    					"Error: Compiler doesn't work, please contact admin to report a bug."));
-    			return;
-    		}
-    		JsonObjectBuilder errorBuilder = 
-                    CHECKER2JSON.compileError(errHeader + err.getMessage(null), errType,
-                            Math.max(0, err.getLineNumber()),
-                            Math.max(0, err.getColumnNumber())
-                            );
-                    errorReportBuilder.add(errorBuilder);
-    		
-    	}
-        JsonArray errorReport = errorReportBuilder.build();
+        List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
         
-        assert errorReport.size() > 0 : "bytecode is null or diagnosticList is not empty, but error report is empty.";
+        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag";
         
-    	JsonObject output = CHECKER2JSON.output(usercode, errorReport);
-    	
-    	try {
-            PrintStream out = new PrintStream(System.out, true, "UTF-8");
-            out.print(output);
-        }
-        catch (UnsupportedEncodingException e) { //fallback
-            System.out.print(output);
-        }
-    }
-    
+        this.checkerPrinter.setExecCmd(this.checkerOptionsList
+                .subList(1, this.checkerOptionsList.size()));
+        
+        if(bytecode != null && diagnosticList.size() == 0){
+            this.checkerPrinter.printSuccess();
+        } else {
+            this.checkerPrinter.printDiagnosticReport(diagnosticList);
+        }      
+    } 
 }
