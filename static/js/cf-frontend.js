@@ -135,6 +135,7 @@ $(document).ready(function() {
       /*CheckerFramework: unbind Ace editor Change listener */
       unbindChangeErrorStateListener();
       pyInputSetValue(dat);
+      clearExecCmd();
       initAceAndOptions();
       enterEditMode();
     }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code! */);

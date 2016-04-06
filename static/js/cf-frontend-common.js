@@ -148,12 +148,22 @@ function setFronendInfo(lines, type) {
   $("#frontendInfoOutput").show();
 }
 
-
-
 function clearFrontendInfo() {
   $("#frontendInfoOutput").hide();
 }
 
+function setExecCmd(exec_cmd) {
+  $("#exec_cmd").html("excute command: " + exec_cmd);
+  $("#exec_cmd").show();
+}
+
+function clearExecCmd() {
+  $("#exec_cmd").hide();
+}
+
+function clearErrorTable() {
+  $("#error_table").hide();
+}
 // abstraction so that we can use either CodeMirror or Ace as our code editor
 function pyInputGetValue() {
     return pyInputAceEditor.getValue();
@@ -440,6 +450,7 @@ function setReportPane(error_report) {
       "changeColorOver(this,"+ (error.line-1) +","+(error.offset-1)+")");
     row.setAttribute("onmouseout", "changeColorOut(this)");
    } 
+   $("#error_table").show();
 }
 
 /*CheckerFramework: set annotations to ace editor
@@ -542,13 +553,18 @@ function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
       var user_code = dataFromBackend.code;
       var error_report = dataFromBackend.error_report;
       var annotationsArray = [];
+      var backend_status = dataFromBackend.backend_status;
       doneExecutingCode();// rain or shine, we're done executing!
-      if(error_report[0].type == 'exception') {
-        setFronendInfo([error_report[0].msg], "error");
-        return;
-      } else if(error_report[0].type == 'pass') {
+        if(backend_status == 'exception') {
+          setFronendInfo(dataFromBackend.exception_msg, "error");
+      } 
+      else if (backend_status == 'pass') {
         setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " pass!"], "success");
-      } else {
+        setExecCmd(dataFromBackend.exec_cmd);
+        enterDisplayMode();
+      } 
+      else if (backend_status == 'diagnostic'){
+        setExecCmd(dataFromBackend.exec_cmd);
         pyInputSetValue(user_code);
         annotationsArray = setErrorAnnotations(error_report);
         setReportPane(error_report);
@@ -563,7 +579,9 @@ function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
     // krufty FIXME
     enterEditMode();
     unbindChangeErrorStateListener();
+    clearErrorTable();
     clearFrontendInfo();
+    clearExecCmd();
     pyInputAceEditor.getSession().clearAnnotations();
     startExecutingCode();
 
