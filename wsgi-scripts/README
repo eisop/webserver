@@ -2,7 +2,11 @@ This directory contains wsgi configuration files of CheckerFramework webserver.
 author: Charles Chen
 
 ==Usage==
-configure .conf file with the deploy server info, and then copy the .conf file to httpd server vhost dir.
+configure *.conf file with the deploy server info, and then copy the *.conf file to httpd vhost dir(the vhost dir in standard httpd installation would be /etc/httpd/conf.d/vhosts ). Don't forget to restart httpd.
+ 
+
+If mod_macro module is actived in httpd, it is suggested to use checkerweb-wsgi.conf which is easier to modify.
+
 
 ==file description==
 -checkerweb-wsgi.conf: apache file of mounting checkweb to apache2 by wsgi as virtual host. This file need two dependences of apache2: 1)mod_wsgi 2)mod_macro
