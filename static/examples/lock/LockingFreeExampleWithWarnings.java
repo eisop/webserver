@@ -1,5 +1,6 @@
 import org.checkerframework.checker.lock.qual.GuardedBy;
 import org.checkerframework.dataflow.qual.LockingFree;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 import java.util.concurrent.locks.ReentrantLock;
 

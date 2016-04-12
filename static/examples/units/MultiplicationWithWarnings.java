@@ -1,7 +1,7 @@
 import org.checkerframework.checker.units.UnitsTools;
 import org.checkerframework.checker.units.qual.*;
 
-public class MultiplesWithWarnings {
+public class MultiplicationWithWarnings {
     void m() {
         // Prefix assignment tests
         // kg

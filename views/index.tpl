@@ -226,9 +226,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     <p data-checker-type="units">
       Units:
+      <a class="exampleLink" id="SimpleDemoWithWarningsLink" href="#">SimpleDemoWithWarnings</a> |
       <a class="exampleLink" id="AdditionWithWarningsLink" href="#">AdditionWithWarnings</a> |
       <a class="exampleLink" id="SubtractionWithWarningsLink" href="#">SubtractionWithWarnings</a> |
-      <a class="exampleLink" id="MultiplesWithWarningsLink" href="#">MultiplesWithWarnings</a> |
+      <a class="exampleLink" id="MultiplicationWithWarningsLink" href="#">MultiplicationWithWarnings</a> |
       <a class="exampleLink" id="DivisionWithWarningsLink" href="#">DivisionWithWarnings</a> |
     </p>
   </div>

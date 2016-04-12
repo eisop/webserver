@@ -63,10 +63,9 @@ var JAVA_EXAMPLES = {
   /*Nullness Checker examples*/
   NullnessExampleWithWarningsLink: 'examples/nullness/NullnessExampleWithWarnings.java',
   NullnessExampleLink: 'examples/nullness/NullnessExample.java',
-  /*MapKeyChecker usually automatically called by other Checkers,
-   especially with Nullness Checker, thus put this here*/
-  MapKeyExampleWithWarningsLink: 'examples/nullness/MapKeyExampleWithWarnings.java', 
 
+  /*MapKeyChecker examples*/
+  MapKeyExampleWithWarningsLink: 'examples/map_key/MapKeyExampleWithWarnings.java',
 
   /*Interning Checker examples*/
   InterningExampleLink: 'examples/interning/InterningExample.java',
@@ -111,9 +110,9 @@ var JAVA_EXAMPLES = {
   /*Units Checker examples*/
   AdditionWithWarningsLink: 'examples/units/AdditionWithWarnings.java',
   SubtractionWithWarningsLink: 'examples/units/SubtractionWithWarnings.java',
-  MultiplesWithWarningsLink: 'examples/units/MultiplesWithWarnings.java',
+  MultiplicationWithWarningsLink: 'examples/units/MultiplicationWithWarnings.java',
   DivisionWithWarningsLink: 'examples/units/DivisionWithWarnings.java',
-
+  SimpleDemoWithWarningsLink: 'examples/units/SimpleDemoWithWarnings.java'
 };
 
 $(document).ready(function() {
