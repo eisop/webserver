@@ -76,7 +76,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 <body>
-
+<img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" />
 <header>Checker Framework Live Demo</header>
 
 <!-- backend url for getting static file and exec user code
@@ -154,18 +154,18 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <p data-checker-type="nullness">
       Nullness:
       <a class="exampleLink" id="NullnessExampleLink" href="#">NullnessExample</a> |
-      <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a> |
+      <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="nullness">
       MapKey:
-      <a class="exampleLink" id="MapKeyExampleWithWarningsLink" href="#">MapKeyExampleWithWarnings</a> |
+      <a class="exampleLink" id="MapKeyExampleWithWarningsLink" href="#">MapKeyExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="interning">
       Interning:
       <a class="exampleLink" id="InterningExampleLink" href="#">InterningExample</a> |
-      <a class="exampleLink" id="InterningExampleWithWarningsLink" href="#">InterningExampleWithWarnings</a> |
+      <a class="exampleLink" id="InterningExampleWithWarningsLink" href="#">InterningExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="lock">
@@ -173,24 +173,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="GuardedByExampleWithWarningsLink" href="#">GuardedByExampleWithWarnings</a> |
       <a class="exampleLink" id="HoldingExampleWithWarningsLink" href="#">HoldingExampleWithWarnings</a> |
       <a class="exampleLink" id="EnsuresLockHeldExampleLink" href="#">EnsuresLockHeldExample</a> |
-      <a class="exampleLink" id="LockingFreeExampleWithWarningsLink" href="#">LockingFreeExampleWithWarnings</a> |
+      <a class="exampleLink" id="LockingFreeExampleWithWarningsLink" href="#">LockingFreeExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="fake_enum">
       Fake Enumeration:
-      <a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a> |
+      <a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="format_string">
       Format String:
-      <a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a> |
+      <a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a>
       <!-- <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> | -->
     </p>
 
     <p data-checker-type="regex">
       Regular Expression:
       <a class="exampleLink" id="RegexExampleWithWarningsLink" href="#">RegexExampleWithWarnings</a> |
-      <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a> |
+      <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a>
     </p>
 
     <!-- <p data-checker-type="linear">
@@ -200,28 +200,28 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     <p data-checker-type="igj">
       IGJ immutability:
-      <a class="exampleLink" id="IGJExampleWithWarningsLink" href="#">IGJExampleWithWarnings</a> |
+      <a class="exampleLink" id="IGJExampleWithWarningsLink" href="#">IGJExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="javari">
       Javari immutability:
-      <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a> |
+      <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="tainting">
       Tainting:
-      <a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a> |
+      <a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="signature">
       Signature Strings:
       <a class="exampleLink" id="SignatureExampleWithWarningsLink" href="#">SignatureExampleWithWarnings</a> |
-      <a class="exampleLink" id="SignatureExampleLink" href="#">SignatureExample</a> |
+      <a class="exampleLink" id="SignatureExampleLink" href="#">SignatureExample</a>
     </p>
 
     <p data-checker-type="gui_effect">
       GUI Effect:
-      <a class="exampleLink" id="GUIEffectExampleWithWarningsLink" href="#">GUIEffectExampleWithWarnings</a> |
+      <a class="exampleLink" id="GUIEffectExampleWithWarningsLink" href="#">GUIEffectExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="units">
@@ -230,7 +230,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="AdditionWithWarningsLink" href="#">AdditionWithWarnings</a> |
       <a class="exampleLink" id="SubtractionWithWarningsLink" href="#">SubtractionWithWarnings</a> |
       <a class="exampleLink" id="MultiplicationWithWarningsLink" href="#">MultiplicationWithWarnings</a> |
-      <a class="exampleLink" id="DivisionWithWarningsLink" href="#">DivisionWithWarnings</a> |
+      <a class="exampleLink" id="DivisionWithWarningsLink" href="#">DivisionWithWarnings</a>
     </p>
   </div>
 </div>
