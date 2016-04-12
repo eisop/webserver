@@ -1,17 +1,28 @@
-This directory contains wsgi configuration files of CheckerFramework webserver.
-author: Charles Chen
+This directory contains wsgi configuration files for the Checker
+Framework Live Demo webserver.
+Author: Charles Chen
 
 ==Usage==
-configure *.conf file with the deploy server info, and then copy the *.conf file to httpd vhost dir(the vhost dir in standard httpd installation would be /etc/httpd/conf.d/vhosts ). Don't forget to restart httpd.
+
+Configure *.conf file with the deploy server info, and then copy the
+*.conf file to httpd vhost dir (the vhost dir in standard httpd
+installations is /etc/httpd/conf.d/vhosts ). Don't forget to
+restart httpd.
  
+If mod_macro module is actived in httpd, it is suggested to use
+checkerweb-wsgi.conf which is easier to modify.
 
-If mod_macro module is actived in httpd, it is suggested to use checkerweb-wsgi.conf which is easier to modify.
 
+== File description ==
 
-==file description==
--checkerweb-wsgi.conf: apache file of mounting checkweb to apache2 by wsgi as virtual host. This file need two dependences of apache2: 1)mod_wsgi 2)mod_macro
-This one is easier to configure parameters.
+- checkerweb-wsgi.conf: Apache file for mounting checkweb to apache2
+  by wsgi as virtual host. This file needs two dependencies of apache2:
+  1) mod_wsgi 2) mod_macro.
+  This option makes it easier to configure parameters.
 
--checkerweb-wsgi-without-macro.conf: this file is similiar to checkerweb-wsgi.conf except it doesn't use macro. This file only dependent on mod_wsgi. But it is harder to configure parameters because of the unavoidable hard-code-style.
+- checkerweb-wsgi-without-macro.conf: this file is similar to
+  checkerweb-wsgi.conf except it doesn't use macros. This file only
+  depends on mod_wsgi. But it is harder to configure parameters
+  because of the unavoidable hard-code-style.
 
--checkerweb.wsgi: wsgi script of checkerweb.
+- checkerweb.wsgi: wsgi script of checkerweb.
