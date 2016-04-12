@@ -102,9 +102,11 @@ function initAceEditor(height) {
   pyInputAceEditor.focus();
 }
 
-var JAVA_BLANK_TEMPLATE = 'public class YourClassNameHere {\n\
-    public static void main(String[] args) {\n\
-\n\
+var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
+class YourClassNameHere {\n\
+    void foo(Object nn, @Nullable nbl) {\n\
+        nn.toString(); // OK\n\
+        nbl.toString(); // Error\n\
     }\n\
 }'
 
@@ -153,7 +155,7 @@ function clearFrontendInfo() {
 }
 
 function setExecCmd(exec_cmd) {
-  $("#exec_cmd").html("excute command: " + exec_cmd);
+  $("#exec_cmd").html("Executed command: <code>" + exec_cmd + " afile.java</code>");
   $("#exec_cmd").show();
 }
 
@@ -164,13 +166,14 @@ function clearExecCmd() {
 function clearErrorTable() {
   $("#error_table").hide();
 }
+
 // abstraction so that we can use either CodeMirror or Ace as our code editor
 function pyInputGetValue() {
     return pyInputAceEditor.getValue();
 }
 
 function pyInputSetValue(dat) {
-    pyInputAceEditor.setValue(dat.rtrim() /* kill trailing spaces */,
+  pyInputAceEditor.setValue(dat.rtrim() /* kill trailing spaces */,
                               -1 /* do NOT select after setting text */);
   // $('#urlOutput,#embedCodeOutput').val('');
 
@@ -181,11 +184,11 @@ function pyInputSetValue(dat) {
 }
 
 function pyInputGetScrollTop() {
-    return pyInputAceEditor.getSession().getScrollTop();
+  return pyInputAceEditor.getSession().getScrollTop();
 }
 
 function pyInputSetScrollTop(st) {
-    pyInputAceEditor.getSession().setScrollTop(st);
+  pyInputAceEditor.getSession().setScrollTop(st);
 }
 
 
@@ -559,13 +562,13 @@ function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
           setFronendInfo(dataFromBackend.exception_msg, "error");
       } 
       else if (backend_status == 'pass') {
-        $("#codeInputWarnings").text("checker pass!");
-        setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " pass!"], "success");
+        $("#codeInputWarnings").text("Checker passed!");
+        setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " passed!"], "success");
         setExecCmd(dataFromBackend.exec_cmd);
         enterDisplayMode();
       } 
       else if (backend_status == 'diagnostic'){
-        $("#codeInputWarnings").text("Please fix the bug and check again!");
+        $("#codeInputWarnings").text("Please fix the bug(s) and check again!");
         setExecCmd(dataFromBackend.exec_cmd);
         pyInputSetValue(user_code);
         annotationsArray = setErrorAnnotations(error_report);
