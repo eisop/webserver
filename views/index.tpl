@@ -110,7 +110,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div id="ck_inputPane">
     <div id="javaOptionsPane" style="margin-top: 20px;">
-      Choose type system:
+      Choose a type system:
       <select id="type_system">
 	<option value="aliasing">Aliasing Checker</option>
 	<option value="cons_value">Constant Value Checker</option>
@@ -239,7 +239,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <p>For more information see
     <a href="http://checkerframework.org/">http://checkerframework.org/</a>
     and
-    <a href=" http://eisop.uwaterloo.ca/">http://eisop.uwaterloo.ca/</a></p>
+    <a href=" http://eisop.uwaterloo.ca/">http://eisop.uwaterloo.ca/</a>
+  </p>
+  <p>Built with code from the amazing
+    <a href="http://pythontutor.com/">Python Tutor</a>
+    (<a href="https://github.com/pgbovine/OnlinePythonTutor/">Original sources</a>).
+    <a href="https://github.com/eisop/webserver/">GitHub sources</a>.
+  </p>
 </div>
 
 </body>
