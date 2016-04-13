@@ -58,7 +58,7 @@ def get_exec():
   (stdout, stderr) = java_backend.communicate()
   if java_backend.returncode != 0:
     print ("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr))
-    result = json.dumps({'error_report': [{'type':'exception', 'msg':'500 Server Internal Error.'},]})
+    result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
     return result
   else:  
     result = stdout
