@@ -77,7 +77,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <body>
   <div class = "header">
-    <img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" style=""/>
     <header>Checker Framework Live Demo</header>
   </div>
 
@@ -239,16 +238,22 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </div>
 
 <div id="footer">
-  <p>For more information see
-    <a href="http://checkerframework.org/">http://checkerframework.org/</a>
-    and
-    <a href=" http://eisop.uwaterloo.ca/">http://eisop.uwaterloo.ca/</a>
-  </p>
-  <p>Built with code from the amazing
-    <a href="http://pythontutor.com/">Python Tutor</a>
-    (<a href="https://github.com/pgbovine/OnlinePythonTutor/">Original sources</a>, <a href="https://github.com/daveagp/java_jail">Original java-backend sources</a>).
-    <a href="https://github.com/eisop/webserver/">GitHub sources</a>.
-  </p>
+  <div class = "footer_left">
+      <p>For more information see
+      <a href="http://checkerframework.org/">http://checkerframework.org/</a>
+      and
+      <a href=" http://eisop.uwaterloo.ca/">http://eisop.uwaterloo.ca/</a>
+      </p>
+      <p>
+    Built with code from the amazing
+      <a href="http://pythontutor.com/">Python Tutor</a>
+      (<a href="https://github.com/pgbovine/OnlinePythonTutor/">Original sources</a>, <a href="https://github.com/daveagp/java_jail">Original java-backend sources</a>).
+      <a href="https://github.com/eisop/webserver/">GitHub sources</a>.
+      </p>
+  </div>
+  <div class = "footer_right">
+    <img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" style=""/>
+  </div>
 </div>
 
 </body>
