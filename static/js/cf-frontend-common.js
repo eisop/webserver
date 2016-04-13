@@ -105,7 +105,7 @@ function initAceEditor(height) {
 var TEMPLATE_CHECKER = 'nullness'
 
 var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
-public class YourClassNameHere {\n\
+class YourClassNameHere {\n\
     void foo(Object nn, @Nullable Object nbl) {\n\
         nn.toString(); // OK\n\
         nbl.toString(); // Error\n\

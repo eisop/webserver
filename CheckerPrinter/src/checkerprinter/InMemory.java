@@ -103,16 +103,22 @@ public class InMemory {
             return;
         }
         // not 100% accurate, if people have multiple top-level classes + public inner classes
+        // first search public class, to avoid wrong catching a classname from  comments in usercode
+        // as the public class name (if the comment before the public class declaration contains a "class" word)
         Pattern p = Pattern.compile("public\\s+class\\s+([a-zA-Z0-9_]+)\\b");
         Matcher m = p.matcher(usercode);
         if (!m.find()) {
-            this.exceptionMsg = "Error: Make sure your code includes 'public class \u00ABClassName\u00BB'";
-            this.checkerPrinter.printException(this.exceptionMsg);
-            return;
+            // if usercode does not have a public class, then is safe to using looser rgex to catch class name
+            p = Pattern.compile("\\s+class\\s+([a-zA-Z0-9_]+)\\b");
+            m = p.matcher(usercode);
+            if(!m.find()) {
+                this.exceptionMsg = "Error: Make sure your code includes at least one 'class \u00ABClassName\u00BB'";
+                this.checkerPrinter.printException(this.exceptionMsg);
+                return;
+            }
         }
-
         mainClass = m.group(1);
-
+        System.err.println(mainClass);
         CompileToBytes c2b = new CompileToBytes();
 
         c2b.compilerOutput = new StringWriter();
