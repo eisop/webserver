@@ -23,24 +23,23 @@ import java.util.List;
 
 import javax.json.*;
 import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
 
 public class JsonPrinter extends Printer {
-    
+
     static JsonObjectBuilder buildException(String msg) {
-    	return Json.createObjectBuilder()
-    			.add("type", "exception")
-    			.add("msg", msg);
-//    	return output(usercode, exceptionMsg.build());
+        return Json.createObjectBuilder()
+                .add("type", "exception")
+                .add("msg", msg);
+//      return output(usercode, exceptionMsg.build());
     }
 
     static JsonObjectBuilder buildCompileInfo(String errmsg, String msgtype, long row, long col) {
-    	return Json.createObjectBuilder()
-    	     .add("line", ""+row)
-    	     .add("type", msgtype)
-    	     .add("offset", ""+col)
-    	     .add("exception_msg", errmsg);
+        return Json.createObjectBuilder()
+             .add("line", ""+row)
+             .add("type", msgtype)
+             .add("offset", ""+col)
+             .add("exception_msg", errmsg);
         }
 
     @Override
@@ -55,44 +54,44 @@ public class JsonPrinter extends Printer {
         }
         printOutput(output.build());
     }
-    
+
     @Override
     public void printSuccess() {
         assert this.usercode != null : " a success info should given based on non-null usercode";
         assert this.execCmd != null : "a success info should given based on non-null execute command";
-        
+
         JsonObjectBuilder output = Json.createObjectBuilder()
                 .add("backend_status", "pass")
                 .add("code", this.usercode)
                 .add("exec_cmd", this.execCmd);
-        printOutput(output.build());       
+        printOutput(output.build());
     }
-    
+
     @Override
     public void printDiagnosticReport(List<Diagnostic<? extends JavaFileObject>> diagnosticList) {
         assert this.usercode != null : "a diagnostic report should given based on non-null usercode";
         assert this.execCmd != null : "a diagnostic report should given based on non-null execute command";
-        
+
         JsonObjectBuilder output = Json.createObjectBuilder()
                 .add("backend_status", "diagnostic")
                 .add("code", this.usercode)
                 .add("exec_cmd", this.execCmd);
         JsonArrayBuilder errorReportBuilder = Json.createArrayBuilder();
-        
-        for (Diagnostic<? extends JavaFileObject> err : diagnosticList){
+
+        for (Diagnostic<? extends JavaFileObject> err : diagnosticList) {
             Diagnostic.Kind errKind = err.getKind();
             String errHeader = "";
             String errType = "";
-            if(errKind == Diagnostic.Kind.ERROR) {
+            if (errKind == Diagnostic.Kind.ERROR) {
                 errHeader = "Error: ";
                 errType = "error";
-            } else if(errKind == Diagnostic.Kind.WARNING) {
+            } else if (errKind == Diagnostic.Kind.WARNING) {
                 errHeader = "Warning: ";
                 errType = "warning";
-            } else if(errKind == Diagnostic.Kind.MANDATORY_WARNING) {
+            } else if (errKind == Diagnostic.Kind.MANDATORY_WARNING) {
                 errHeader = "Warning: ";
                 errType = "warning";
-            } else if(errKind == Diagnostic.Kind.NOTE) {
+            } else if (errKind == Diagnostic.Kind.NOTE) {
                 errHeader = "Note: ";
                 errType = "info";
             } else {
@@ -104,15 +103,15 @@ public class JsonPrinter extends Printer {
                             Math.max(0, err.getLineNumber()),
                             Math.max(0, err.getColumnNumber())
                             );
-                    errorReportBuilder.add(errorBuilder);
+            errorReportBuilder.add(errorBuilder);
         }
         JsonArray errorReport = errorReportBuilder.build();
-        
+
         assert errorReport.size() > 0 : "bytecode is null or diagnosticList is not empty, but error report is empty.";
         output.add("error_report", errorReport);
         printOutput(output.build());
     }
-    
+
     void printOutput(JsonObject output) {
         try {
             PrintStream out = new PrintStream(System.out, true, "UTF-8");

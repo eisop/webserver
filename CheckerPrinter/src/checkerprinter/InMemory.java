@@ -32,12 +32,11 @@ import javax.json.*;
 
 public class InMemory {
 
-//    String usercode;
     String mainClass;
     String exceptionMsg;
     List<String> checkerOptionsList;
     Printer checkerPrinter;
-    
+
     static final Map<String, String> checkerMap;
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
@@ -66,10 +65,8 @@ public class InMemory {
     public static void main(String[] args) {
         Printer checkerPrinter = new JsonPrinter();     
         try {
-            new InMemory(
-                         Json.createReader(new InputStreamReader
-                                           (System.in, "UTF-8"))
-                         .readObject(), args[0], checkerPrinter);
+            new InMemory(Json.createReader(new InputStreamReader(System.in, "UTF-8")).readObject(), args[0],
+                    checkerPrinter);
         } 
         catch (IOException e) {
             checkerPrinter.setUsercode(null);
@@ -78,35 +75,33 @@ public class InMemory {
 //                                                         "Internal IOException"));
         }
     }
-    
+
     protected boolean initCheckerArgs(JsonObject optionsObject) {
-    	String checker = InMemory.checkerMap.get(optionsObject.getString("checker"));
-    	if(checker == null) {
-    	    this.exceptionMsg = "Error: Cannot found indicated checker.";
-    		return false;
-    	}
-    	this.checkerOptionsList = Arrays.asList(
-    	        "-Xbootclasspath/p:" +
-    	        this.JSR308 + "/checker-framework/checker/jdk/annotated:" +
-    	        this.JSR308 + "/checker-framework/checker/dist/jdk8.jar",
-        		"-processor",
-        		checker);
-    	if(optionsObject.getBoolean("has_cfg")) {
-//    		String cfgLevel = optionsObject.getString("cfg_level");
-    		//TODO: add CFG Visualization
-    	}
-    	return true;
+        String checker = InMemory.checkerMap.get(optionsObject.getString("checker"));
+        if (checker == null) {
+            this.exceptionMsg = "Error: Cannot found indicated checker.";
+            return false;
+        }
+        this.checkerOptionsList = Arrays.asList("-Xbootclasspath/p:" +
+                this.JSR308 + "/checker-framework/checker/jdk/annotated:" +
+                this.JSR308 + "/checker-framework/checker/dist/jdk8.jar",
+                "-processor",
+                checker);
+        if (optionsObject.getBoolean("has_cfg")) {
+            // String cfgLevel = optionsObject.getString("cfg_level");
+            // TODO: add CFG Visualization
+        }
+        return true;
     }
-    
-    
+
     // figure out the class name, then compile and run main([])
     InMemory(JsonObject frontend_data, String JSR308, Printer checkerPrinter) {
-//        this.usercode = frontend_data.getJsonString("usercode").getString();
+        //        this.usercode = frontend_data.getJsonString("usercode").getString();
         String usercode = frontend_data.getJsonString("usercode").getString();
         this.JSR308 = JSR308;
         this.checkerPrinter = checkerPrinter;
         this.checkerPrinter.setUsercode(usercode);
-        if(!initCheckerArgs(frontend_data.getJsonObject("options"))) {
+        if (!initCheckerArgs(frontend_data.getJsonObject("options"))) {
             this.checkerPrinter.printException(this.exceptionMsg);
             return;
         }
@@ -130,18 +125,18 @@ public class InMemory {
         c2b.diagnosticListener = errorCollector;
 
         bytecode = c2b.compileFile(mainClass, usercode);
-        
+
         List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
-        
+
         assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag";
-        
+
         this.checkerPrinter.setExecCmd(this.checkerOptionsList
                 .subList(1, this.checkerOptionsList.size()));
-        
+
         if(bytecode != null && diagnosticList.size() == 0){
             this.checkerPrinter.printSuccess();
         } else {
             this.checkerPrinter.printDiagnosticReport(diagnosticList);
-        }      
+        }
     } 
 }
