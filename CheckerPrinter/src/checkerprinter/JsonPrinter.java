@@ -31,7 +31,6 @@ public class JsonPrinter extends Printer {
         return Json.createObjectBuilder()
                 .add("type", "exception")
                 .add("msg", msg);
-//      return output(usercode, exceptionMsg.build());
     }
 
     static JsonObjectBuilder buildCompileInfo(String errmsg, String msgtype, long row, long col) {

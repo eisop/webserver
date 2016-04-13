@@ -58,12 +58,12 @@ def get_exec():
   (stdout, stderr) = java_backend.communicate()
   if java_backend.returncode != 0:
     print ("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr))
-    result = json.dumps({'error_report': [{'type':'exception', 'msg':'500 Server Internal Error.'},]})
+    result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
     return result
   else:  
     result = stdout
   return result
 
 if __name__ == "__main__":
-    run(host='127.0.0.1', port=8080, reloader=True)
+    run(host='127.0.0.1', port=8081, reloader=True)
     # run(host='0.0.0.0', port=8003, reloader=True) # make it externally visible - DANGER this is very insecure since there's no sandboxing!
