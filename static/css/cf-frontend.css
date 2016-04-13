@@ -30,6 +30,25 @@ body {
   font-size: 10pt;
 }
 
+.header {
+  font-size: 24px;
+  height: 10%;
+  width: 100%;
+  float: left;
+}
+
+.header img {
+  width: 10%;
+  height: inherit;
+  float: left;
+}
+
+.header header {
+  float: left;
+  width: 40%;
+  margin-left: 20%;
+}
+
 a,
 a:visited,
 a:hover {
