@@ -243,7 +243,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </p>
   <p>Built with code from the amazing
     <a href="http://pythontutor.com/">Python Tutor</a>
-    (<a href="https://github.com/pgbovine/OnlinePythonTutor/">Original sources</a>).
+    (<a href="https://github.com/pgbovine/OnlinePythonTutor/">Original sources</a>, <a href="https://github.com/daveagp/java_jail">Original java-backend sources</a>).
     <a href="https://github.com/eisop/webserver/">GitHub sources</a>.
   </p>
 </div>
