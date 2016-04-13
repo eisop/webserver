@@ -102,9 +102,11 @@ function initAceEditor(height) {
   pyInputAceEditor.focus();
 }
 
+var TEMPLATE_CHECKER = 'nullness'
+
 var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
-class YourClassNameHere {\n\
-    void foo(Object nn, @Nullable nbl) {\n\
+public class YourClassNameHere {\n\
+    void foo(Object nn, @Nullable Object nbl) {\n\
         nn.toString(); // OK\n\
         nbl.toString(); // Error\n\
     }\n\
@@ -117,6 +119,7 @@ function setAceMode() {
     mod = 'java';
     // if blank empty, then initialize to a Java skeleton:
     if ($.trim(pyInputGetValue()) === '') {
+      $("#type_system").val(TEMPLATE_CHECKER);
       pyInputSetValue(JAVA_BLANK_TEMPLATE);
     }
   assert(mod);
@@ -212,6 +215,7 @@ function genericOptFrontendReady() {
       updateAppDisplay(newMode);
     }
   });
+
     initAceEditor(420);
 
   parseQueryString();
