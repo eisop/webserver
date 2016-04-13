@@ -563,7 +563,7 @@ function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
       var backend_status = dataFromBackend.backend_status;
       doneExecutingCode();// rain or shine, we're done executing!
         if(backend_status == 'exception') {
-          setFronendInfo(dataFromBackend.exception_msg, "error");
+          setFronendInfo([dataFromBackend.exception_msg], "error");
       } 
       else if (backend_status == 'pass') {
         $("#codeInputWarnings").text("Checker passed!");
