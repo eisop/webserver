@@ -108,11 +108,9 @@ var JAVA_EXAMPLES = {
   GUIEffectExampleWithWarningsLink: 'examples/gui_effect/GUIEffectExampleWithWarnings.java',
 
   /*Units Checker examples*/
-  AdditionWithWarningsLink: 'examples/units/AdditionWithWarnings.java',
-  SubtractionWithWarningsLink: 'examples/units/SubtractionWithWarnings.java',
-  MultiplicationWithWarningsLink: 'examples/units/MultiplicationWithWarnings.java',
-  DivisionWithWarningsLink: 'examples/units/DivisionWithWarnings.java',
-  SimpleDemoWithWarningsLink: 'examples/units/SimpleDemoWithWarnings.java'
+  SimpleDemoWithWarningsLink: 'examples/units/SimpleDemoWithWarnings.java',
+  MethodsDemoWithWarningsLink: 'examples/units/MethodsDemoWithWarnings.java',
+  PolyUnitDemoWithWarningsLink: 'examples/units/PolyUnitDemoWithWarnings.java'
 };
 
 $(document).ready(function() {
