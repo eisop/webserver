@@ -2,7 +2,7 @@ input=$(<test-input.txt)
 cd ../
 ./run-checker.sh "$input" >test/run-result.txt
 cd test
-TEST_RESULT="diff test-result.txt run-result.txt"
+TEST_RESULT="diff expected-result.txt run-result.txt"
 
 DIFF_COUNT=$(eval $TEST_RESULT | wc -l 2>>/dev/null)
 if [ $? -eq 0 -a $DIFF_COUNT -eq 0 ]; then
