@@ -95,20 +95,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </div>
 
   <div id="codeInputPane"></div> <!-- populate with a Ace code editor instance -->
-  <div id="frontendInfoOutput"></div>
-
-  <div id="reportPane" style="display: none;">
-    <div id="exec_cmd"></div>
-    <table id="error_table">
-      <tr>
-        <th>NO.</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Line</th>
-        <th>Column</th>
-      </tr>
-    </table>
-  </div>
 
   <div id="ck_inputPane">
     <div id="javaOptionsPane" style="margin-top: 20px;">
@@ -148,6 +134,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <p>
       <button id="executeBtn" class="bigBtn" type="button">Check</button>
     </p>
+  </div>
+
+  <div id="frontendInfoOutput"></div>
+
+  <div id="reportPane" style="display: none;">
+    <div id="exec_cmd"></div>
+    <table id="error_table">
+      <tr>
+        <th>NO.</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Line</th>
+        <th>Column</th>
+      </tr>
+    </table>
   </div>
 
   <div id="examplesPane">
