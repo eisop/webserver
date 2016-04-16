@@ -109,7 +109,7 @@ public class InMemory {
         Matcher m = p.matcher(usercode);
         if (!m.find()) {
             // if usercode does not have a public class, then is safe to using looser rgex to catch class name
-            p = Pattern.compile("\\s+class\\s+([a-zA-Z0-9_]+)\\b");
+            p = Pattern.compile("class\\s+([a-zA-Z0-9_]+)\\b");
             m = p.matcher(usercode);
             if(!m.find()) {
                 this.exceptionMsg = "Error: Make sure your code includes at least one 'class \u00ABClassName\u00BB'";
