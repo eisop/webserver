@@ -74,9 +74,20 @@ table#pyOutputPane {
 }
 
 #codeInputPane {
-  margin-top: 5px;
+  /*margin-top: 5px;*/
   font-size: 12pt;
   border: 1px solid #ddd;
+  position: absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right: 0;
+}
+
+#resizable_codeInput {
+  width: 100%;
+  min-height: 420px;
+  max-height: 60%;
 }
 
 #codeInputWarnings {

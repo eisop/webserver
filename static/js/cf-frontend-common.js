@@ -88,11 +88,22 @@ function initAceEditor(height) {
   pyInputAceEditor.setBehavioursEnabled(false);
 
   // auto-grow height as fit
-  pyInputAceEditor.setOptions({minLines: 25, maxLines: 25});
+  // pyInputAceEditor.setOptions({minLines: 25, maxLines: 300});
 
-  $('#codeInputPane').css('width', '100%');
-  $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!
+  // $('#codeInputPane').css('width', '100%');
+  // $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!
 
+  // initiate resize container
+  $('#resizable_codeInput').css('width', '100%');
+  $('#resizable_codeInput').css('min-height', height + 'px');
+  $('#resizable_codeInput').css('max-height', '30%');
+
+  $("#resizable_codeInput").resizable({
+      resize: function( event, ui ) {
+        pyInputAceEditor.resize();
+      },
+      handles:'s'
+    });
   // don't do real-time syntax checks:
   // https://github.com/ajaxorg/ace/wiki/Syntax-validation
   s.setOption("useWorker", false);

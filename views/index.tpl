@@ -67,7 +67,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <!-- Ace online code editor -->
   <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/ace/src-min-noconflict/ace.js') }}" charset="utf-8"></script>
-
   <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend-common.js') }}"></script>
   <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend.js') }}"></script>
   <link rel="stylesheet" href="{{ get_url('static', filepath='css/cf-frontend.css') }}"/>
@@ -93,9 +92,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <div id="codeInputWarnings">Write Java code here:
 
   </div>
-
+  <div id="resizable_codeInput">
   <div id="codeInputPane"></div> <!-- populate with a Ace code editor instance -->
-
+  </div>
   <div id="ck_inputPane">
     <div id="javaOptionsPane" style="margin-top: 20px;">
       Choose a type system:
