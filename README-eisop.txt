@@ -15,10 +15,6 @@ ln -s /var/www/checkerweb/wsgi-scripts/checkerweb-wsgi.conf .
 
 sudo apachectl restart
 
-TODO: Move Ubuntu instructions from wsgi-scripts to here
-
-
-
 == Some notes on setting up in Ubuntu:
 prerequisites: installed apache2
 
@@ -34,7 +30,6 @@ ln -s /var/www/checkerweb/wsgi-scripts/checkerweb-wsgi.conf .
 - Restart Apache:
 
 sudo service apache2 restart
-
 
 == Reference of wsgi configuration
 The wsgi configuration is based on the tutorial on modwsgi official site:
