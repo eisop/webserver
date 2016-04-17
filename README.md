@@ -1,17 +1,17 @@
 # [Checker Framework] (http://checkerframework.org) live demo webserver 
 
-This is the live demo webserver of [Checker Framework] (http://checkerframework.org)
+This is the live demo webserver of [Checker Framework](http://checkerframework.org)
 
-This webserver is developed based on [Online Python Tutor] (http://github.com/pgbovine/OnlinePythonTutor/) and [java jail] (http://github.com/daveagp/java_jail)
+This webserver is developed based on [Online Python Tutor](http://github.com/pgbovine/OnlinePythonTutor/) and [java jail](http://github.com/daveagp/java_jail)
 
 ## Production Server Deployment
 
 ### Prerequistites
 
-1. [apache2 httpd server] (http://www.apache.org)
+1. [apache2 httpd server](http://www.apache.org)
 2. two modules of apache2:
-  1. [mod_wsgi] (https://modwsgi.readthedocs.org/en/develop/installation.html)
-  2. [mod_macros] (https://httpd.apache.org/docs/2.4/mod/mod_macro.html)
+  1. [mod_wsgi](https://modwsgi.readthedocs.org/en/develop/installation.html)
+  2. [mod_macros](https://httpd.apache.org/docs/2.4/mod/mod_macro.html)
 
 Some notes on how to install these two modules in *RHEL 7* and *Ubuntu* please see here: https://github.com/eisop/webserver/blob/master/README-eisop.txt 
 
@@ -61,7 +61,7 @@ This is the easiest way to run a test server to have a look of your changes imme
 
 ### Deploy a Test/Deployment Server on 8081
 
-This version needs install [python mod_wsgi] (https://pypi.python.org/pypi/mod_wsgi) first.
+This version needs install [python mod_wsgi](https://pypi.python.org/pypi/mod_wsgi) first.
 
 In the clone, run:
   ```
