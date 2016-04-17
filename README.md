@@ -1,4 +1,4 @@
-# [Checker Framework] (http://checkerframework.org) live demo webserver 
+# [Checker Framework](http://checkerframework.org) live demo webserver 
 
 This is the live demo webserver of [Checker Framework](http://checkerframework.org)
 
