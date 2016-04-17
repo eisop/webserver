@@ -1,7 +1,9 @@
-/*
+/*This file is modified based on Online Python Tutor:
 
 Online Python Tutor
 https://github.com/pgbovine/OnlinePythonTutor/
+
+====Original document showed as below====
 
 Copyright (C) Philip J. Guo (philip@pgbovine.net)
 
@@ -41,12 +43,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // (most notably, only the owner of the file should have write
 //  permissions)
 
-// this is customized to my own Linode server:
-// these are the REAL endpoints, accessed via jsonp. code is in ../../v4-cokapi/
-
-//for deployment
+/*====deployment====*/
 var JAVA_BACKEND_URL;
-//var ENDPOINT_ADDRESS;
+
 function init_java_backend_url() {
   var exec_url = $("#exec_url").attr("data-exec-url");
   if( typeof exec_url == "undefined" ) {
@@ -62,58 +61,10 @@ function init_java_backend_url() {
   }*/
 }
 
-// var domain = "http://pythontutor.com/"; // for deployment
-
-var isExecutingCode = false; // nasty, nasty global
-
-var appMode = 'edit'; // 'edit' or 'display'. also support
-                      // 'visualize' for backward compatibility (same as 'display')
-
+/*====ace editor related===*/
 var pyInputAceEditor; // Ace editor object that contains the input code
 
-
-var changeErrorStateListener; // change event listener on ace editor that change annotation type
-
-function initAceEditor(height) {
-  pyInputAceEditor = ace.edit('codeInputPane');
-  var s = pyInputAceEditor.getSession();
-  // tab -> 4 spaces
-  s.setTabSize(4);
-  s.setUseSoftTabs(true);
-
-  // disable extraneous indicators:
-  s.setFoldStyle('manual'); // no code folding indicators
-  pyInputAceEditor.setHighlightActiveLine(false);
-  pyInputAceEditor.setShowPrintMargin(false);
-  pyInputAceEditor.setBehavioursEnabled(false);
-
-  // auto-grow height as fit
-  // pyInputAceEditor.setOptions({minLines: 25, maxLines: 300});
-
-  // $('#codeInputPane').css('width', '100%');
-  // $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!
-
-  // initiate resize container
-  $('#resizable_codeInput').css('width', '100%');
-  $('#resizable_codeInput').css('min-height', height + 'px');
-  $('#resizable_codeInput').css('max-height', '30%');
-
-  $("#resizable_codeInput").resizable({
-      resize: function( event, ui ) {
-        pyInputAceEditor.resize();
-      },
-      handles:'s'
-    });
-  // don't do real-time syntax checks:
-  // https://github.com/ajaxorg/ace/wiki/Syntax-validation
-  s.setOption("useWorker", false);
-
-  setAceMode();
-
-  pyInputAceEditor.focus();
-}
-
-var TEMPLATE_CHECKER = 'nullness'
+var TEMPLATE_CHECKER = 'nullness';
 
 var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
 class YourClassNameHere {\n\
@@ -121,38 +72,201 @@ class YourClassNameHere {\n\
         nn.toString(); // OK\n\
         nbl.toString(); // Error\n\
     }\n\
-}'
+}';
 
-function setAceMode() {
-  // var selectorVal = $('#pythonVersionSelector').val();
-  var mod;
-  var tabSize = 2;
-    mod = 'java';
-    // if blank empty, then initialize to a Java skeleton:
-    if ($.trim(pyInputGetValue()) === '') {
+function initAceEditor(height) {
+  pyInputAceEditor = ace.edit('codeInputPane');
+  // disable extraneous indicators:
+
+  pyInputAceEditor.setHighlightActiveLine(false);
+  pyInputAceEditor.setShowPrintMargin(false);
+  pyInputAceEditor.setBehavioursEnabled(false);
+  pyInputAceEditor.setTheme("ace/theme/eclipse");
+  // auto-grow height as fit
+  // Checker Framework:
+  // (setOptions({minLines, maxLines}) function seems does NOT compatible with jquery resizable.
+  // If using auto-grow rather than resizable, one should remove all resizable modules before comment out this line.
+  // keep this line just for possible future use)
+  // pyInputAceEditor.setOptions({minLines: 25, maxLines: 300});
+
+  // initiate resizable container
+  $('#resizable_codeInput').css('width', '100%');
+  $('#resizable_codeInput').css('min-height', height + 'px');
+  $('#resizable_codeInput').css('max-height', '60%');
+
+  $("#resizable_codeInput").resizable({
+      resize: function( event, ui ) {
+        pyInputAceEditor.resize();
+      },
+      handles:'s'
+    });
+
+  //session settings
+  var s = pyInputAceEditor.getSession();
+  s.setFoldStyle('manual'); // no code folding indicators
+  s.setMode("ace/mode/java");
+  // tab -> 4 spaces
+  s.setTabSize(4);
+  s.setUseSoftTabs(true);
+  // don't do real-time syntax checks:
+  // https://github.com/ajaxorg/ace/wiki/Syntax-validation
+  s.setOption("useWorker", false);
+  //initial blank input field with template
+  if ($.trim(pyInputGetValue()) === '') {
       $("#type_system").val(TEMPLATE_CHECKER);
       pyInputSetValue(JAVA_BLANK_TEMPLATE);
     }
-  assert(mod);
-  pyInputAceEditor.setTheme("ace/theme/eclipse");
-  var s = pyInputAceEditor.getSession();
-  s.setMode("ace/mode/" + mod);
-  s.setTabSize(tabSize);
-  s.setUseSoftTabs(true);
+  pyInputAceEditor.focus();
+}
 
-  // clear all error displays when switching modes
-  var s = pyInputAceEditor.getSession();
-  s.clearAnnotations();
+// abstraction so that we can use either CodeMirror or Ace as our code editor
+function pyInputGetValue() {
+    return pyInputAceEditor.getValue();
+}
+
+function pyInputSetValue(dat) {
+  pyInputAceEditor.setValue(dat.rtrim() /* kill trailing spaces */,
+                              -1 /* do NOT select after setting text */);
+  // $('#urlOutput,#embedCodeOutput').val('');
+
   clearFrontendInfo();
+  // also scroll to top to make the UI more usable on smaller monitors
+  $(document).scrollTop(0);
 }
 
-var rawInputLst = []; // a list of strings inputted by the user in response to raw_input or mouse_input events
+function pyInputGetScrollTop() {
+  return pyInputAceEditor.getSession().getScrollTop();
+}
 
+function pyInputSetScrollTop(st) {
+  pyInputAceEditor.getSession().setScrollTop(st);
+}
 
-// each frontend must implement its own executeCode function
+/*====execute code====*/
+
+var changeErrorStateListener; // change event listener on ace editor that change annotation type
+
+function startExecutingCode() {
+  $('#executeBtn').html("Please wait ... executing (takes up to 10 seconds)");
+  $('#executeBtn').attr('disabled', true);
+}
+
+function doneExecutingCode() {
+  $('#executeBtn').html("Check");
+  $('#executeBtn').attr('disabled', false);
+}
+
+/*CheckerFramework: Override backend Option*/
+function getBaseBackendOptionsObj() {
+  var ret = {checker: $('#type_system').val(),
+             has_cfg: $('#cfg').is(':checked'),
+             cfg_level: $('#cfg_level').val(),
+             verbose: $('#verbose').is(':checked')};
+  return ret;
+}
+
+function executeCodeFromScratch() {
+  // don't execute empty string:
+  if ($.trim(pyInputGetValue()) == '') {
+setFronendInfo(["Type in some code to visualize."], "error");
+    return;
+  }
+  executeCode();
+}
+
 function executeCode() {
-  alert("Configuration error. Need to override executeCode(). This is an empty stub.");
+  var backendOptionsObj = getBaseBackendOptionsObj();
+  var codeToExec = pyInputGetValue();
+  /*CheckerFramework: callback function of checking user code
+    *the element.type in error_report is related to java backend CheckerPrinter
+    */
+    function execCallback(dataFromBackend) {
+      var user_code = dataFromBackend.code;
+      var error_report = dataFromBackend.error_report;
+      var annotationsArray = [];
+      var backend_status = dataFromBackend.backend_status;
+      doneExecutingCode();// rain or shine, we're done executing!
+        if(backend_status == 'exception') {
+          setFronendInfo([dataFromBackend.exception_msg], "error");
+      }
+      else if (backend_status == 'pass') {
+        $("#codeInputWarnings").text("Checker passed!");
+        setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " passed!"], "success");
+        setExecCmd(dataFromBackend.exec_cmd);
+        enterDisplayMode();
+      }
+      else if (backend_status == 'diagnostic'){
+        $("#codeInputWarnings").text("Please fix the bug(s) and check again!");
+        setExecCmd(dataFromBackend.exec_cmd);
+        pyInputSetValue(user_code);
+        annotationsArray = setErrorAnnotations(error_report);
+        setErrorTable(error_report);
+        optFinishSuccessfulExecution();
+        bindChangeErrorStateListener(registerChangeErrorState(annotationsArray));
+      }
+      // tricky hacky reset
+      num414Tries = 0;
+    }
+
+    // if you're in display mode, kick back into edit mode before
+    // executing or else the display might not refresh properly ... ugh
+    // krufty FIXME
+     enterEditMode();
+    clearExecCmd();
+    clearFrontendInfo();
+    clearErrorTable();
+    unbindChangeErrorStateListener();
+    pyInputAceEditor.getSession().clearAnnotations();
+
+    startExecutingCode();
+
+    backend_url = JAVA_BACKEND_URL;
+
+    assert(backend_url);
+
+    var inputObj = {};
+    inputObj.usercode = codeToExec;
+    inputObj.options = backendOptionsObj;
+
+    $.ajax({
+      url: backend_url,
+      data: {frontend_data : JSON.stringify(inputObj)},
+      dataType: "json",
+      timeout:10000,
+      success: execCallback
+    });
 }
+/*====jquery bbq====*/
+
+var appMode = 'edit'; // 'edit' or 'display'. also support
+                      // 'visualize' for backward compatibility (same as 'display')
+
+// sets globals such as rawInputLst, code input box, and toggle options
+function parseQueryString() {
+  var queryStrOptions = getQueryStringOptions();
+  if (queryStrOptions.preseededCode) {
+    pyInputSetValue(queryStrOptions.preseededCode);
+  }
+  // ugh tricky -- always start in edit mode by default, and then
+  // switch to display mode only after the code successfully executes
+  appMode = 'edit';
+  if ((queryStrOptions.appMode == 'display' ||
+       queryStrOptions.appMode == 'visualize' /* 'visualize' is deprecated */) &&
+      queryStrOptions.preseededCode /* jump to display only with pre-seeded code */) {
+    executeCode(queryStrOptions.preseededCurInstr); // will switch to 'display' mode
+  }
+  $.bbq.removeState(); // clean up the URL no matter what
+}
+
+// parsing the URL query string hash
+function getQueryStringOptions() {
+  return {preseededCode: $.bbq.getState('code'),
+          preseededCurInstr: Number($.bbq.getState('curInstr')),
+          appMode: $.bbq.getState('mode'),
+          };
+}
+
+/*====general frontend display functions====*/
 
 function setFronendInfo(lines, type) {
   if(type == "error"){
@@ -168,49 +282,47 @@ function clearFrontendInfo() {
   $("#frontendInfoOutput").hide();
 }
 
-function setExecCmd(exec_cmd) {
-  $("#exec_cmd").html("Executed command: <code>" + exec_cmd + " afile.java</code>");
-  $("#exec_cmd").show();
+// sets the global appMode variable if relevant and also the URL hash to
+// support some amount of Web browser back button goodness
+function updateAppDisplay(newAppMode) {
+  // idempotence is VERY important here
+  if (newAppMode == appMode) {
+    return;
+  }
+
+  appMode = newAppMode; // global!
+
+  if (appMode === undefined || appMode == 'edit') {
+    appMode = 'edit'; // canonicalize
+    pyInputAceEditor.setReadOnly(false);
+  
+    $("#reportPane").hide();
+    // $("#javaOptionsPane").show();
+    $("#codeInputWarnings").text("Write Java code here:");
+
+    $(document).scrollTop(0); // scroll to top to make UX better on small monitors
+
+    $.bbq.pushState({ mode: 'edit' }, 2 /* completely override other hash strings to keep URL clean */);
+  }
+  else if (appMode == 'display' || appMode == 'visualize' /* 'visualize' is deprecated */) {
+    appMode = 'display'; // canonicalize
+    $("#reportPane").show();
+
+    doneExecutingCode();
+
+    $(document).scrollTop(0); // scroll to top to make UX better on small monitors
+    $.bbq.pushState({ mode: 'display' }, 2 /* completely override other hash strings to keep URL clean */);
+  }
+  else {
+    assert(false);
+  }
 }
 
-function clearExecCmd() {
-  $("#exec_cmd").hide();
-}
-
-function clearErrorTable() {
-  $("#error_table").hide();
-}
-
-// abstraction so that we can use either CodeMirror or Ace as our code editor
-function pyInputGetValue() {
-    return pyInputAceEditor.getValue();
-}
-
-function pyInputSetValue(dat) {
-  pyInputAceEditor.setValue(dat.rtrim() /* kill trailing spaces */,
-                              -1 /* do NOT select after setting text */);
-  // $('#urlOutput,#embedCodeOutput').val('');
-
-  clearFrontendInfo();
-
-  // also scroll to top to make the UI more usable on smaller monitors
-  $(document).scrollTop(0);
-}
-
-function pyInputGetScrollTop() {
-  return pyInputAceEditor.getSession().getScrollTop();
-}
-
-function pyInputSetScrollTop(st) {
-  pyInputAceEditor.getSession().setScrollTop(st);
-}
-
-
+/*====general functions====*/
 var num414Tries = 0; // hacky global
 
 // run at the END so that everything else can be initialized first
 function genericOptFrontendReady() {
-
   // be friendly to the browser's forward and back buttons
   // thanks to http://benalman.com/projects/jquery-bbq-plugin/
   $(window).bind("hashchange", function(e) {
@@ -227,11 +339,9 @@ function genericOptFrontendReady() {
     }
   });
 
-    initAceEditor(420);
+  initAceEditor(420);
 
   parseQueryString();
-
-  // $(window).resize(redrawConnectors);
 
   // register a generic AJAX error handler
   $(document).ajaxError(function(evt, jqxhr, settings, exception) {
@@ -266,11 +376,9 @@ function genericOptFrontendReady() {
         $("#executeBtn").click();
       } else {
         num414Tries = 0;
-        
 setFronendInfo(["Server error! Your code might be too long for this tool. Shorten your code and re-try."], "error");
       }
     } else {
-      
 setFronendInfo(["Server error! Your code might be taking too much time to run or using too much memory.",
                        "Please report a bug to admin."], "error");
     }
@@ -280,158 +388,8 @@ setFronendInfo(["Server error! Your code might be taking too much time to run or
 
   clearFrontendInfo();
 
-  // $("#embedLinkDiv").hide();
   $("#executeBtn").attr('disabled', false);
   $("#executeBtn").click(executeCodeFromScratch);
-
-}
-
-
-// sets globals such as rawInputLst, code input box, and toggle options
-function parseQueryString() {
-  var queryStrOptions = getQueryStringOptions();
-  setToggleOptions(queryStrOptions);
-  if (queryStrOptions.preseededCode) {
-    pyInputSetValue(queryStrOptions.preseededCode);
-  }
-  if (queryStrOptions.rawInputLst) {
-    rawInputLst = queryStrOptions.rawInputLst; // global
-  }
-  else {
-    rawInputLst = [];
-  }
-  // ugh tricky -- always start in edit mode by default, and then
-  // switch to display mode only after the code successfully executes
-  appMode = 'edit';
-  if ((queryStrOptions.appMode == 'display' ||
-       queryStrOptions.appMode == 'visualize' /* 'visualize' is deprecated */) &&
-      queryStrOptions.preseededCode /* jump to display only with pre-seeded code */) {
-    executeCode(queryStrOptions.preseededCurInstr); // will switch to 'display' mode
-  }
-  $.bbq.removeState(); // clean up the URL no matter what
-}
-
-// parsing the URL query string hash
-function getQueryStringOptions() {
-  var ril = $.bbq.getState('rawInputLstJSON');
-  var testCasesLstJSON = $.bbq.getState('testCasesJSON');
-  // note that any of these can be 'undefined'
-  return {preseededCode: $.bbq.getState('code'),
-          preseededCurInstr: Number($.bbq.getState('curInstr')),
-          verticalStack: $.bbq.getState('verticalStack'),
-          appMode: $.bbq.getState('mode'),
-          py: $.bbq.getState('py'),
-          cumulative: $.bbq.getState('cumulative'),
-          heapPrimitives: $.bbq.getState('heapPrimitives'),
-          textReferences: $.bbq.getState('textReferences'),
-          rawInputLst: ril ? $.parseJSON(ril) : undefined,
-          testCasesLst: testCasesLstJSON ? $.parseJSON(testCasesLstJSON) : undefined
-          };
-}
-
-function setToggleOptions(dat) {
-  // ugh, ugly tristate due to the possibility of each being undefined
-  if (dat.py !== undefined) {
-    $('#pythonVersionSelector').val(dat.py);
-  }
-  if (dat.cumulative !== undefined) {
-    $('#cumulativeModeSelector').val(dat.cumulative);
-  }
-  if (dat.heapPrimitives !== undefined) {
-    $('#heapPrimitivesSelector').val(dat.heapPrimitives);
-  }
-  if (dat.textReferences !== undefined) {
-    $('#textualMemoryLabelsSelector').val(dat.textReferences);
-  }
-}
-
-// sets the global appMode variable if relevant and also the URL hash to
-// support some amount of Web browser back button goodness
-function updateAppDisplay(newAppMode) {
-  // idempotence is VERY important here
-  if (newAppMode == appMode) {
-    return;
-  }
-
-  appMode = newAppMode; // global!
-
-  if (appMode === undefined || appMode == 'edit') {
-    appMode = 'edit'; // canonicalize
-    pyInputAceEditor.setReadOnly(false);
-  
-    $("#reportPane").hide();
-    // $("#javaOptionsPane").show();
-    $("#codeInputWarnings").text("Write Java code here:");
-
-
-    $(document).scrollTop(0); // scroll to top to make UX better on small monitors
-
-    $.bbq.pushState({ mode: 'edit' }, 2 /* completely override other hash strings to keep URL clean */);
-  }
-  else if (appMode == 'display' || appMode == 'visualize' /* 'visualize' is deprecated */) {
-    appMode = 'display'; // canonicalize
-    $("#reportPane").show();
-    // $("#javaOptionsPane").hide();
-    // $("#codeInputWarnings").text("Please fix the bug and check again!");
-
-    doneExecutingCode();
-
-    $(document).scrollTop(0); // scroll to top to make UX better on small monitors
-    $.bbq.pushState({ mode: 'display' }, 2 /* completely override other hash strings to keep URL clean */);
-  }
-  else {
-    assert(false);
-  }
-
-}
-
-
-function executeCodeFromScratch() {
-  // don't execute empty string:
-  if ($.trim(pyInputGetValue()) == '') {
-    
-setFronendInfo(["Type in some code to visualize."], "error");
-    return;
-  }
-
-  rawInputLst = []; // reset!
-  executeCode();
-}
-
-function executeCodeWithRawInput(rawInputStr, curInstr) {
-  rawInputLst.push(rawInputStr);
-  console.log('executeCodeWithRawInput', rawInputStr, curInstr, rawInputLst);
-  executeCode(curInstr);
-}
-
-
-function handleUncaughtExceptionFunc(trace) {
-  if (trace.length == 1 && trace[0].line) {
-    var errorLineNo = trace[0].line - 1; /* CodeMirror lines are zero-indexed */
-    if (errorLineNo !== undefined && errorLineNo != NaN) {
-        var s = pyInputAceEditor.getSession();
-        s.setAnnotations([{row: errorLineNo,
-                           type: 'error',
-                           text: trace[0].exception_msg}]);
-        pyInputAceEditor.gotoLine(errorLineNo + 1 /* one-indexed */);     
-        if (trace[0].col !== undefined) {
-          pyInputAceEditor.moveCursorTo(errorLineNo, trace[0].col);
-        }
-        pyInputAceEditor.focus();
-    }
-  }
-}
-
-function startExecutingCode() {
-  $('#executeBtn').html("Please wait ... executing (takes up to 10 seconds)");
-  $('#executeBtn').attr('disabled', true);
-  isExecutingCode = true; // nasty global
-}
-
-function doneExecutingCode() {
-  $('#executeBtn').html("Check");
-  $('#executeBtn').attr('disabled', false);
-  isExecutingCode = false; // nasty global
 }
 
 function enterDisplayMode() {
@@ -449,8 +407,23 @@ function optFinishSuccessfulExecution() {
   });
 }
 
+/*====error annotation and error report====*/
+
+function setExecCmd(exec_cmd) {
+  $("#exec_cmd").html("Executed command: <code>" + exec_cmd + " afile.java</code>");
+  $("#exec_cmd").show();
+}
+
+function clearExecCmd() {
+  $("#exec_cmd").hide();
+}
+
+function clearErrorTable() {
+  $("#error_table").hide();
+}
+
 /*CheckerFramework: set the report table pane*/
-function setReportPane(error_report) {
+function setErrorTable(error_report) {
   $("#error_table tr").slice(1).remove();
   var error_table = document.getElementById("error_table");
   var count = 0;
@@ -560,68 +533,7 @@ function registerChangeErrorState(annotationsArray) {
   return _debounceFunc;
 }
 
-// TODO: cut reliance on the nasty rawInputLst global
-function executeCodeAndCreateViz(codeToExec, backendOptionsObj,
-                                 outputDiv,
-                                 handleSuccessFunc) {
-    /*CheckerFramework: callback function of checking user code
-    *the element.type in error_report is related to java backend CheckerPrinter
-    */
-    function execCallback(dataFromBackend) {
-      var user_code = dataFromBackend.code;
-      var error_report = dataFromBackend.error_report;
-      var annotationsArray = [];
-      var backend_status = dataFromBackend.backend_status;
-      doneExecutingCode();// rain or shine, we're done executing!
-        if(backend_status == 'exception') {
-          setFronendInfo([dataFromBackend.exception_msg], "error");
-      } 
-      else if (backend_status == 'pass') {
-        $("#codeInputWarnings").text("Checker passed!");
-        setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " passed!"], "success");
-        setExecCmd(dataFromBackend.exec_cmd);
-        enterDisplayMode();
-      } 
-      else if (backend_status == 'diagnostic'){
-        $("#codeInputWarnings").text("Please fix the bug(s) and check again!");
-        setExecCmd(dataFromBackend.exec_cmd);
-        pyInputSetValue(user_code);
-        annotationsArray = setErrorAnnotations(error_report);
-        setReportPane(error_report);
-        optFinishSuccessfulExecution();
-        bindChangeErrorStateListener(registerChangeErrorState(annotationsArray));
-      }
-      // tricky hacky reset
-      num414Tries = 0;
-    }
-    // if you're in display mode, kick back into edit mode before
-    // executing or else the display might not refresh properly ... ugh
-    // krufty FIXME
-    enterEditMode();
-    unbindChangeErrorStateListener();
-    clearErrorTable();
-    clearFrontendInfo();
-    clearExecCmd();
-    pyInputAceEditor.getSession().clearAnnotations();
-    startExecutingCode();
-
-    backend_url = JAVA_BACKEND_URL;
-
-      assert(backend_url);
-
-      var inputObj = {};
-      inputObj.usercode = codeToExec;
-      // TODO: add options, arg, and stdin later ...
-      inputObj.options = backendOptionsObj;
-      $.ajax({
-        url: backend_url,
-        data: {frontend_data : JSON.stringify(inputObj)},
-        dataType: "json",
-        timeout:10000,
-        success: execCallback
-      });
-}
-
 $(document).ready(function() {
   init_java_backend_url();
+  genericOptFrontendReady(); // initialize at the end
 });

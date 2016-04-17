@@ -68,7 +68,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <!-- Ace online code editor -->
   <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/ace/src-min-noconflict/ace.js') }}" charset="utf-8"></script>
   <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend-common.js') }}"></script>
-  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend.js') }}"></script>
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-load-examples.js') }}"></script>
   <link rel="stylesheet" href="{{ get_url('static', filepath='css/cf-frontend.css') }}"/>
 
 </head>
