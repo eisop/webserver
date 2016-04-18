@@ -44,23 +44,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
 
   <!-- requirements for pytutor.js -->
-  <!-- <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/d3.v2.min.js') }}"></script> -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery-1.8.2.min.js') }}"></script>
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.ba-bbq.min.js') }}"></script> <!-- for handling back button and URL hashes -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.ba-dotimeout.min.js') }}"></script> <!-- for event debouncing -->
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery-1.8.2.min.js') }}"></script>
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery.ba-bbq.min.js') }}"></script> <!-- for handling back button and URL hashes -->
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery.ba-dotimeout.min.js') }}"></script> <!-- for event debouncing -->
 
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery-ui-1.8.24.custom.min.js') }}"></script> <!-- for sliders and other UI elements -->
-  <link type="text/css" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css') }}" rel="stylesheet" />
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery-ui-1.8.24.custom.min.js') }}"></script> <!-- for sliders and other UI elements -->
+  <link type="text/css" href="{{ get_url('static', filepath='css/jquery-ui-1.8.24.custom.css') }}" rel="stylesheet" />
 
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/pytutor.js') }}"></script>
-
-  <!-- requirements for opt-frontend.js -->
+  <!-- requirements for cf-frontend.js -->
 
   <!-- Ace online code editor -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/ace/src-min-noconflict/ace.js') }}" charset="utf-8"></script>
-  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend-common.js') }}"></script>
-  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-load-examples.js') }}"></script>
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/ace/src-min-noconflict/ace.js') }}" charset="utf-8"></script>
+
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend.js') }}"></script>
   <link rel="stylesheet" href="{{ get_url('static', filepath='css/cf-frontend.css') }}"/>
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-load-examples.js') }}"></script>
 </head>
 
 

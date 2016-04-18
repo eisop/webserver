@@ -144,7 +144,6 @@ function pyInputSetScrollTop(st) {
 }
 
 /*====execute code====*/
-
 var changeErrorStateListener; // change event listener on ace editor that change annotation type
 
 function startExecutingCode() {
@@ -205,14 +204,12 @@ function executeCode() {
         optFinishSuccessfulExecution();
         bindChangeErrorStateListener(registerChangeErrorState(annotationsArray));
       }
-      // tricky hacky reset
-      num414Tries = 0;
     }
 
     // if you're in display mode, kick back into edit mode before
     // executing or else the display might not refresh properly ... ugh
     // krufty FIXME
-     enterEditMode();
+    enterEditMode();
     clearExecCmd();
     clearFrontendInfo();
     clearErrorTable();
@@ -237,8 +234,8 @@ function executeCode() {
       success: execCallback
     });
 }
-/*====jquery bbq====*/
 
+/*====jquery bbq====*/
 var appMode = 'edit'; // 'edit' or 'display'. also support
                       // 'visualize' for backward compatibility (same as 'display')
 
@@ -268,7 +265,6 @@ function getQueryStringOptions() {
 }
 
 /*====general frontend display functions====*/
-
 function setFronendInfo(lines, type) {
   if(type == "error"){
     $("#frontendInfoOutput").css('color', '#e93f34');
@@ -320,8 +316,6 @@ function updateAppDisplay(newAppMode) {
 }
 
 /*====general functions====*/
-var num414Tries = 0; // hacky global
-
 // run at the END so that everything else can be initialized first
 function genericOptFrontendReady() {
   // be friendly to the browser's forward and back buttons
@@ -372,13 +366,7 @@ function genericOptFrontendReady() {
       // code necessarily being too big, so give it a second shot with an
       // empty diffs_json. if it STILL fails, then display the error
       // message and give up.
-      if (num414Tries === 0) {
-        num414Tries++;
-        $("#executeBtn").click();
-      } else {
-        num414Tries = 0;
 setFronendInfo(["Server error! Your code might be too long for this tool. Shorten your code and re-try."], "error");
-      }
     } else {
 setFronendInfo(["Server error! Your code might be taking too much time to run or using too much memory.",
                        "Please report a bug to admin."], "error");
@@ -409,7 +397,6 @@ function optFinishSuccessfulExecution() {
 }
 
 /*====error annotation and error report====*/
-
 function setExecCmd(exec_cmd) {
   $("#exec_cmd").html("Executed command: <code>" + exec_cmd + " afile.java</code>");
   $("#exec_cmd").show();
@@ -532,6 +519,39 @@ function registerChangeErrorState(annotationsArray) {
     $.doTimeout(20, _changeErrorState);
   }
   return _debounceFunc;
+}
+
+/*====util functions====*/
+String.prototype.rtrim = function() {
+  return this.replace(/\s*$/g, "");
+}
+
+function assert(cond) {
+  if (!cond) {
+    alert("Assertion Failure (see console log for backtrace)");
+    throw 'Assertion Failure';
+  }
+}
+
+// taken from http://www.toao.net/32-my-htmlspecialchars-function-for-javascript
+function htmlspecialchars(str) {
+  if (typeof(str) == "string") {
+    str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
+
+    // ignore these for now ...
+    //str = str.replace(/"/g, "&quot;");
+    //str = str.replace(/'/g, "&#039;");
+
+    str = str.replace(/</g, "&lt;");
+    str = str.replace(/>/g, "&gt;");
+
+    // replace spaces:
+    str = str.replace(/ /g, "&nbsp;");
+
+    // replace tab as four spaces:
+    str = str.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+  }
+  return str;
 }
 
 $(document).ready(function() {
