@@ -23,8 +23,10 @@ Some notes on how to install these two modules in *RHEL 7* and *Ubuntu* please s
   
 2. In the clone, run deploy-checkerweb.sh
 
-3. Customize the vhost configuration file:
-*wsgi-scripts/checkerweb-wsgi.conf* [Details Instruction of configuring vhost file](https://github.com/eisop/webserver/blob/master/wsgi-scripts/README)
+3. Customize the vhost configuration file: *wsgi-scripts/checkerweb-wsgi.conf*
+
+  [Details Instruction of configuring vhost file](https://github.com/eisop/webserver/blob/master/wsgi-scripts/README)
+
 4. Link this file to apache2 vhost directory:
   
   In *RHEL 7* do:
