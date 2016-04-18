@@ -44,7 +44,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
 
   <!-- requirements for pytutor.js -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/d3.v2.min.js') }}"></script>
+  <!-- <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/d3.v2.min.js') }}"></script> -->
   <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery-1.8.2.min.js') }}"></script>
   <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.ba-bbq.min.js') }}"></script> <!-- for handling back button and URL hashes -->
   <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.ba-dotimeout.min.js') }}"></script> <!-- for event debouncing -->
@@ -52,16 +52,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery-ui-1.8.24.custom.min.js') }}"></script> <!-- for sliders and other UI elements -->
   <link type="text/css" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css') }}" rel="stylesheet" />
 
-
-  <!-- for annotation bubbles -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.qtip.min.js') }}"></script>
-  <link type="text/css" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/jquery.qtip.css') }}" rel="stylesheet" />
-
   <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/pytutor.js') }}"></script>
-  <link rel="stylesheet" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/pytutor.css') }}"/>
-
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/holistic.js') }}"></script>
-  <link rel="stylesheet" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/holistic.css') }}"/>
 
   <!-- requirements for opt-frontend.js -->
 
@@ -70,7 +61,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend-common.js') }}"></script>
   <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-load-examples.js') }}"></script>
   <link rel="stylesheet" href="{{ get_url('static', filepath='css/cf-frontend.css') }}"/>
-
 </head>
 
 
@@ -89,9 +79,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div id="pyInputPane">
 
-  <div id="codeInputWarnings">Write Java code here:
-
-  </div>
+  <div id="codeInputWarnings">Write Java code here:</div>
   <div id="resizable_codeInput">
   <div id="codeInputPane"></div> <!-- populate with a Ace code editor instance -->
   </div>

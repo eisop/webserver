@@ -30,13 +30,6 @@ body {
   font-size: 10pt;
 }
 
-/*.header {
-  font-size: 24px;
-  height: 10%;
-  width: 100%;
-  float: left;
-}*/
-
 .header header {
   width: 100%;
   height: 10%;
@@ -54,11 +47,7 @@ span {
   padding: 0px;
 }
 
-table#pyOutputPane {
-  padding: 10px;
-}
-
-#pyInputPane, #loadingPane {
+#pyInputPane {
   margin-top: 10px;
   margin-bottom: 20px;
 
@@ -69,12 +58,7 @@ table#pyOutputPane {
   margin-right: auto;
 }
 
-#loadingPane {
-  margin-bottom: 5px;
-}
-
 #codeInputPane {
-  /*margin-top: 5px;*/
   font-size: 12pt;
   border: 1px solid #ddd;
   position: absolute;
@@ -85,8 +69,11 @@ table#pyOutputPane {
 }
 
 #resizable_codeInput {
-  width: 100%;
-  min-height: 420px;
+  width:100%;
+  min-width: 50%;
+  max-width: 120%;
+  height: 420px;
+  min-height: 300px;
   max-height: 60%;
 }
 

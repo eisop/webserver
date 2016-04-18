@@ -74,7 +74,7 @@ class YourClassNameHere {\n\
     }\n\
 }';
 
-function initAceEditor(height) {
+function initAceEditor() {
   pyInputAceEditor = ace.edit('codeInputPane');
   // disable extraneous indicators:
 
@@ -90,15 +90,16 @@ function initAceEditor(height) {
   // pyInputAceEditor.setOptions({minLines: 25, maxLines: 300});
 
   // initiate resizable container
-  $('#resizable_codeInput').css('width', '100%');
-  $('#resizable_codeInput').css('min-height', height + 'px');
-  $('#resizable_codeInput').css('max-height', '60%');
+  // $('#resizable_codeInput').css('width', '100%');
+  // $('#resizable_codeInput').css('height', height + 'px');
+  // $('#resizable_codeInput').css('max-height', '60%');
 
   $("#resizable_codeInput").resizable({
       resize: function( event, ui ) {
         pyInputAceEditor.resize();
       },
-      handles:'s'
+      handles:'s,e',
+      delay: 100
     });
 
   //session settings
@@ -339,7 +340,7 @@ function genericOptFrontendReady() {
     }
   });
 
-  initAceEditor(420);
+  initAceEditor();
 
   parseQueryString();
 
