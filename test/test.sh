@@ -1,4 +1,10 @@
 input=$(<test-input.txt)
+
+if [ ! -f "expected-result.txt" ] ; then
+echo -e "\\e[1;31mError: cannot find expected-result.txt.\\e[0m"
+exit 1
+fi
+
 cd ../
 ./run-checker.sh "$input" >test/run-result.txt
 cd test
