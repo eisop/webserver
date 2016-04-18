@@ -5,13 +5,16 @@ import static org.checkerframework.checker.units.UnitsTools.m;
 // An example of declaring variables and values with units
 public class SimpleDemoWithWarnings {
   void demo() {
-    // to declare a variable with a unit, annotate the type of the variable with a units qualifier:
+    // to declare a variable with a unit, annotate the
+    // type of the variable with a units qualifier:
     @m int x;
 
-    // to assign a unit to a number, multiply a number by an appropriate unit constant from UnitsTools;
+    // to assign a unit to a number, multiply a number
+    // by an appropriate unit constant from UnitsTools;
     x = 5 * UnitsTools.m;
 
-    // with static import of the unit constant, the syntax can be simplified further:
+    // with static import of the unit constant, the
+    // syntax can be simplified further:
     x = 5 * m; 
 
     @m int meters = 5 * UnitsTools.m;
