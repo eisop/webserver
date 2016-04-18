@@ -9,21 +9,21 @@ public class MethodsDemoWithWarnings {
     @s int seconds = 2 * UnitsTools.s;
     @km int kilometers = 8 * UnitsTools.km;
 
+    // custom defined method which calculates and returns a speed
     @mPERs double speed = getSpeed(meters, seconds);
+
+    // radians to degrees conversion through a custom defined conversion method
+    @degrees double deg = toDegrees(8 * UnitsTools.rad);
 
     // if an argument passed to a method does not have a matching unit, an error is produced
     //:: error: (argument.type.incompatible)
     speed = getSpeed(kilometers, seconds);
+    //:: error: (argument.type.incompatible)
+    deg = toDegrees(meters);
 
     // if the results of the method is assigned to an incompatible unit, an error is also produced
     //:: error: (assignment.type.incompatible)
     @radians double rad = getSpeed(meters, seconds);
-
-    @degrees double deg = toDegrees(8 * UnitsTools.rad);
-
-    //:: error: (argument.type.incompatible)
-    deg = toDegrees(meters);
-
     //:: error: (assignment.type.incompatible)
     speed = toDegrees(8 * UnitsTools.rad);
   }

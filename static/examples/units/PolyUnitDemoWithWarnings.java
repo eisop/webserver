@@ -8,9 +8,9 @@ public class PolyUnitDemoWithWarnings {
     @s int seconds = 2 * UnitsTools.s;
     @km int kilometers = 8 * UnitsTools.km;
 
-    // @PolyUnit evaluates and returns the least upper bound of @s and @m, which is @UnknownUnits
+    // @PolyUnit evaluates and returns the least upper bound of @m and @m, which is @m
     meters = sum(meters, meters);
-    // @PolyUnit evaluates and returns the least upper bound of @s and @m, which is @UnknownUnits
+    // @PolyUnit evaluates and returns the least upper bound of @s and @s, which is @s
     seconds = sum(seconds, seconds);
 
     // @PolyUnit evaluates and returns the least upper bound of @s and @m, which is @UnknownUnits
