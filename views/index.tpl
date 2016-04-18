@@ -229,8 +229,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <p data-checker-type="units">
       Units:
       <a class="exampleLink" id="SimpleDemoWithWarningsLink" href="#">SimpleDemoWithWarnings</a> |
-      <a class="exampleLink" id="MethodsDemoWithWarningsLink" href="#">MethodsDemoWithWarningsLink</a> |
-      <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarningsLink</a>
+      <a class="exampleLink" id="MethodsDemoWithWarningsLink" href="#">MethodsDemoWithWarnings</a> |
+      <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
     </p>
   </div>
 </div>
