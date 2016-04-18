@@ -2,18 +2,7 @@ This directory contains wsgi configuration files for the Checker
 Framework Live Demo webserver.
 Author: Charles Chen
 
-==Usage==
-
-Configure *.conf file with the deploy server info, and then copy the
-*.conf file to httpd vhost dir (the vhost dir in standard httpd
-installations is /etc/httpd/conf.d/vhosts ). Don't forget to
-restart httpd.
- 
-If mod_macro module is actived in httpd, it is suggested to use
-checkerweb-wsgi.conf which is easier to modify.
-
-
-== File description ==
+# File description
 
 - checkerweb-wsgi.conf: Apache file for mounting checkweb to apache2
   by wsgi as virtual host. This file needs two dependencies of apache2:
@@ -26,3 +15,40 @@ checkerweb-wsgi.conf which is easier to modify.
   because of the unavoidable hard-code-style.
 
 - checkerweb.wsgi: wsgi script of checkerweb.
+
+# Instruction on configuring `checkerweb-wsgi.conf` and `checkerweb-wsgi-without-macro.conf`
+
+## Configure `checkerweb-wsgi.conf`
+
+Generally, you only need to modify the values of four arguments on the line of declaring Use of the macro:
+
+`Use VHost_CheckerWeb $web_name $domain $admin $wsgi_script_alias`
+
+The meaning of above four arguments of this macro:
+
+1. $web_name: the directory name of webserver files, this diretory should under `/var/www`. 
+    Also, $web_name would be used as the name of WSGIDaemonProcess and the name of WSGIProcessGroup of this webserver.
+
+2. $domain: the domain name of this server. Currently this argument would also be used as the alias of this server. 
+
+3. $admin: The email address of server administrator.
+
+4. $wsgi_script_alias: URL prefix of this wsgi server, i.e. only the URL with prefix $wsgi_script_alias would be delegated to this server.
+
+## Configure `checkerweb-wsgi-without-macro.conf`
+
+Configuring this file need some basic knowledge of configuring apache2 vhost and wsgi configuration in apache2:
+1. configuring apache2 vhost: https://httpd.apache.org/docs/current/vhosts/
+2. wsgi server configuration in apache2: https://modwsgi.readthedocs.org/en/develop/user-guides/quick-configuration-guide.html
+
+Things you might need to configure according to you own server environment:
+
+1. server directory. make sure apache2 has correct right to access this directory.
+
+2. log location. Currently the default location is /var/log/apache2 (which is the default apache2 log location in ubuntu 14.10)
+
+3. wsgi script alias, name of process group and name of daemon process.
+
+4. domain name, server alias, server admin email address.
+
+Note: default we set DocumentRoot to /var/www/html in order to avoid exposing server files.
