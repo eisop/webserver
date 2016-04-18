@@ -25,6 +25,8 @@ Some notes on how to install these two modules in *RHEL 7* and *Ubuntu* please s
 
 3. Customize the vhost configuration file: *wsgi-scripts/checkerweb-wsgi.conf*
 
+  [Details Instruction of configuring vhost file](https://github.com/eisop/webserver/blob/master/wsgi-scripts/README)
+
 4. Link this file to apache2 vhost directory:
   
   In *RHEL 7* do:
@@ -51,7 +53,9 @@ Some notes on how to install these two modules in *RHEL 7* and *Ubuntu* please s
 
 For the developers, there are two ways of setting up a test server. One way is running a server in terminal to see the changes immediately, and the other way is to deploy a test/develop version server on apache2.
 
-### Using Bottle Server
+Follow step 1 and 2 above to clone and install the web server, then make your changes
+
+### Running a server in terminal using Bottle Server
 In the clone, directly run:
 ```python bottle_server.py```
 
@@ -59,7 +63,7 @@ This will active a bottle server listening on port 8081, and can be stoped by ct
 
 This is the easiest way to run a test server to have a look of your changes immediately.
 
-### Deploy a Test/Deployment Server on 8081
+### Deploy a Test/Deployment Server on port 8081 on apache2
 
 This version needs install [python mod_wsgi](https://pypi.python.org/pypi/mod_wsgi) first.
 
@@ -77,4 +81,4 @@ When you done some modifications and want to see the changes, in the clone, do:
   ```
  Note:
  1. No need to restart apache2
- 2. If modified *CheckerPrinter*, in the clone, do `make -C ChecerPrinter clean all` first.
+ 2. If you have modified *CheckerPrinter*, in the clone, execute `make -C CheckerPrinter clean all` first.

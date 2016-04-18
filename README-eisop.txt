@@ -21,8 +21,8 @@ prerequisites: installed apache2
 - clone the repository into /var/www/checkerweb
 - In the clone, run deploy-checkerweb.sh
 - apt-get install libapache2-mod-wsgi
-- pt-get install libapache2-mod-macro; a2enmod macro
-- (a2enmod macro actives macro module)
+- apt-get install libapache2-mod-macro
+- a2enmod macro (this command actives macro module)
 
 - In /etc/apache2/sites-enabled do:
 ln -s /var/www/checkerweb/wsgi-scripts/checkerweb-wsgi.conf .
