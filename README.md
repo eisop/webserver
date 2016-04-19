@@ -57,7 +57,7 @@ Follow step 1 and 2 above to clone and install the web server, then make your ch
 
 Note: 
 
-1. in step 2, `deploy-checkerweb.sh` will call `build-checker-framework.sh` to auto-clone and build the newest version of Checker Framework. If you want to use your own existing local copy of CF, in the clone, create a symbolic link of the root directory which contains all three components (`annotation-tools`, `checker-framework` and `jsr308-langtools`):
+1. in step 2, `deploy-checkerweb.sh` will call `build-checker-framework.sh` to auto-clone and build the newest version of Checker Framework. If you want to use your own existing local copy of CF, in the clone, before doing step 2, create a symbolic link of the root directory which contains all three components (`annotation-tools`, `checker-framework` and `jsr308-langtools`):
 
 ```ln -s <your root jsr 308 directory> ./jsr308```
 
