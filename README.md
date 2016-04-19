@@ -62,7 +62,7 @@ Note:
 ```ln -s <your root jsr 308 directory> ./jsr308```
 
 the file structure of `your root jsr 308 directory` should like this:
-- jsr308/
+- your root jsr 308 directory/
   - annotation-tools/
   - checker-framework/
   - jsr308-langtools/
