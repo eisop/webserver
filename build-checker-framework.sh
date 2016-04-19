@@ -3,6 +3,11 @@
 # Fail the whole script if any command fails
 set -e
 
+if [ -L "jsr308" ] ; then
+echo "detect a symbolic link of jsr308. Exit without clone and building."
+exit 0
+fi
+
 if [ ! -d "jsr308" ] ; then
     mkdir ./jsr308;
 fi 
