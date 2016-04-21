@@ -3,6 +3,9 @@
 # Fail the whole script if any command fails
 set -e
 
+# first change to script directory so relative path works again
+cd $(dirname "$0")
+
 make -C ../CheckerPrinter clean all
 
 if [ -L '../enabled-checker-framework' ] ; then

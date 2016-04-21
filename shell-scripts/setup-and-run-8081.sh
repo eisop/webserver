@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# first change to script directory so relative path works again
+cd $(dirname "$0")
+
 # This file needs to be run AFTER the deploy-checkerweb.sh script
 if [ ! -d "../jsr308" ] ; then
     echo "Did not find jsr308 dir, did you run the deploy-checkerweb.sh first?"

@@ -3,6 +3,9 @@
 # Fail the whole script if any command fails
 set -e
 
+# first change to script directory so relative path works again
+cd $(dirname "$0")
+
 ENABLED_CF=enabled-checker-framework
 
 if [ "$1" == "" ] ; then

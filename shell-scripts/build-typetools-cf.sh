@@ -3,6 +3,9 @@
 # Fail the whole script if any command fails
 set -e
 
+# first change to script directory so relative path works again
+cd $(dirname "$0")
+
 # if [ -L "../jsr308" ] ; then
 # echo "detect a symbolic link of jsr308. Exit without clone and building."
 # exit 0
