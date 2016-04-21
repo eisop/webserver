@@ -55,6 +55,20 @@ For the developers, there are two ways of setting up a test server. One way is r
 
 Follow step 1 and 2 above to clone and install the web server, then make your changes
 
+Note: 
+
+1. in step 2, `deploy-checkerweb.sh` will call `build-checker-framework.sh` to auto-clone and build the newest version of Checker Framework. If you want to use your own existing local copy of CF, in the clone, before doing step 2, create a symbolic link of the root directory which contains all three components (`annotation-tools`, `checker-framework` and `jsr308-langtools`):
+
+```ln -s <your root jsr 308 directory> ./jsr308```
+
+the file structure of `your root jsr 308 directory` should like this:
+- your root jsr 308 directory/
+  - annotation-tools/
+  - checker-framework/
+  - jsr308-langtools/
+
+If you use a symbolic link rather than using the defualt clone-and-building in `build-checker-framework.sh`, then `build-checker-framework.sh` would detect this symbolic link and do nothing at all (either clone or pull).
+
 ### Running a server in terminal using Bottle Server
 In the clone, directly run:
 ```python bottle_server.py```
