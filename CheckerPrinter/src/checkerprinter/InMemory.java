@@ -57,7 +57,7 @@ public class InMemory {
         tempMap.put("cons_value", "org.checkerframework.common.value.ValueChecker");
         checkerMap = Collections.unmodifiableMap(tempMap);
     }
-    private final String JSR308;
+    private final String CHECKER_FRAMEWORK;
     Map<String, byte[]> bytecode;
 
     public final static long startTime = System.currentTimeMillis();
@@ -80,9 +80,8 @@ public class InMemory {
             this.exceptionMsg = "Error: Cannot found indicated checker.";
             return false;
         }
-        this.checkerOptionsList = Arrays.asList("-Xbootclasspath/p:" +
-                this.JSR308 + "/checker-framework/checker/jdk/annotated:" +
-                this.JSR308 + "/checker-framework/checker/dist/jdk8.jar",
+        this.checkerOptionsList = Arrays.asList( "-Xbootclasspath/p:" +
+                this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
                 "-processor",
                 checker);
         if (optionsObject.getBoolean("has_cfg")) {
@@ -93,9 +92,9 @@ public class InMemory {
     }
 
     // figure out the class name, then compile and run main([])
-    InMemory(JsonObject frontend_data, String JSR308, Printer checkerPrinter) {
+    InMemory(JsonObject frontend_data, String enabled_cf, Printer checkerPrinter) {
         String usercode = frontend_data.getJsonString("usercode").getString();
-        this.JSR308 = JSR308;
+        this.CHECKER_FRAMEWORK = enabled_cf;
         this.checkerPrinter = checkerPrinter;
         this.checkerPrinter.setUsercode(usercode);
         if (!initCheckerArgs(frontend_data.getJsonObject("options"))) {

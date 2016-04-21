@@ -53,7 +53,7 @@ def route_static(filepath=None):
 
 @get('/exec', name='exec')
 def get_exec():
-  java_backend = subprocess.Popen(['./run-checker.sh', request.query.frontend_data.encode('utf8')],
+  java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8')],
     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   (stdout, stderr) = java_backend.communicate()
   if java_backend.returncode != 0:

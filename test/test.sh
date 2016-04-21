@@ -6,7 +6,7 @@ exit 1
 fi
 
 cd ../
-./run-checker.sh "$input" >test/run-result.txt
+./shell-scripts/run-checker.sh "$input" >test/run-result.txt
 cd test
 TEST_RESULT="diff expected-result.txt run-result.txt"
 

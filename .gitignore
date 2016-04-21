@@ -2,6 +2,7 @@
 
 # Checker Framework sources
 jsr308/
+enabled-checker-framework/
 
 # Test result
 test/run-result.txt
