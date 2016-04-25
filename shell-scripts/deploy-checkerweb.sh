@@ -11,7 +11,7 @@ make -C ../CheckerPrinter clean all
 if [ -L '../enabled-checker-framework' ] ; then
 	echo "Note: detect a symbolic link of enabled-checker-framework before deployment, thus I do not clone or building checker framework."
 else
-	./build-checker-framework.sh $1
+	./build-checker-framework.sh $1 $2
 fi
 
 echo "===TEST CheckerPrinter and run-checker.sh==="

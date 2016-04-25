@@ -32,3 +32,4 @@ cd checker-framework/
 ./.travis-build-without-test.sh
 
 export CF_LOCATION=$ROOT/jsr308/checker-framework
+
