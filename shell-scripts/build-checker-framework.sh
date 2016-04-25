@@ -4,17 +4,15 @@
 set -e
 
 # first change to script directory so relative path works again
-cd $(dirname "$0")
+ROOT=$(cd $(dirname "$0")/.. && pwd)
 
 ENABLED_CF=enabled-checker-framework
 
+cd $ROOT/shell-scripts
+
 if [ "$1" == "" ] ; then
-	./build-typetools-cf.sh
-	# if [ "$?" != 0 ] ; then
-	# 	echo "error in build-typetools-cf.sh. Failed and exist."
-	# 	exit 1
-	# fi
-	cd ../ && ln -s ./jsr308/checker-framework ./$ENABLED_CF
+	. ./.build-typetools-cf.sh
+	cd $ROOT && ln -s $CF_LOCATION ./$ENABLED_CF
 	exit 0
 fi
 

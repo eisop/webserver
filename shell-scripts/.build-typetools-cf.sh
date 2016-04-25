@@ -3,22 +3,19 @@
 # Fail the whole script if any command fails
 set -e
 
-# first change to script directory so relative path works again
-cd $(dirname "$0")
-
 # if [ -L "../jsr308" ] ; then
 # echo "detect a symbolic link of jsr308. Exit without clone and building."
 # exit 0
 # fi
 
-if [ ! -d "../jsr308" ] ; then
-    mkdir ../jsr308;
+if [ ! -d "$ROOT/jsr308" ] ; then
+    mkdir $ROOT/jsr308;
 fi 
 
 export JAVA_HOME=${JAVA_HOME:-$(dirname $(dirname $(dirname $(readlink -f $(/usr/bin/which java)))))}
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
-cd ../jsr308
+cd $ROOT/jsr308
 
 ## Build Checker Framework
 if [ -d ./checker-framework ] ; then
@@ -33,3 +30,5 @@ fi
 # This also builds annotation-tools and jsr308-langtools
 cd checker-framework/
 ./.travis-build-without-test.sh
+
+export CF_LOCATION=$ROOT/jsr308/checker-framework
