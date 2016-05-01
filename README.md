@@ -21,8 +21,32 @@ Some notes on how to install these two modules in *RHEL 7* and *Ubuntu* please s
 
   ```git clone https://github.com/eisop/webserver.git```
   
-2. In the clone, run deploy-checkerweb.sh
-
+2. In the clone, run ./shell-scripts/deploy-checkerweb.sh with below options:
+    
+  1. If you want to deploy this server with newest developing version of checker framework from https://github.com/typetools/checker-framework, run:
+  
+    ```
+    ./shell-scripts/deploy-checkerweb.sh
+    ```
+  2. If you want to deploy this server with newest released version of checker framework from http://checkerframework.org, run:
+  
+    ```
+    ./shell-scripts/deploy-checkerweb.sh -r <url of the released checker framework zip>
+    ```
+    e.g.
+    ```
+    ./shell-scripts/deploy-checkerweb.sh -r http://types.cs.washington.edu/checker-framework/current/checker-framework-1.9.13.zip
+    ```
+  3. If you want to deploy this server with an existed local copy of checker framework, run:
+  
+    ```
+    ./shell-scripts/deploy-checkerweb.sh -l <path to checker-framework>
+    ```
+    e.g.
+    ```
+    ./shell-scripts/deploy-checkerweb.sh -l ../jsr308/checker-framework
+    ```
+  
 3. Customize the vhost configuration file: *wsgi-scripts/checkerweb-wsgi.conf*
 
   [Details Instruction of configuring vhost file](https://github.com/eisop/webserver/blob/master/wsgi-scripts/README)
@@ -53,21 +77,14 @@ Some notes on how to install these two modules in *RHEL 7* and *Ubuntu* please s
 
 For the developers, there are two ways of setting up a test server. One way is running a server in terminal to see the changes immediately, and the other way is to deploy a test/develop version server on apache2.
 
-Follow step 1 and 2 above to clone and install the web server, then make your changes
+Follow step 1 and 2 above to clone and install the web server, then make your changes.
 
 Note: 
 
-1. in step 2, `deploy-checkerweb.sh` will call `build-checker-framework.sh` to auto-clone and build the newest version of Checker Framework. If you want to use your own existing local copy of CF, in the clone, before doing step 2, create a symbolic link of the root directory which contains all three components (`annotation-tools`, `checker-framework` and `jsr308-langtools`):
+1. in step 2 when running `deploy-checkerweb.sh`, if you using `-l` option to link your local copy of checker framework, the `deploy-checkerweb.sh` will passing this location to `build-checker-framework.sh` and just simply link this location to `webserver/enabled-checker-framework`, which means it is your responsibility to ensure the passed location is correct.
 
-```ln -s <your root jsr 308 directory> ./jsr308```
+2. You can simply 're-plug' the checker framework by running `build-checker-framework.sh -l <new location of cf>`  
 
-the file structure of `your root jsr 308 directory` should like this:
-- your root jsr 308 directory/
-  - annotation-tools/
-  - checker-framework/
-  - jsr308-langtools/
-
-If you use a symbolic link rather than using the defualt clone-and-building in `build-checker-framework.sh`, then `build-checker-framework.sh` would detect this symbolic link and do nothing at all (either clone or pull).
 
 ### Running a server in terminal using Bottle Server
 In the clone, directly run:
@@ -83,7 +100,7 @@ This version needs install [python mod_wsgi](https://pypi.python.org/pypi/mod_ws
 
 In the clone, run:
   ```
-  setup-and-run-8081.sh
+  ./shell-scripts/setup-and-run-8081.sh
   ```
 Then you will have a server running by apache2 and listenning on port 8081.
 
