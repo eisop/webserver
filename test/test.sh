@@ -1,8 +1,14 @@
 input=$(<test-input.txt)
+
+if [ ! -f "expected-result.txt" ] ; then
+echo -e "\\e[1;31mError: cannot find expected-result.txt.\\e[0m"
+exit 1
+fi
+
 cd ../
-./run-checker.sh "$input" >test/run-result.txt
+./shell-scripts/run-checker.sh "$input" >test/run-result.txt
 cd test
-TEST_RESULT="diff test-result.txt run-result.txt"
+TEST_RESULT="diff expected-result.txt run-result.txt"
 
 DIFF_COUNT=$(eval $TEST_RESULT | wc -l 2>>/dev/null)
 if [ $? -eq 0 -a $DIFF_COUNT -eq 0 ]; then

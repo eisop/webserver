@@ -44,34 +44,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
 
   <!-- requirements for pytutor.js -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/d3.v2.min.js') }}"></script>
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery-1.8.2.min.js') }}"></script>
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.ba-bbq.min.js') }}"></script> <!-- for handling back button and URL hashes -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.ba-dotimeout.min.js') }}"></script> <!-- for event debouncing -->
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery-1.8.2.min.js') }}"></script>
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery.ba-bbq.min.js') }}"></script> <!-- for handling back button and URL hashes -->
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery.ba-dotimeout.min.js') }}"></script> <!-- for event debouncing -->
 
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery-ui-1.8.24.custom.min.js') }}"></script> <!-- for sliders and other UI elements -->
-  <link type="text/css" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css') }}" rel="stylesheet" />
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/jquery/jquery-ui-1.8.24.custom.min.js') }}"></script> <!-- for sliders and other UI elements -->
+  <link type="text/css" href="{{ get_url('static', filepath='css/jquery-ui-1.8.24.custom.css') }}" rel="stylesheet" />
 
-
-  <!-- for annotation bubbles -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/jquery.qtip.min.js') }}"></script>
-  <link type="text/css" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/jquery.qtip.css') }}" rel="stylesheet" />
-
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/pytutor.js') }}"></script>
-  <link rel="stylesheet" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/pytutor.css') }}"/>
-
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/holistic.js') }}"></script>
-  <link rel="stylesheet" href="{{ get_url('static', filepath='OnlinePythonTutor/v3/css/holistic.css') }}"/>
-
-  <!-- requirements for opt-frontend.js -->
+  <!-- requirements for cf-frontend.js -->
 
   <!-- Ace online code editor -->
-  <script type="text/javascript" src="{{ get_url('static', filepath='OnlinePythonTutor/v3/js/ace/src-min-noconflict/ace.js') }}" charset="utf-8"></script>
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/ace/src-min-noconflict/ace.js') }}" charset="utf-8"></script>
 
-  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend-common.js') }}"></script>
   <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-frontend.js') }}"></script>
   <link rel="stylesheet" href="{{ get_url('static', filepath='css/cf-frontend.css') }}"/>
-
+  <script type="text/javascript" src="{{ get_url('static', filepath='js/cf-load-examples.js') }}"></script>
 </head>
 
 
@@ -90,26 +77,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div id="pyInputPane">
 
-  <div id="codeInputWarnings">Write Java code here:
-
-  </div>
-
+  <div id="codeInputWarnings">Write Java code here:</div>
+  <div id="resizable_codeInput">
   <div id="codeInputPane"></div> <!-- populate with a Ace code editor instance -->
-  <div id="frontendInfoOutput"></div>
-
-  <div id="reportPane" style="display: none;">
-    <div id="exec_cmd"></div>
-    <table id="error_table">
-      <tr>
-        <th>NO.</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Line</th>
-        <th>Column</th>
-      </tr>
-    </table>
   </div>
-
   <div id="ck_inputPane">
     <div id="javaOptionsPane" style="margin-top: 20px;">
       Choose a type system:
@@ -148,6 +119,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <p>
       <button id="executeBtn" class="bigBtn" type="button">Check</button>
     </p>
+  </div>
+
+  <div id="frontendInfoOutput"></div>
+
+  <div id="reportPane" style="display: none;">
+    <div id="exec_cmd"></div>
+    <table id="error_table">
+      <tr>
+        <th>NO.</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Line</th>
+        <th>Column</th>
+      </tr>
+    </table>
   </div>
 
   <div id="examplesPane">
@@ -229,10 +215,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <p data-checker-type="units">
       Units:
       <a class="exampleLink" id="SimpleDemoWithWarningsLink" href="#">SimpleDemoWithWarnings</a> |
-      <a class="exampleLink" id="AdditionWithWarningsLink" href="#">AdditionWithWarnings</a> |
-      <a class="exampleLink" id="SubtractionWithWarningsLink" href="#">SubtractionWithWarnings</a> |
-      <a class="exampleLink" id="MultiplicationWithWarningsLink" href="#">MultiplicationWithWarnings</a> |
-      <a class="exampleLink" id="DivisionWithWarningsLink" href="#">DivisionWithWarnings</a>
+      <a class="exampleLink" id="MethodsDemoWithWarningsLink" href="#">MethodsDemoWithWarnings</a> |
+      <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
     </p>
   </div>
 </div>
