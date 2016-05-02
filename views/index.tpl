@@ -135,29 +135,32 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </tr>
     </table>
   </div>
-
+<!-- TODO: auto-generate following things in examplePane:
+        1. example links
+        2. manual links
+ -->
   <div id="examplesPane">
     <p style="margin-top: 25px; font-weight: bold;">Examples:</p>
 
     <p data-checker-type="nullness">
-      Nullness:
+      Nullness(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#nullness-checker"><i>manual</i></a>):
       <a class="exampleLink" id="NullnessExampleLink" href="#">NullnessExample</a> |
       <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="nullness">
-      MapKey:
+      MapKey(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#map-key-checker"><i>manual</i></a>):
       <a class="exampleLink" id="MapKeyExampleWithWarningsLink" href="#">MapKeyExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="interning">
-      Interning:
+      Interning(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#interning-checker"><i>manual</i></a>):
       <a class="exampleLink" id="InterningExampleLink" href="#">InterningExample</a> |
       <a class="exampleLink" id="InterningExampleWithWarningsLink" href="#">InterningExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="lock">
-      Lock:
+      Lock(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#lock-checker"><i>manual</i></a>):
       <a class="exampleLink" id="GuardedByExampleWithWarningsLink" href="#">GuardedByExampleWithWarnings</a> |
       <a class="exampleLink" id="HoldingExampleWithWarningsLink" href="#">HoldingExampleWithWarnings</a> |
       <a class="exampleLink" id="EnsuresLockHeldExampleLink" href="#">EnsuresLockHeldExample</a> |
@@ -165,18 +168,18 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p>
 
     <p data-checker-type="fake_enum">
-      Fake Enumeration:
+      Fake Enumeration(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#fenum-checker"><i>manual</i></a>):
       <a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="format_string">
-      Format String:
+      Format String(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#formatter-checker"><i>manual</i></a>):
       <a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a>
       <!-- <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> | -->
     </p>
 
     <p data-checker-type="regex">
-      Regular Expression:
+      Regular Expression(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#regex-checker"><i>manual</i></a>):
       <a class="exampleLink" id="RegexExampleWithWarningsLink" href="#">RegexExampleWithWarnings</a> |
       <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a>
     </p>
@@ -187,33 +190,33 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p> -->
 
     <p data-checker-type="igj">
-      IGJ immutability:
+      IGJ immutability(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#igj-checker"><i>manual</i></a>):
       <a class="exampleLink" id="IGJExampleWithWarningsLink" href="#">IGJExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="javari">
-      Javari immutability:
+      Javari immutability(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#javari-checker"><i>manual</i></a>):
       <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="tainting">
-      Tainting:
+      Tainting(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#tainting-checker"><i>manual</i></a>):
       <a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="signature">
-      Signature Strings:
+      Signature Strings(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#signature-checker"><i>manual</i></a>):
       <a class="exampleLink" id="SignatureExampleWithWarningsLink" href="#">SignatureExampleWithWarnings</a> |
       <a class="exampleLink" id="SignatureExampleLink" href="#">SignatureExample</a>
     </p>
 
     <p data-checker-type="gui_effect">
-      GUI Effect:
+      GUI Effect(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#guieffect-checker"><i>manual</i></a>):
       <a class="exampleLink" id="GUIEffectExampleWithWarningsLink" href="#">GUIEffectExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="units">
-      Units:
+      Units(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#units-checker"><i>manual</i></a>):
       <a class="exampleLink" id="SimpleDemoWithWarningsLink" href="#">SimpleDemoWithWarnings</a> |
       <a class="exampleLink" id="MethodsDemoWithWarningsLink" href="#">MethodsDemoWithWarnings</a> |
       <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
