@@ -422,7 +422,7 @@ function setErrorTable(error_report) {
     var row = error_table.insertRow(-1);
     row.innerHTML = '<td>'+count+'</td>'+
         '<td>'+error.type+'</td>'+
-        '<td>'+error.exception_msg+'</td>'+
+        '<td>'+error.exception_msg.replace(/\n/g,"<br/>&nbsp")+'</td>'+
         '<td>'+error.line+'</td>'+
         '<td>'+error.offset+'</td>';
     row.setAttribute("onmouseover",
