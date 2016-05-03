@@ -128,7 +128,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <div id="exec_cmd"></div>
     <table id="error_table">
       <tr>
-        <th>NO.</th>
+        <th>No.</th>
         <th>Type</th>
         <th>Description</th>
         <th>Line</th>
