@@ -155,7 +155,7 @@ function pyInputSetScrollTop(st) {
 var changeErrorStateListener; // change event listener on ace editor that change annotation type
 
 var REMINDE_STRING = {
-  WRITE_CODE : 'Write Java code here, then click <span id="execHref" href="#" onclick="executeCodeFromScratch()">check</span>',
+  WRITE_CODE : 'Write Java code here, then click <span id="execHref" onclick="executeCodeFromScratch()" >check</span>',
   FIX_BUG: 'Please fix the bug(s) and check again!',
   PASSED: 'Checker passed!',
   EXECUTING: 'Please wait ... executing (takes up to 10 seconds)'
