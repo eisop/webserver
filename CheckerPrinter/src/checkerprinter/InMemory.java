@@ -41,6 +41,8 @@ public class InMemory {
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
         tempMap.put("nullness", "org.checkerframework.checker.nullness.NullnessChecker");
+        //since generally don't directly call map key checker, I mapping it to nullness here
+        tempMap.put("map_key", "org.checkerframework.checker.nullness.NullnessChecker");
         tempMap.put("regex", "org.checkerframework.checker.regex.RegexChecker");
         tempMap.put("interning", "org.checkerframework.checker.interning.InterningChecker");
         tempMap.put("aliasing", "org.checkerframework.common.aliasing.AliasingChecker");
