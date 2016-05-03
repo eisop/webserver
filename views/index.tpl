@@ -85,21 +85,22 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <div id="javaOptionsPane" style="margin-top: 20px;">
       Choose a type system:
       <select id="type_system">
-	<option value="aliasing">Aliasing Checker</option>
-	<option value="cons_value">Constant Value Checker</option>
-	<option value="fake_enum">Fake Enum Checker</option>
-	<option value="format_string">Format String Checker</option>
-	<option value="gui_effect">GUI Effect Checker</option>
-	<option value="igj">IGJ Checker</option>
-	<option value="interning">Interning Checker</option>
-	<option value="javari">Javari Checker</option>
-	<option value="linear">Linear Checker</option>
-	<option value="lock">Lock Checker</option>
-	<option value="nullness">Nullness Checker</option>
-	<option value="regex">Regex Checker</option>
-	<option value="signature">Signature Checker</option>
+  <option value="nullness">Nullness Checker</option>
+  <option value="map_key">Map Key Checker</option>
+  <option value="interning">Interning Checker</option>
+  <option value="lock">Lock Checker</option>
+  <option value="fake_enum">Fake Enum Checker</option>
 	<option value="tainting">Tainting Checker</option>
-	<option value="units">Units Checker</option>
+  <option value="regex">Regex Checker</option>
+	<option value="format_string">Format String Checker</option>
+  <option value="signature">Signature Checker</option>
+	<option value="gui_effect">GUI Effect Checker</option>
+  <option value="units">Units Checker</option>
+  <option value="cons_value">Constant Value Checker</option>
+  <option value="aliasing">Aliasing Checker</option>
+  <option value="linear">Linear Checker</option>
+<!-- 	<option value="igj">IGJ Checker</option>
+	<option value="javari">Javari Checker</option> -->
       </select><br/>
 
       <!-- comming soon! -->
@@ -148,7 +149,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a>
     </p>
 
-    <p data-checker-type="nullness">
+    <p data-checker-type="map_key">
       MapKey(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#map-key-checker"><i>manual</i></a>):
       <a class="exampleLink" id="MapKeyExampleWithWarningsLink" href="#">MapKeyExampleWithWarnings</a>
     </p>
@@ -172,10 +173,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a>
     </p>
 
-    <p data-checker-type="format_string">
-      Format String(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#formatter-checker"><i>manual</i></a>):
-      <a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a>
-      <!-- <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> | -->
+    <p data-checker-type="tainting">
+      Tainting(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#tainting-checker"><i>manual</i></a>):
+      <a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="regex">
@@ -184,24 +184,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a>
     </p>
 
-    <!-- <p data-checker-type="linear">
-      Linear:
-      <a class="exampleLink" id="LinearExampleWithWarningsLink" href="#">LinearExampleWithWarnings</a> |
-    </p> -->
-
-    <p data-checker-type="igj">
-      IGJ immutability(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#igj-checker"><i>manual</i></a>):
-      <a class="exampleLink" id="IGJExampleWithWarningsLink" href="#">IGJExampleWithWarnings</a>
-    </p>
-
-    <p data-checker-type="javari">
-      Javari immutability(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#javari-checker"><i>manual</i></a>):
-      <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a>
-    </p>
-
-    <p data-checker-type="tainting">
-      Tainting(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#tainting-checker"><i>manual</i></a>):
-      <a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a>
+    <p data-checker-type="format_string">
+      Format String(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#formatter-checker"><i>manual</i></a>):
+      <a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a>
+      <!-- <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> | -->
     </p>
 
     <p data-checker-type="signature">
@@ -221,6 +207,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="MethodsDemoWithWarningsLink" href="#">MethodsDemoWithWarnings</a> |
       <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
     </p>
+
+    <!-- <p data-checker-type="linear">
+      Linear:
+      <a class="exampleLink" id="LinearExampleWithWarningsLink" href="#">LinearExampleWithWarnings</a> |
+    </p> -->
+
+   <!--  <p data-checker-type="igj">
+      IGJ immutability(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#igj-checker"><i>manual</i></a>):
+      <a class="exampleLink" id="IGJExampleWithWarningsLink" href="#">IGJExampleWithWarnings</a>
+    </p>
+
+    <p data-checker-type="javari">
+      Javari immutability(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#javari-checker"><i>manual</i></a>):
+      <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a>
+    </p> -->
   </div>
 </div>
 
