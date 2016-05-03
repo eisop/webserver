@@ -64,6 +64,10 @@ function init_java_backend_url() {
 /*====ace editor related===*/
 var pyInputAceEditor; // Ace editor object that contains the input code
 
+// silent flag for distinguish user editing and program setValue to ace text area
+// tricky, but this way is suggested by ace: https://github.com/ajaxorg/ace/issues/503
+ace_setValue_silent = false; 
+
 var TEMPLATE_CHECKER = 'nullness';
 
 var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
@@ -126,13 +130,17 @@ function pyInputGetValue() {
 }
 
 function pyInputSetValue(dat) {
+  // tricky way to distinguish user input with this program setValue
+  // https://github.com/ajaxorg/ace/issues/503
+  ace_setValue_silent = true;
   pyInputAceEditor.setValue(dat.rtrim() /* kill trailing spaces */,
                               -1 /* do NOT select after setting text */);
-  // $('#urlOutput,#embedCodeOutput').val('');
+  ace_setValue_silent = false;
 
   clearFrontendInfo();
   // also scroll to top to make the UI more usable on smaller monitors
   $(document).scrollTop(0);
+
 }
 
 function pyInputGetScrollTop() {
@@ -146,8 +154,16 @@ function pyInputSetScrollTop(st) {
 /*====execute code====*/
 var changeErrorStateListener; // change event listener on ace editor that change annotation type
 
+var REMINDE_STRING = {
+  WRITE_CODE : 'Write Java code here, then click <span id="execHref" href="#" onclick="executeCodeFromScratch()">check</span>',
+  FIX_BUG: 'Please fix the bug(s) and check again!',
+  PASSED: 'Checker passed!',
+  EXECUTING: 'Please wait ... executing (takes up to 10 seconds)'
+}
+
 function startExecutingCode() {
-  $('#executeBtn').html("Please wait ... executing (takes up to 10 seconds)");
+  $('#codeInputWarnings').html(REMINDE_STRING.EXECUTING);
+  $('#executeBtn').html(REMINDE_STRING.EXECUTING);
   $('#executeBtn').attr('disabled', true);
 }
 
@@ -190,13 +206,13 @@ function executeCode() {
           setFronendInfo([dataFromBackend.exception_msg], "error");
       }
       else if (backend_status == 'pass') {
-        $("#codeInputWarnings").text("Checker passed!");
+        $("#codeInputWarnings").text(REMINDE_STRING.PASSED);
         setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " passed!"], "success");
         setExecCmd(dataFromBackend.exec_cmd);
         enterDisplayMode();
       }
       else if (backend_status == 'diagnostic'){
-        $("#codeInputWarnings").text("Please fix the bug(s) and check again!");
+        $("#codeInputWarnings").text(REMINDE_STRING.FIX_BUG);
         setExecCmd(dataFromBackend.exec_cmd);
         pyInputSetValue(user_code);
         annotationsArray = setErrorAnnotations(error_report);
@@ -295,7 +311,7 @@ function updateAppDisplay(newAppMode) {
   
     $("#reportPane").hide();
     // $("#javaOptionsPane").show();
-    $("#codeInputWarnings").text("Write Java code here:");
+    $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE);
 
     $(document).scrollTop(0); // scroll to top to make UX better on small monitors
 
@@ -557,4 +573,12 @@ function htmlspecialchars(str) {
 $(document).ready(function() {
   init_java_backend_url();
   genericOptFrontendReady(); // initialize at the end
+  //add onchange listener to update codeInputWarnings whenever user editing the code
+  pyInputAceEditor.getSession().on("change", function() {
+      function _updateToWriteCode() {
+        $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE)
+      }
+    if (ace_setValue_silent) return;
+    $.doTimeout(300, _updateToWriteCode);
+  });
 });

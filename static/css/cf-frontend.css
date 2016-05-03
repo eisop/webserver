@@ -201,3 +201,8 @@ cursor:pointer;
   width: 100%;
   float: left;
 }
+
+#execHref {
+  text-decoration: underline;
+  color: blue;
+}
