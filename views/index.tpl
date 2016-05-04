@@ -84,7 +84,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <div id="ck_inputPane">
     <div id="javaOptionsPane" style="margin-top: 20px;">
       Choose a type system:
-      <select id="type_system">
+      <select id="type_system" onchange="selectedCheckerOnChange()">
   <option value="nullness">Nullness Checker</option>
   <option value="map_key">Map Key Checker</option>
   <option value="interning">Interning Checker</option>
@@ -101,7 +101,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <option value="linear">Linear Checker</option>
 <!-- 	<option value="igj">IGJ Checker</option>
 	<option value="javari">Javari Checker</option> -->
-      </select><br/>
+      </select> <a id="selectedCheckerManual" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#nullness-checker">manual of Nullness Checker</a>
+      <br/>
 
       <!-- comming soon! -->
       <!--  <div id="cfgPane" style="display: none;">
@@ -144,24 +145,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <p style="margin-top: 25px; font-weight: bold;">Examples:</p>
 
     <p data-checker-type="nullness">
-      Nullness(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#nullness-checker"><i>manual</i></a>):
+      Nullness (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#nullness-checker"><i>manual</i></a>):
       <a class="exampleLink" id="NullnessExampleLink" href="#">NullnessExample</a> |
       <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="map_key">
-      MapKey(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#map-key-checker"><i>manual</i></a>):
+      MapKey (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#map-key-checker"><i>manual</i></a>):
       <a class="exampleLink" id="MapKeyExampleWithWarningsLink" href="#">MapKeyExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="interning">
-      Interning(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#interning-checker"><i>manual</i></a>):
+      Interning (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#interning-checker"><i>manual</i></a>):
       <a class="exampleLink" id="InterningExampleLink" href="#">InterningExample</a> |
       <a class="exampleLink" id="InterningExampleWithWarningsLink" href="#">InterningExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="lock">
-      Lock(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#lock-checker"><i>manual</i></a>):
+      Lock (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#lock-checker"><i>manual</i></a>):
       <a class="exampleLink" id="GuardedByExampleWithWarningsLink" href="#">GuardedByExampleWithWarnings</a> |
       <a class="exampleLink" id="HoldingExampleWithWarningsLink" href="#">HoldingExampleWithWarnings</a> |
       <a class="exampleLink" id="EnsuresLockHeldExampleLink" href="#">EnsuresLockHeldExample</a> |
@@ -169,49 +170,61 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p>
 
     <p data-checker-type="fake_enum">
-      Fake Enumeration(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#fenum-checker"><i>manual</i></a>):
+      Fake Enumeration (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#fenum-checker"><i>manual</i></a>):
       <a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="tainting">
-      Tainting(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#tainting-checker"><i>manual</i></a>):
+      Tainting (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#tainting-checker"><i>manual</i></a>):
       <a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="regex">
-      Regular Expression(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#regex-checker"><i>manual</i></a>):
+      Regular Expression (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#regex-checker"><i>manual</i></a>):
       <a class="exampleLink" id="RegexExampleWithWarningsLink" href="#">RegexExampleWithWarnings</a> |
       <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a>
     </p>
 
     <p data-checker-type="format_string">
-      Format String(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#formatter-checker"><i>manual</i></a>):
+      Format String (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#formatter-checker"><i>manual</i></a>):
       <a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a>
       <!-- <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> | -->
     </p>
 
     <p data-checker-type="signature">
-      Signature Strings(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#signature-checker"><i>manual</i></a>):
+      Signature Strings (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#signature-checker"><i>manual</i></a>):
       <a class="exampleLink" id="SignatureExampleWithWarningsLink" href="#">SignatureExampleWithWarnings</a> |
       <a class="exampleLink" id="SignatureExampleLink" href="#">SignatureExample</a>
     </p>
 
     <p data-checker-type="gui_effect">
-      GUI Effect(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#guieffect-checker"><i>manual</i></a>):
+      GUI Effect (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#guieffect-checker"><i>manual</i></a>):
       <a class="exampleLink" id="GUIEffectExampleWithWarningsLink" href="#">GUIEffectExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="units">
-      Units(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#units-checker"><i>manual</i></a>):
+      Units (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#units-checker"><i>manual</i></a>):
       <a class="exampleLink" id="SimpleDemoWithWarningsLink" href="#">SimpleDemoWithWarnings</a> |
       <a class="exampleLink" id="MethodsDemoWithWarningsLink" href="#">MethodsDemoWithWarnings</a> |
       <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
     </p>
 
-    <!-- <p data-checker-type="linear">
-      Linear:
-      <a class="exampleLink" id="LinearExampleWithWarningsLink" href="#">LinearExampleWithWarnings</a> |
-    </p> -->
+    <!-- call for examples for Constant Value , Aliasing, and Linear Checker
+         current just hide them-->
+    <p data-checker-type="cons_value" style="display: none;">
+      Constant Value (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#constant-value-checker"><i>manual</i></a>):
+      <a class="exampleLink" id="NoExample" href="#">NoExample</a> |
+    </p>
+
+    <p data-checker-type="aliasing" style="display: none;">
+      Aliasing (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#aliasing-checker"><i>manual</i></a>):
+      <a class="exampleLink" id="NoExample" href="#">NoExample</a> |
+    </p>
+
+    <p data-checker-type="linear" style="display: none;">
+      Linear (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#linear-checker"><i>manual</i></a>):
+      <a class="exampleLink" id="NoExample" href="#">NoExample</a> |
+    </p>
 
    <!--  <p data-checker-type="igj">
       IGJ immutability(<a href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#igj-checker"><i>manual</i></a>):

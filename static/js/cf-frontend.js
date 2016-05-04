@@ -331,6 +331,15 @@ function updateAppDisplay(newAppMode) {
   }
 }
 
+function selectedCheckerOnChange() {
+  var checker_value = $("#type_system").val();
+  var checker_name = $("#type_system option[value="+checker_value+"]").text();
+  var href = $("#examplesPane p[data-checker-type="+checker_value+"]").children("a.manualLink").attr("href");
+
+  $("#selectedCheckerManual").attr("href", href).text("manual of " + checker_name);
+
+
+}
 /*====general functions====*/
 // run at the END so that everything else can be initialized first
 function genericOptFrontendReady() {
