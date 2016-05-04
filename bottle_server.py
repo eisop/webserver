@@ -29,7 +29,7 @@
 # I had to replace cStringIO with io and urllib2 with urllib, for
 # compatibility from 2.x to 3.x Ii was running from /v3/).
 
-from os.path import join, dirname
+from os.path import join, dirname, abspath
 import subprocess
 
 from bottle import route, get, request, run, template, static_file, url, default_app, Bottle, TEMPLATE_PATH
@@ -42,9 +42,10 @@ import json
 import urllib
 import urllib2
 
-appPath = dirname(__file__)
+appPath = dirname(abspath(__file__))
 
-cfPath = join(appPath, "./dev-checker-framework")
+cfPath = join(appPath, "dev-checker-framework")
+# cfPath = "/Users/charleszhuochen/Programming/UWaterloo/checkerFram/checkerweb/dev-checker-framework"
 isRise4Fun = False
 
 @route('/')
