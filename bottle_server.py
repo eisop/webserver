@@ -44,6 +44,9 @@ import urllib2
 
 appPath = dirname(__file__)
 
+cfPath = join(appPath, "./dev-checker-framework")
+isRise4Fun = False
+
 @route('/')
 @route('/static/<filepath:path>', name='static')
 def route_static(filepath=None):
@@ -53,8 +56,8 @@ def route_static(filepath=None):
 
 @get('/exec', name='exec')
 def get_exec():
-  java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8')],
-    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8'),
+    cfPath, str(isRise4Fun)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   (stdout, stderr) = java_backend.communicate()
   if java_backend.returncode != 0:
     print ("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr))
@@ -66,4 +69,4 @@ def get_exec():
 
 if __name__ == "__main__":
     run(host='127.0.0.1', port=8081, reloader=True)
-    # run(host='0.0.0.0', port=8003, reloader=True) # make it externally visible - DANGER this is very insecure since there's no sandboxing!
+    # run(host='0.0.0.0', port=8081, reloader=True) # make it externally visible - DANGER this is very insecure since there's no sandboxing!
