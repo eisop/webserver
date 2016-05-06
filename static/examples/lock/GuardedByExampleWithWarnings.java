@@ -1,20 +1,26 @@
 import org.checkerframework.checker.lock.qual.*;
 
 public class GuardedByExampleWithWarnings {
-    private static Object myLock = new Object();
+    private static final Object myLock = new Object();
 
-    @GuardedBy("GuardedByExampleWithWarnings.myLock") Object myMethod() {
-        Object o = new Object();
-        return o;
+    @GuardedBy("GuardedByExampleWithWarnings.myLock") MyClass myMethod() {
+        @GuardedBy("GuardedByExampleWithWarnings.myLock") MyClass m = new MyClass();
+        return m;
     }
 
     public void test() {
         // reassignments without holding the lock are OK.
-        @GuardedBy("GuardedByExampleWithWarnings.myLock") Object x = myMethod();
-        @GuardedBy("GuardedByExampleWithWarnings.myLock") Object y = x;
+        @GuardedBy("GuardedByExampleWithWarnings.myLock") MyClass x = myMethod();
+        @GuardedBy("GuardedByExampleWithWarnings.myLock") MyClass y = x;
         x.toString(); // ILLEGAL because the lock is not held
+        x.field = new Object(); // ILLEGAL because the lock is not held
         synchronized (GuardedByExampleWithWarnings.myLock) {
             y.toString(); // OK: the lock is held
+            y.field = new Object(); // OK: the lock is held
         }
     }
+}
+
+class MyClass {
+    public Object field;
 }
