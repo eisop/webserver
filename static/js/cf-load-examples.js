@@ -91,7 +91,7 @@ function initExampleLinks() {
     /*CheckerFramework: bind example with the coorelated checker*/
     var checkerType = $(this).parent().attr('data-checker-type');
     $("#type_system").val(checkerType);
-
+    selectedCheckerOnChange(); //update the manual link in select-checker section
     return false; // prevent 'a' click from going to an actual link
   });
 }
