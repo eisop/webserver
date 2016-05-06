@@ -14,6 +14,7 @@ import bottle_server
 import bottle
 
 bottle_server.cfPath = join(checkerweb_path, "released-checker-framework")
+bottle_server.isRise4Fun = True
 
 # ... build or import your bottle application here ...
 # Do NOT use bottle.run() with mod_wsgi

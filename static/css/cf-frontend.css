@@ -201,3 +201,14 @@ cursor:pointer;
   width: 100%;
   float: left;
 }
+
+#execHref {
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+
+#execHref:hover {
+  text-decoration: none;
+  text-shadow: 1px 1px 1px #555;
+}

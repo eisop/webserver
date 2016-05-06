@@ -18,7 +18,7 @@ if [ ! -d "../log-8081" ] ; then
 fi
 
 mod_wsgi-express setup-server \
-		 --port 8081 ../wsgi-scripts/checkerweb.wsgi \
+		 --port 8081 ../wsgi-scripts/checkerweb-dev.wsgi \
 		 --server-root=../config-8081 \
 		 --log-directory ../log-8081 \
 		 --error-log-name error.log \

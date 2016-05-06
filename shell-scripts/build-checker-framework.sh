@@ -4,6 +4,7 @@
 set -e
 
 # first change to script directory so relative path works again
+WORKING_DIR=$(pwd)
 ROOT=$(cd $(dirname "$0")/.. && pwd)
 
 ENABLED_CF=enabled-checker-framework
@@ -21,7 +22,7 @@ case $1 in
 		. ./.build-released-cf.sh $2
 		;;
 	-l | --local )
-		CF_LOCATION=$(cd $2 && pwd)
+		CF_LOCATION=$(cd $WORKING_DIR && cd $2 && pwd)
 		;;
 	-h | --help )
 		echo "=====usage====="
