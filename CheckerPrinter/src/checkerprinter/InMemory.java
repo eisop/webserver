@@ -65,7 +65,17 @@ public class InMemory {
     public final static long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
-        Printer checkerPrinter = new JsonPrinter();     
+        assert args.length == 2 : "this program needs two command line arguments: "
+                + "args[0]: location of checker framework"
+                + "argd[1]: isRise4Fun, indicates whether should use Rise4FunPrinter";
+            boolean isRise4Fun = Boolean.valueOf(args[1]);
+            Printer checkerPrinter = null;
+            if(isRise4Fun) {
+                checkerPrinter = new Rise4FunPrinter();
+            } else {
+                checkerPrinter = new JsonPrinter();
+            }
+
         try {
             new InMemory(Json.createReader(new InputStreamReader(System.in, "UTF-8")).readObject(), args[0],
                     checkerPrinter);
