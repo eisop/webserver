@@ -32,7 +32,7 @@
 from os.path import join, dirname, abspath
 import subprocess
 
-from bottle import route, get, request, run, template, static_file, url, default_app, Bottle, TEMPLATE_PATH
+from bottle import route, get, request, run, template, static_file, url, default_app, Bottle, TEMPLATE_PATH, abort
 app = Bottle()
 default_app.push(app)
 
@@ -51,6 +51,10 @@ isRise4Fun = False
 @route('/static/<filepath:path>', name='static')
 def route_static(filepath=None):
     if filepath is None:
+        # rise4fun is a web service, and it not serves as a web interface.
+        # Thus we should deny user acess the index page from rise4fun url.
+        if isRise4Fun:
+          abort(401, "Sorry, access denied.")
         return template('index', root=appPath, get_url=app.get_url)
     return static_file(filepath, root=join(appPath, 'static'))
 
