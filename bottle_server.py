@@ -45,7 +45,6 @@ import urllib2
 appPath = dirname(abspath(__file__))
 
 cfPath = join(appPath, "dev-checker-framework")
-# cfPath = "/Users/charleszhuochen/Programming/UWaterloo/checkerFram/checkerweb/dev-checker-framework"
 isRise4Fun = False
 
 @route('/')
