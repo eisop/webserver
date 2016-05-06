@@ -14,12 +14,7 @@ public class HoldingExampleWithWarnings {
         b.toString(); // OK: the lock is held
     }
 
-    void helper3(Object c) {
-        helper1(c); // OK: passing a subtype in place of a the @GuardedBy supertype
-        c.toString(); // OK: no lock constraints
-    }
-
-    void helper4(@GuardedBy("MyClass.myLock") Object d) {
+    void helper3(@GuardedBy("MyClass.myLock") Object d) {
         d.toString(); // ILLEGAL: the lock is not held
     }
 
@@ -28,12 +23,11 @@ public class HoldingExampleWithWarnings {
         e.toString(); // ILLEGAL: the lock is not held
         synchronized (MyClass.myLock) {
             helper2(e);
-            helper3(e);
-            helper4(e); // OK, but helper4’s body still does not type-check
+            helper3(e); // OK, but helper3’s body still does not type-check
         }
     }
 }
 
 class MyClass {
-    public static Object myLock = new Object();
+    public static final Object myLock = new Object();
 }

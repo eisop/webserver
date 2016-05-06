@@ -2,9 +2,9 @@ import org.checkerframework.checker.lock.qual.*;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-public class EnsuresLockHeldExample {	
+public class EnsuresLockHeldExample {
 
-    private ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock();
 
     /* @EnsuresLockHeld, the given expressions are known to be objects
      * used as locks and are known to be in a locked state after the

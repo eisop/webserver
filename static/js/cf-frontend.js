@@ -197,6 +197,12 @@ function executeCode() {
     *the element.type in error_report is related to java backend CheckerPrinter
     */
     function execCallback(dataFromBackend) {
+      if( !dataFromBackend ) {
+        setFronendInfo(["Error: 324 empty response from server."], "error");
+        doneExecutingCode();
+        $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE);
+        return;
+      }
       var user_code = dataFromBackend.code;
       var error_report = dataFromBackend.error_report;
       var annotationsArray = [];

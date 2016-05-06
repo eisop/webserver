@@ -1,14 +1,13 @@
-import org.checkerframework.checker.lock.qual.GuardedBy;
-import org.checkerframework.dataflow.qual.LockingFree;
+import org.checkerframework.checker.lock.qual.*;
 import org.checkerframework.dataflow.qual.SideEffectFree;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LockingFreeExampleWithWarnings {
     private Object myField;
-    private ReentrantLock lock;
+    private final ReentrantLock lock; // Initialized in the constructor
     private @GuardedBy("lock") Object x; // Initialized in the constructor
-    
+
     public LockingFreeExampleWithWarnings () {
         this.lock = new ReentrantLock();
         this.x = new Object();
@@ -31,6 +30,7 @@ public class LockingFreeExampleWithWarnings {
         return 0;
     }
 
+    @MayReleaseLocks
     void myUnlockingMethod() {
         lock.unlock();
     }
@@ -38,27 +38,24 @@ public class LockingFreeExampleWithWarnings {
     void myUnannotatedEmptyMethod() {
     }
 
-    void myOtherMethod() {
+    @MayReleaseLocks
+    void clientMethod() {
         if (lock.tryLock()) {
             x.toString(); // OK: the lock is held
             myLockingFreeMethod();
             x.toString(); // OK: the lock is still known to be held since myLockingFreeMethod is locking-free
             mySideEffectFreeMethod();
             x.toString(); // OK: the lock is still known to be held since mySideEffectFreeMethod
-            // is side-effect-free
+                          // is side-effect-free
             myUnlockingMethod();
-            x.toString(); // ILLEGAL: myLockingMethod is not locking-free
+            x.toString(); // ILLEGAL: myUnlockingMethod may have released a lock
         }
 
         if (lock.tryLock()) {
             x.toString(); // OK: the lock is held
-            myUnannotatedEmptyMethod();
-            x.toString(); // ILLEGAL: even though myUnannotatedEmptyMethod is empty, since it is
-            // not annotated with @LockingFree, the Lock Checker no longer knows
-            // the state of the lock.
-            if (lock.isHeldByCurrentThread()) {
-                x.toString(); // OK: the lock is known to be held
-            }
+        }
+        if (lock.isHeldByCurrentThread()) {
+            x.toString(); // OK: the lock is known to be held
         }
     }
 }
