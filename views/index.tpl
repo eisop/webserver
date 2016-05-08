@@ -41,10 +41,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <head>
   <title>Checker Framework Live Demo</title>
   <!-- no-cache tags
-       http://stackoverflow.com/questions/1341089/using-meta-tags-to-turn-off-caching-in-all-browsers -->
-  <meta http-equiv="cache-control" content="max-age=0" />
+       https://www.mnot.net/cache_docs/#META -->
   <meta http-equiv="cache-control" content="no-cache" />
-  <meta http-equiv="expires" content="0" />
   <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
   <meta http-equiv="pragma" content="no-cache" />
 
@@ -265,4 +263,5 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </div>
 
 </body>
+
 </html>
