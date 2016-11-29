@@ -55,7 +55,6 @@ def getMetaData():
 
     # convert the the dictornary MedataJson into a Json object  
     jsonData = json.dumps(MetadataJson)
-    
     return jsonData
 
 def getSpecific( key ):
