@@ -1,0 +1,33 @@
+{
+    "Name": "Checker_Framework",
+    "DisplayName": "Checker Framework Demo",
+    "Version": "1.0",
+    "Email": "werner.dietl@uwaterloo.ca",
+    "SupportEmail": "z359chen@uwaterloo.ca",
+    "TermsOfUseUrl": "http://checkerframework.org/",
+    "PrivacyUrl": "http://checkerframework.org/",
+    "Institution": "University of Waterloo",
+    "InstitutionnstitutionUrl": "https://uwaterloo.ca/brand/sites/ca.brand/files/resize/uploads/images/universityofwaterloo_logo_vert_rev_rgb_1-300x195.png",
+    "InstitutionImageUrl": "http://openjml.cs.ucf.edu/images/jml-logo-small.png",
+    "MimeType": "text/plain",
+    "SupportsLanguageSyntax": null,
+    "Title": "Checker Framework, a error preventor and detector tool",
+    "Description": "The Checker Framework enhances Java's type system to make it more powerful and useful. This lets software developers detect and prevent errors in their Java programs. The Checker Framework includes compiler plug-ins ("checkers") that find bugs or verify their absence. It also permits you to write your own compiler plug-ins.",
+    "Question": "Does this program has any errors?",
+    "Url": "http://eisop.uwaterloo.ca",
+    "VideoUrl": null,
+    "DisableErrorTable": false,
+    "Samples": [
+      {
+        "Name": "Nullness Example",
+        "Path": "static//examples//nullness//NullnessExample.java"
+      },
+      {
+        "Name": "Nullness Example",
+        "Path": "static//examples//nullness//NullnessExampleWithWarnings.java"
+
+      }
+
+      ],
+      "Tutorials":null
+}
