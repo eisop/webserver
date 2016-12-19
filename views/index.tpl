@@ -244,11 +244,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a>
     </p> -->
   </div>
-</div>
 
-<div id="versionPane">
-  <!-- TODO: auto-update the version information -->
-  <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.1.6 (1 Dec 2016)</p>
+
+  <div id="versionPane">
+    <!-- TODO: auto-update the version information -->
+    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.1.6 (1 Dec 2016)</p>
+  </div>
+
 </div>
 
 <div id="footer">
