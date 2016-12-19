@@ -1,9 +1,9 @@
 # [Checker Framework](http://checkerframework.org) live demo webserver
 
-This is the live demo webserver of [Checker
-Framework](http://checkerframework.org)
+This is the live demo webserver for the [Checker
+Framework](http://checkerframework.org).
 
-This webserver is developed based on [Online Python
+This webserver is developed based on the [Online Python
 Tutor](http://github.com/pgbovine/OnlinePythonTutor/) and [java
 jail](http://github.com/daveagp/java_jail)
 
@@ -24,21 +24,23 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
 
 ### Procedure
 
-1. clone this project to /var/www directory:
+1. Clone this project in the `/var/www` directory:
 
   ```git clone https://github.com/eisop/webserver.git```
 
-2. In the clone, run ./shell-scripts/deploy-checkerweb.sh with below options:
+2. In the clone, run `./shell-scripts/deploy-checkerweb.sh` with one
+   of these options:
 
-  1. If you want to deploy this server with newest developing version
-  of Checker Framework from
-  https://github.com/typetools/checker-framework, run:
+  1. If you want to deploy this server with the newest development version
+  of the Checker Framework from
+  `https://github.com/typetools/checker-framework`, run:
 
     ```
     ./shell-scripts/deploy-checkerweb.sh
     ```
-  2. If you want to deploy this server with newest released version of
-  Checker Framework from http://checkerframework.org, run:
+  2. If you want to deploy this server with the newest released
+  version of the Checker Framework from `http://checkerframework.org`,
+  run:
 
     ```
     ./shell-scripts/deploy-checkerweb.sh -r <url of the released Checker Framework zip>
@@ -47,8 +49,8 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
     ```
     ./shell-scripts/deploy-checkerweb.sh -r http://types.cs.washington.edu/checker-framework/current/checker-framework-1.9.13.zip
     ```
-  3. If you want to deploy this server with an existed local copy of
-Checker Framework, run:
+  3. If you want to deploy this server with an existing local copy of
+  the Checker Framework, run:
 
     ```
     ./shell-scripts/deploy-checkerweb.sh -l <path to checker-framework>
@@ -60,9 +62,9 @@ Checker Framework, run:
 
 3. Customize the vhost configuration file: *wsgi-scripts/checkerweb-wsgi.conf*
 
-  [Details Instruction of configuring vhost file](https://github.com/eisop/webserver/blob/master/wsgi-scripts/README)
+  [Detailed instructions for configuring the vhost file](https://github.com/eisop/webserver/blob/master/wsgi-scripts/README)
 
-4. Link this file to apache2 vhost directory:
+4. Link this file to the apache2 vhost directory:
 
   In *RHEL 7* do:
   ```
@@ -76,7 +78,7 @@ Checker Framework, run:
   ln -s /var/www/checkerweb/wsgi-scripts/checkerweb-wsgi.conf .
   ```
 
-5. Restart the apache:
+5. Restart the apache2 server:
 
   In *RHEL 7* do:
   ```sudo apachectl restart```
@@ -84,22 +86,23 @@ Checker Framework, run:
   In *Ubuntu* do:
   ```sudo service apache2 restart```
 
+
 ## Setting Up a Test Server
 
-For the developers, there are two ways of setting up a test
-server. One way is running a server in terminal to see the changes
-immediately, and the other way is to deploy a test/develop version
-server on apache2.
+For developers, there are two ways of setting up a test
+server. One way is running a server in a terminal to see changes
+immediately, and the other way is to deploy a test/development version
+server to apache2.
 
-Follow step 1 and 2 above to clone and install the web server, then
+Follow steps 1 and 2 above to clone and install the web server, then
 make your changes.
 
 Note:
 
-1. in step 2 when running `deploy-checkerweb.sh`, if you using `-l`
+1. in step 2 when running `deploy-checkerweb.sh`, if you use the `-l`
 option to link your local copy of Checker Framework, the
-`deploy-checkerweb.sh` will passing this location to
-`build-checker-framework.sh` and just simply link this location to
+`deploy-checkerweb.sh` will pass this location to
+`build-checker-framework.sh` and link this location to
 `webserver/enabled-checker-framework`, which means it is your
 responsibility to ensure the passed location is correct.
 
@@ -107,35 +110,39 @@ responsibility to ensure the passed location is correct.
 `build-checker-framework.sh -l <new location of cf>`
 
 
-### Running a server in terminal using Bottle Server
+### Running a server in a terminal using Bottle Server
 
 In the clone, directly run:
 ```python bottle_server.py```
 
 This will active a bottle server listening on port 8081, and can be
-stoped by ctrl-C in the terminal.
+stopped by ctrl-C in the terminal.
 
-This is the easiest way to run a test server to have a look of your
+This is the easiest way to run a test server to have a look at your
 changes immediately.
 
-### Deploy a Test/Deployment Server on port 8081 on apache2
 
-This version needs install
+### Deploy a test/development server on port 8081 on apache2
+
+This version needs installation of
 [python mod_wsgi](https://pypi.python.org/pypi/mod_wsgi) first.
 
 In the clone, run:
   ```
   ./shell-scripts/setup-and-run-8081.sh
   ```
-Then you will have a server running by apache2 and listenning on port 8081.
+Then you will have a server running apache2 and listening on port 8081.
+
 
 #### Loading modifications to the test server
 
-When you done some modifications and want to see the changes, in the clone, do:
+When you're done with modifications and you want to see the changes,
+  in the clone, do:
   ```
   touch wsgi-scripts/checkerweb.wsgi
   ```
- Note:
+
+Note:
  1. No need to restart apache2
- 2. If you have modified *CheckerPrinter*, in the clone, execute `make
+ 2. If you have modified `CheckerPrinter`, in the clone, execute `make
  -C CheckerPrinter clean all` first.
