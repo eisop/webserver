@@ -5,7 +5,7 @@ Framework](http://checkerframework.org).
 
 This webserver is developed based on the [Online Python
 Tutor](http://github.com/pgbovine/OnlinePythonTutor/) and [java
-jail](http://github.com/daveagp/java_jail)
+jail](http://github.com/daveagp/java_jail).
 
 
 ## Production Server Deployment
