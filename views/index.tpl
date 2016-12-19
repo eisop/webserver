@@ -246,6 +246,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </div>
 </div>
 
+<div id="versionPane">
+  <!-- TODO: auto-update the version information -->
+  <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.1.6 (1 Dec 2016)</p>
+</div>
+
 <div id="footer">
   <div class = "footer_left">
       <p>For more information see
