@@ -89,7 +89,7 @@ public class InMemory {
     protected boolean initCheckerArgs(JsonObject optionsObject) {
         String checker = InMemory.checkerMap.get(optionsObject.getString("checker"));
         if (checker == null) {
-            this.exceptionMsg = "Error: Cannot found indicated checker.";
+            this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
         this.checkerOptionsList = Arrays.asList( "-Xbootclasspath/p:" +

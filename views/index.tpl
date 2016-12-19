@@ -40,6 +40,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <head>
   <title>Checker Framework Live Demo</title>
+  <!-- no-cache tags
+       https://www.mnot.net/cache_docs/#META -->
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
 
   <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
 
@@ -90,30 +95,33 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <option value="interning">Interning Checker</option>
   <option value="lock">Lock Checker</option>
   <option value="fake_enum">Fake Enum Checker</option>
-	<option value="tainting">Tainting Checker</option>
+  <option value="tainting">Tainting Checker</option>
   <option value="regex">Regex Checker</option>
-	<option value="format_string">Format String Checker</option>
+  <option value="format_string">Format String Checker</option>
   <option value="signature">Signature Checker</option>
-	<option value="gui_effect">GUI Effect Checker</option>
+  <option value="gui_effect">GUI Effect Checker</option>
   <option value="units">Units Checker</option>
   <option value="cons_value">Constant Value Checker</option>
   <option value="aliasing">Aliasing Checker</option>
   <option value="linear">Linear Checker</option>
-<!-- 	<option value="igj">IGJ Checker</option>
-	<option value="javari">Javari Checker</option> -->
-      </select> <a id="selectedCheckerManual" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#nullness-checker" target="_blank">manual of Nullness Checker</a>
+  <!-- IGJ and Javari are no longer supported
+  <option value="igj">IGJ Checker</option>
+  <option value="javari">Javari Checker</option>
+   -->
+      </select>
+      <a id="selectedCheckerManual" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#nullness-checker" target="_blank">manual of Nullness Checker</a>
       <br/>
 
       <!-- comming soon! -->
       <!--  <div id="cfgPane" style="display: none;">
-	<input id="cfg" type="checkbox" />Generate Control Flow Graph
+        <input id="cfg" type="checkbox" />Generate Control Flow Graph
 
-	<select id="cfg_level" style="display: none;">
-	  <option value="top_level">Top Level</option>
-	  <option value="only_type">Only Type</option>
-	  <option value="basic_block">Basic Block</option>
-	  <option value="full_details">Full Details</option>
-	</select><br/>
+        <select id="cfg_level" style="display: none;">
+          <option value="top_level">Top Level</option>
+          <option value="only_type">Only Type</option>
+          <option value="basic_block">Basic Block</option>
+          <option value="full_details">Full Details</option>
+        </select><br/>
       </div> -->
       <!-- <input id="verbose" type="checkbox"/>verbose<br/> -->
     </div>
@@ -238,6 +246,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </div>
 </div>
 
+<div id="versionPane">
+  <!-- TODO: auto-update the version information -->
+  <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.1.6 (1 Dec 2016)</p>
+</div>
+
 <div id="footer">
   <div class = "footer_left">
       <p>For more information see
@@ -258,4 +271,5 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </div>
 
 </body>
+
 </html>
