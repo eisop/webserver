@@ -24,9 +24,9 @@ def getMetaData():
         with open(sample['Path'],'r') as x:
 
             # create a dictonary with the key = Name, value = sample['Name'] and key = Source, value =  x.read()
-            sampledict={"Name":sample['Name'],"Source":x.read()}
+            sample_dict={"Name":sample['Name'],"Source":x.read()}
 
-        samples.append(sampledict)
+        samples.append(sample_dict)
 
 
     # this massive dictionary contains all the inforation that rize4fun needs as metadata
