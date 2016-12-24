@@ -76,8 +76,10 @@ def get_exec():
 # If you want more information about the Metadata. 
 # This can be found on http://www.rise4fun.com/dev.
 @route('/metadata')
-def send_metadata():
+def rise4fun_send_metadata():
   # get the metadata by calling the the function getMetaData from the module MetadataJsonPrinter.
+  if not isRise4Fun:
+    abort(401, "Sorry, access denied.")
   data=metadata_json_printer.get_metadata()
   return data
 
