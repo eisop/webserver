@@ -20,11 +20,13 @@
     "Samples": [
       {
         "Name": "Nullness Example",
-        "Path": "static//examples//nullness//NullnessExample.java"
+        "CheckerName": "nullness",
+        "FileName": "NullnessExample.java"
       },
       {
         "Name": "Nullness Example",
-        "Path": "static//examples//nullness//NullnessExampleWithWarnings.java"
+        "CheckerName": "nullness",
+        "FileName": "NullnessExampleWithWarnings.java"
       }
 
       ],
