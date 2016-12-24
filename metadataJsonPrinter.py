@@ -16,7 +16,21 @@ META_DATA_INFO_PATH= os.path.join(ROOT_DIR, 'metadataInfo.json')
 
 print(EXAMPLE_DIR)
 
-def getMetaData():
+def get_metadata():
+    ''' function purpose: To return the metadata informatation needed to run the
+                          to showcase the tool in rise4fun. Please look to the website
+                          http://www.rise4fun.com/dev for more information about the
+                          metadata.
+    
+    Returns:
+            returns a string containing all the metadata information in a json format
+            Example : {"InstitutionImageUrl": "http://openjml.cs.ucf.edu/images/jml-logo-small.png",
+                       "DisplayName": "Checker Framework Demo",
+                       "Email": "werner.dietl@uwaterloo.ca",
+                       "MimeType": "text/plain",
+                       "Version": "1.0", "SupportsLanguageSyntax": false}
+    '''
+
     # dump the data inside MetadataInfo.json into data
     with open(META_DATA_INFO_PATH,'r') as f:
         data = json.load(f)
@@ -40,7 +54,7 @@ def getMetaData():
 
 
     # this massive dictionary contains all the inforation that rize4fun needs as metadata
-    MetadataJson = {
+    metadata_json = {
     "Name": data['Name'],
     "DisplayName": data['DisplayName'],
     "Version": data['Version'],
@@ -64,11 +78,22 @@ def getMetaData():
       }
 
     # convert the the dictornary MedataJson into a Json object  
-    jsonData = json.dumps(MetadataJson)
-    return jsonData
+    json_data = json.dumps(metadata_json)
+    return json_data
 
-def getSpecific( key ):
-    # dump all the inforaton of MetadataInfo into data
+def get_specific( key ):
+    ''' function purpose: To return the value of a specific key of the json file metadataInfo.json.
+        Args: key: the name of the key which we want its value.
+        Returns:
+                returns a string containing of the specified key inside the metadataInfo.json file
+        Example :
+                get_specific("Name")
+
+                Output:
+                Checker_Framework
+        '''
+
+    # dump all the inforaton of metadataInfo into data
     with open(META_DATA_INFO_PATH,'r') as f:
         data = json.load(f)
         #return the a value of metadata depending on its key. Example if key = 'Name' the return value is Checker_Framework.
