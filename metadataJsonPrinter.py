@@ -73,10 +73,19 @@ def get_specific( key ):
                 Checker_Framework
         '''
 
-    # dump all the inforaton of metadataInfo into data
+    # dump all the information of metadataInfo into data
     with open(META_DATA_INFO_PATH,'r') as f:
         data = json.load(f)
-        #return the a value of metadata depending on its key. Example if key = 'Name' the return value is Checker_Framework.
+    # return the a value of metadata depending on its key. Example if key = 'Name'
+    # the return value is Checker_Framework.
+    # if key does not exist inside the data dictonary then we will print 'Unable to retrieve value of "key" '
+    # and return nothing
+    try:
         return data[key]
+    except KeyError:
+        print('Unable to retrieve value of',key)
+        return ""
+
+
 
 
