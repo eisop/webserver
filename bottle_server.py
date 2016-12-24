@@ -41,7 +41,7 @@ import json
 # import pg_logger
 import urllib
 import urllib2
-import MetadataJsonPrinter
+import metadataJsonPrinter
 appPath = dirname(abspath(__file__))
 
 cfPath = join(appPath, "dev-checker-framework")
@@ -78,7 +78,7 @@ def get_exec():
 @route('/metadata')
 def sendMetaData():
   # get the metadata by calling the the function getMetaData from the module MetadataJsonPrinter.
-  data=MetadataJsonPrinter.getMetaData()
+  data=metadataJsonPrinter.getMetaData()
   return data
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ import os.path
 #META_DATA_INFO_PATH = connanical path of the examples directory.
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 EXAMPLE_DIR = os.path.join(ROOT_DIR, "static",'examples')
-META_DATA_INFO_PATH= os.path.join(ROOT_DIR, 'MetadataInfo.json')
+META_DATA_INFO_PATH= os.path.join(ROOT_DIR, 'metadataInfo.json')
 
 print(EXAMPLE_DIR)
 
