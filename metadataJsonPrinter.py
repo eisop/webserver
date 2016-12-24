@@ -53,7 +53,7 @@ def get_metadata():
         samples.append(sample_dict)
 
 
-    # this massive dictionary contains all the inforation that rize4fun needs as metadata
+    # this massive dictionary contains all the information that rise4fun needs as metadata
     metadata_json = {
     "Name": data['Name'],
     "DisplayName": data['DisplayName'],
