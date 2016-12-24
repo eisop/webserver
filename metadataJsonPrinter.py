@@ -53,32 +53,12 @@ def get_metadata():
         samples.append(sample_dict)
 
 
-    # this massive dictionary contains all the information that rise4fun needs as metadata
-    metadata_json = {
-    "Name": data['Name'],
-    "DisplayName": data['DisplayName'],
-    "Version": data['Version'],
-    "Email": data['Email'],
-    "SupportEmail": data['SupportEmail'],
-    "TermsOfUseUrl": data['TermsOfUseUrl'],
-    "PrivacyUrl": data['PrivacyUrl'],
-    "Institution": data['Institution'],
-    "InstitutionnstitutionUrl": data['InstitutionnstitutionUrl'],
-    "InstitutionImageUrl": data['InstitutionImageUrl'],
-    "MimeType": data['MimeType'],
-    "SupportsLanguageSyntax": data['SupportsLanguageSyntax'],
-    "Title": data['Title'],
-    "Description": data['Description'],
-    "Question": data['Question'],
-    "Url": data['Url'],
-    "VideoUrl": data['VideoUrl'],
-    "DisableErrorTable": data['DisableErrorTable'],
-    "Samples": samples,
-    "Tutorials":data['Tutorials']
-      }
+    # Replace the the value of the key 'Samples' with the one or more dicionaries containing
+    # the name and source of the sample.
+    data['Samples']=samples
 
-    # convert the the dictornary MedataJson into a Json object  
-    json_data = json.dumps(metadata_json)
+    # convert the the dictornary data into a string with Json format
+    json_data = json.dumps(data)
     return json_data
 
 def get_specific( key ):
