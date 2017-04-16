@@ -268,7 +268,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </p>
   </div>
   <div class = "footer_right">
-    <img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" style=""/>
+    <a href="http://checkerframework.org/">
+      <img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" style=""/>
+    </a>
   </div>
 </div>
 
