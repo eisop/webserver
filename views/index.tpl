@@ -248,7 +248,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div id="versionPane">
     <!-- TODO: auto-update the version information -->
-    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.1.9 (1 Mar 2017)</p>
+    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.1.10 (1 Apr 2017)</p>
   </div>
 
 </div>
