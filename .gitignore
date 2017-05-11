@@ -2,7 +2,8 @@
 
 # Checker Framework sources
 jsr308/
-enabled-checker-framework
+dev-checker-framework
+released-checker-framework
 
 # python output
 bottle.pyc
