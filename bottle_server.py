@@ -41,7 +41,7 @@ import json
 # import pg_logger
 import urllib
 import urllib2
-
+import metadata_json_printer
 appPath = dirname(abspath(__file__))
 
 cfPath = join(appPath, "dev-checker-framework")
@@ -70,6 +70,18 @@ def get_exec():
   else:  
     result = stdout
   return result
+
+# the method sendMetaData returns the MetaData to the Rise4fun website
+# This metadata is found on the file MetadataInfo.json
+# If you want more information about the Metadata. 
+# This can be found on http://www.rise4fun.com/dev.
+@route('/metadata')
+def rise4fun_send_metadata():
+  # get the metadata by calling the the function getMetaData from the module MetadataJsonPrinter.
+  if not isRise4Fun:
+    abort(401, "Sorry, access denied.")
+  data=metadata_json_printer.get_metadata()
+  return data
 
 if __name__ == "__main__":
     run(host='127.0.0.1', port=8081, reloader=True)
