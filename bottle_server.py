@@ -61,10 +61,6 @@ def route_static(filepath=None):
 
 @route('/user', name='user')
 def route_user():
-  #type = request.query.type
-  #input = request.query.input
-  #print("input is: " + input +"\n")
-  #print("type is: " + type +"\n")  
   return template('index', root=appPath, get_url=app.get_url)
 
 @get('/exec', name='exec')
@@ -81,5 +77,5 @@ def get_exec():
   return result
 
 if __name__ == "__main__":
-    run(host='127.0.0.1', port=8081, reloader=True, debug=True)
+    run(host='127.0.0.1', port=8081, reloader=True)
     # run(host='0.0.0.0', port=8081, reloader=True) # make it externally visible - DANGER this is very insecure since there's no sandboxing!

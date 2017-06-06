@@ -61,27 +61,20 @@ function init_java_backend_url() {
   }*/
 }
 
-//type default nullness, might be changed if query present
 
-var TEMPLATE_CHECKER = 'nullness';
-
-var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
-class YourClassNameHere {\n\
-    void foo(Object nn, @Nullable Object nbl) {\n\
-        nn.toString(); // OK\n\
-        nbl.toString(); // Error\n\
-    }\n\
-}';
-
-
-  /*if url has query(assume is ?type=**&input=**) retrieve type & input*/
+/*====obtain url query====*/
+var urlQuery = new Map();
+parseUrlQuery(urlQuery);
+//store all key-value pair of url query in urlQuery
+function parseUrlQuery(urlQuery){
   if(location.search != ""){
-	var urlQuery = location.search.slice(1,);
-	var urlParams = urlQuery.split("&");
-	TEMPLATE_CHECKER = decodeURI(urlParams[0].split("=")[1]);
-	JAVA_BLANK_TEMPLATE = decodeURI(urlParams[1].split("=")[1]);
-
+    var urlParams = location.search.slice(1,).split("&");
+    for(var i = 0; i < urlParams.length; i++){
+      urlQuery.set(decodeURI(urlParams[i].split("=")[0]),decodeURI(urlParams[i].split("=")[1]));
+    }
   }
+}
+
 
 /*====ace editor related===*/
 var pyInputAceEditor; // Ace editor object that contains the input code
@@ -129,7 +122,22 @@ function initAceEditor() {
   // don't do real-time syntax checks:
   // https://github.com/ajaxorg/ace/wiki/Syntax-validation
   s.setOption("useWorker", false);
+
   //initial blank input field with template
+  //type default nullness, might be changed if query present
+
+  var TEMPLATE_CHECKER = 'nullness';
+  if(urlQuery.get("type") != undefined) TEMPLATE_CHECKER = urlQuery.get("type");
+
+  var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
+    class YourClassNameHere {\n\
+      void foo(Object nn, @Nullable Object nbl) {\n\
+	nn.toString(); // OK\n\
+	nbl.toString(); // Error\n\
+     }\n\
+  }';
+  if(urlQuery.get("input") != undefined) JAVA_BLANK_TEMPLATE = urlQuery.get("input");  
+
   if ($.trim(pyInputGetValue()) === '') {
       $("#type_system").val(TEMPLATE_CHECKER);
       pyInputSetValue(JAVA_BLANK_TEMPLATE);
