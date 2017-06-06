@@ -61,12 +61,7 @@ function init_java_backend_url() {
   }*/
 }
 
-/*====ace editor related===*/
-var pyInputAceEditor; // Ace editor object that contains the input code
-
-// silent flag for distinguish user editing and program setValue to ace text area
-// tricky, but this way is suggested by ace: https://github.com/ajaxorg/ace/issues/503
-ace_setValue_silent = false; 
+//type default nullness, might be changed if query present
 
 var TEMPLATE_CHECKER = 'nullness';
 
@@ -77,6 +72,24 @@ class YourClassNameHere {\n\
         nbl.toString(); // Error\n\
     }\n\
 }';
+
+
+  /*if url has query(assume is ?type=**&input=**) retrieve type & input*/
+  if(location.search != ""){
+	var urlQuery = location.search.slice(1,);
+	var urlParams = urlQuery.split("&");
+	TEMPLATE_CHECKER = decodeURI(urlParams[0].split("=")[1]);
+	JAVA_BLANK_TEMPLATE = decodeURI(urlParams[1].split("=")[1]);
+
+  }
+
+/*====ace editor related===*/
+var pyInputAceEditor; // Ace editor object that contains the input code
+
+// silent flag for distinguish user editing and program setValue to ace text area
+// tricky, but this way is suggested by ace: https://github.com/ajaxorg/ace/issues/503
+ace_setValue_silent = false; 
+
 
 function initAceEditor() {
   pyInputAceEditor = ace.edit('codeInputPane');
@@ -264,7 +277,7 @@ var appMode = 'edit'; // 'edit' or 'display'. also support
 // sets globals such as rawInputLst, code input box, and toggle options
 function parseQueryString() {
   var queryStrOptions = getQueryStringOptions();
-  if (queryStrOptions.preseededCode) {
+  if (queryStrOptions.preseededCode) {    
     pyInputSetValue(queryStrOptions.preseededCode);
   }
   // ugh tricky -- always start in edit mode by default, and then
@@ -282,7 +295,7 @@ function parseQueryString() {
 function getQueryStringOptions() {
   return {preseededCode: $.bbq.getState('code'),
           preseededCurInstr: Number($.bbq.getState('curInstr')),
-          appMode: $.bbq.getState('mode'),
+          appMode: $.bbq.getState('mode')
           };
 }
 
@@ -333,6 +346,7 @@ function updateAppDisplay(newAppMode) {
     $.bbq.pushState({ mode: 'display' }, 2 /* completely override other hash strings to keep URL clean */);
   }
   else {
+alert(appMode);
     assert(false);
   }
 }
@@ -346,6 +360,21 @@ function selectedCheckerOnChange() {
 
 
 }
+
+function linkGen(){
+  var checker_value = $("#type_system").val();
+  var typeURL = encodeURI(checker_value);
+  typeURL = "?type=" + typeURL;
+
+  var input = pyInputGetValue(); 
+  var inputURL = encodeURI(input);
+  inputURL = "&input=" + inputURL;
+
+  var curUrl = window.location.protocol + "//" + window.location.host + "/user";
+  document.getElementById("link").value = (curUrl + typeURL + inputURL);
+}
+
+
 /*====general functions====*/
 // run at the END so that everything else can be initialized first
 function genericOptFrontendReady() {

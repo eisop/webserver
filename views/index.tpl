@@ -131,6 +131,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p>
   </div>
 
+  <div class="linkGen">
+    <button type="button" onclick="linkGen()"> Generate link </button>
+    <input id = "link"> <p > </p>
+  <div>
+
   <div id="frontendInfoOutput"></div>
 
   <div id="reportPane" style="display: none;">
