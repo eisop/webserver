@@ -285,7 +285,7 @@ var appMode = 'edit'; // 'edit' or 'display'. also support
 // sets globals such as rawInputLst, code input box, and toggle options
 function parseQueryString() {
   var queryStrOptions = getQueryStringOptions();
-  if (queryStrOptions.preseededCode) {    
+  if (queryStrOptions.preseededCode) {
     pyInputSetValue(queryStrOptions.preseededCode);
   }
   // ugh tricky -- always start in edit mode by default, and then
