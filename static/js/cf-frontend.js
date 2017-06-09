@@ -451,9 +451,16 @@ function setErrorTable(error_report) {
     var error = error_report[errorIndex];
     //add error to the last pos of err table
     var row = error_table.insertRow(-1);
+
+    //Replace "\n" by html <br/> tag.
+    excetion_msg = error.exception_msg.replace(/\n/g,"<br/>&nbsp");
+    //Replace "<?" by "< ?" to avoid browser process it as html comment.
+    //Solve issue: https://github.com/eisop/webserver/issues/27
+    excetion_msg = excetion_msg.replace(/<\?/g, "< ?");
+
     row.innerHTML = '<td>'+count+'</td>'+
         '<td>'+error.type+'</td>'+
-        '<td>'+error.exception_msg.replace(/\n/g,"<br/>&nbsp")+'</td>'+
+        '<td>'+excetion_msg+'</td>'+
         '<td>'+error.line+'</td>'+
         '<td>'+error.offset+'</td>';
     row.setAttribute("onmouseover",
