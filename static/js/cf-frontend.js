@@ -452,15 +452,14 @@ function setErrorTable(error_report) {
     //add error to the last pos of err table
     var row = error_table.insertRow(-1);
 
+    //escape html special characters in the exception message.   
+    exception_msg = htmlspecialchars(error.exception_msg);
     //Replace "\n" by html <br/> tag.
-    excetion_msg = error.exception_msg.replace(/\n/g,"<br/>&nbsp");
-    //Replace "<?" by "< ?" to avoid browser process it as html comment.
-    //Solve issue: https://github.com/eisop/webserver/issues/27
-    excetion_msg = excetion_msg.replace(/<\?/g, "< ?");
+    exception_msg = exception_msg.replace(/\n/g,"<br/>&nbsp");
 
     row.innerHTML = '<td>'+count+'</td>'+
         '<td>'+error.type+'</td>'+
-        '<td>'+excetion_msg+'</td>'+
+        '<td>'+exception_msg+'</td>'+
         '<td>'+error.line+'</td>'+
         '<td>'+error.offset+'</td>';
     row.setAttribute("onmouseover",
