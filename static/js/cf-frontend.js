@@ -268,8 +268,8 @@ var appMode = 'edit'; // 'edit' or 'display'. also support
 function parseQueryString() {
   var queryStrOptions = getQueryStringOptions();
   //parse url & set corresponding values
-  if (queryStrOptions.preseededCode) {
-    pyInputSetValue(queryStrOptions.preseededCode);
+  if (queryStrOptions.precededCode) {
+    pyInputSetValue(queryStrOptions.precededCode);
   }
   if(queryStrOptions.type){
     $("#type_system").val(queryStrOptions.type);
@@ -279,17 +279,17 @@ function parseQueryString() {
   appMode = 'edit';
   if ((queryStrOptions.appMode == 'display' ||
        queryStrOptions.appMode == 'visualize' /* 'visualize' is deprecated */) &&
-      queryStrOptions.preseededCode /* jump to display only with pre-seeded code */) {
-    executeCode(queryStrOptions.preseededCurInstr); // will switch to 'display' mode
+      queryStrOptions.precededCode /* jump to display only with pre-seeded code */) {
+    executeCode(queryStrOptions.precededCodeCurInstr); // will switch to 'display' mode
   }
   $.bbq.removeState(); // clean up the URL no matter what
 }
 
 // parsing the URL query string hash
 function getQueryStringOptions() {
-  return {preseededCode: $.bbq.getState('code'),
-	        type: $.bbq.getState('type'),
-          preseededCurInstr: Number($.bbq.getState('curInstr')),
+  return {precededCode: $.bbq.getState('code'),
+          type: $.bbq.getState('type'),
+          precededCodeCurInstr: Number($.bbq.getState('curInstr')),
           appMode: $.bbq.getState('mode')
           };
 }
@@ -376,6 +376,9 @@ function genericOptFrontendReady() {
   // be friendly to the browser's forward and back buttons
   // thanks to http://benalman.com/projects/jquery-bbq-plugin/
   $(window).bind("hashchange", function(e) {
+    //preceeded code or type exists, initalize the page accordingly
+    //initialization done in parseQueryString
+    //initialized while parsing the url
     if ($.bbq.getState('code') || $.bbq.getState('type')) {
       parseQueryString();
     }
