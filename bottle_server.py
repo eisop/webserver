@@ -59,10 +59,6 @@ def route_static(filepath=None):
         return template('index', root=appPath, get_url=app.get_url)
     return static_file(filepath, root=join(appPath, 'static'))
 
-@route('/user', name='user')
-def route_user():
-  return template('index', root=appPath, get_url=app.get_url)
-
 @get('/exec', name='exec')
 def get_exec():
   java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8'),

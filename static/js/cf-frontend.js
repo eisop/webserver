@@ -62,19 +62,6 @@ function init_java_backend_url() {
 }
 
 
-/*====obtain url query====*/
-var urlQuery = new Map();
-parseUrlQuery(urlQuery);
-//store all key-value pair of url query in urlQuery
-function parseUrlQuery(urlQuery){
-  if(location.search != ""){
-    var urlParams = location.search.slice(1,).split("&");
-    for(var i = 0; i < urlParams.length; i++){
-      urlQuery.set(decodeURI(urlParams[i].split("=")[0]),decodeURI(urlParams[i].split("=")[1]));
-    }
-  }
-}
-
 
 /*====ace editor related===*/
 var pyInputAceEditor; // Ace editor object that contains the input code
@@ -123,12 +110,8 @@ function initAceEditor() {
   // https://github.com/ajaxorg/ace/wiki/Syntax-validation
   s.setOption("useWorker", false);
 
-  //initial blank input field with template
-  //type default nullness, might be changed if query present
 
   var TEMPLATE_CHECKER = 'nullness';
-  if(urlQuery.get("type") != undefined) TEMPLATE_CHECKER = urlQuery.get("type");
-
   var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
     class YourClassNameHere {\n\
       void foo(Object nn, @Nullable Object nbl) {\n\
@@ -136,7 +119,6 @@ function initAceEditor() {
 	nbl.toString(); // Error\n\
      }\n\
   }';
-  if(urlQuery.get("input") != undefined) JAVA_BLANK_TEMPLATE = urlQuery.get("input");  
 
   if ($.trim(pyInputGetValue()) === '') {
       $("#type_system").val(TEMPLATE_CHECKER);
@@ -285,8 +267,12 @@ var appMode = 'edit'; // 'edit' or 'display'. also support
 // sets globals such as rawInputLst, code input box, and toggle options
 function parseQueryString() {
   var queryStrOptions = getQueryStringOptions();
+  //parse url & set corresponding values
   if (queryStrOptions.preseededCode) {
     pyInputSetValue(queryStrOptions.preseededCode);
+  }
+  if(queryStrOptions.type){
+    $("#type_system").val(queryStrOptions.type);
   }
   // ugh tricky -- always start in edit mode by default, and then
   // switch to display mode only after the code successfully executes
@@ -302,6 +288,7 @@ function parseQueryString() {
 // parsing the URL query string hash
 function getQueryStringOptions() {
   return {preseededCode: $.bbq.getState('code'),
+	        type: $.bbq.getState('type'),
           preseededCurInstr: Number($.bbq.getState('curInstr')),
           appMode: $.bbq.getState('mode')
           };
@@ -354,7 +341,7 @@ function updateAppDisplay(newAppMode) {
     $.bbq.pushState({ mode: 'display' }, 2 /* completely override other hash strings to keep URL clean */);
   }
   else {
-alert(appMode);
+    alert(appMode);
     assert(false);
   }
 }
@@ -372,13 +359,13 @@ function selectedCheckerOnChange() {
 function linkGen(){
   var checker_value = $("#type_system").val();
   var typeURL = encodeURI(checker_value);
-  typeURL = "?type=" + typeURL;
+  typeURL = "#type=" + typeURL;
 
   var input = pyInputGetValue(); 
   var inputURL = encodeURI(input);
-  inputURL = "&input=" + inputURL;
+  inputURL = "&code=" + inputURL;
 
-  var curUrl = window.location.protocol + "//" + window.location.host + "/user";
+  var curUrl = window.location.host + '/';
   document.getElementById("link").value = (curUrl + typeURL + inputURL);
 }
 
@@ -389,9 +376,7 @@ function genericOptFrontendReady() {
   // be friendly to the browser's forward and back buttons
   // thanks to http://benalman.com/projects/jquery-bbq-plugin/
   $(window).bind("hashchange", function(e) {
-    // if you've got some preseeded code, then parse the entire query
-    // string from scratch just like a page reload
-    if ($.bbq.getState('code')) {
+    if ($.bbq.getState('code') || $.bbq.getState('type')) {
       parseQueryString();
     }
     // otherwise just do an incremental update
@@ -401,7 +386,6 @@ function genericOptFrontendReady() {
       updateAppDisplay(newMode);
     }
   });
-
   initAceEditor();
 
   parseQueryString();
