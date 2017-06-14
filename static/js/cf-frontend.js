@@ -62,7 +62,6 @@ function init_java_backend_url() {
 }
 
 
-
 /*====ace editor related===*/
 var pyInputAceEditor; // Ace editor object that contains the input code
 
@@ -111,7 +110,6 @@ function initAceEditor() {
   s.setOption("useWorker", false);
 
 
-  var TEMPLATE_CHECKER = 'nullness';
   var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
     class YourClassNameHere {\n\
       void foo(Object nn, @Nullable Object nbl) {\n\
@@ -119,11 +117,10 @@ function initAceEditor() {
 	nbl.toString(); // Error\n\
      }\n\
   }';
+  if($.trim(pyInputGetValue()) === ''){
+    pyInputSetValue(JAVA_BLANK_TEMPLATE);
+  }
 
-  if ($.trim(pyInputGetValue()) === '') {
-      $("#type_system").val(TEMPLATE_CHECKER);
-      pyInputSetValue(JAVA_BLANK_TEMPLATE);
-    }
   pyInputAceEditor.focus();
 }
 
@@ -271,8 +268,9 @@ function parseQueryString() {
   if (queryStrOptions.precededCode) {
     pyInputSetValue(queryStrOptions.precededCode);
   }
-  if(queryStrOptions.type){
-    $("#type_system").val(queryStrOptions.type);
+  //typeSystem starts as nullness, might be changed based on url parsing result
+  if(queryStrOptions.typeSystem){
+    $("#type_system").val(queryStrOptions.typeSystem);
   }
   // ugh tricky -- always start in edit mode by default, and then
   // switch to display mode only after the code successfully executes
@@ -288,7 +286,7 @@ function parseQueryString() {
 // parsing the URL query string hash
 function getQueryStringOptions() {
   return {precededCode: $.bbq.getState('code'),
-          type: $.bbq.getState('type'),
+          typeSystem: $.bbq.getState('typeSystem'),
           precededCodeCurInstr: Number($.bbq.getState('curInstr')),
           appMode: $.bbq.getState('mode')
           };
@@ -341,7 +339,6 @@ function updateAppDisplay(newAppMode) {
     $.bbq.pushState({ mode: 'display' }, 2 /* completely override other hash strings to keep URL clean */);
   }
   else {
-    alert(appMode);
     assert(false);
   }
 }
@@ -358,15 +355,15 @@ function selectedCheckerOnChange() {
 
 function linkGen(){
   var checker_value = $("#type_system").val();
-  var typeURL = encodeURI(checker_value);
-  typeURL = "#type=" + typeURL;
+  var typeSystemURL = encodeURI(checker_value);
+  typeSystemURL = "#typeSystem=" + typeSystemURL;
 
   var input = pyInputGetValue(); 
   var inputURL = encodeURI(input);
   inputURL = "&code=" + inputURL;
 
   var curUrl = window.location.host + '/';
-  document.getElementById("link").value = (curUrl + typeURL + inputURL);
+  document.getElementById("link").value = (curUrl + typeSystemURL + inputURL);
 }
 
 
@@ -376,10 +373,12 @@ function genericOptFrontendReady() {
   // be friendly to the browser's forward and back buttons
   // thanks to http://benalman.com/projects/jquery-bbq-plugin/
   $(window).bind("hashchange", function(e) {
-    //preceeded code or type exists, initalize the page accordingly
-    //initialization done in parseQueryString
-    //initialized while parsing the url
-    if ($.bbq.getState('code') || $.bbq.getState('type')) {
+    
+    //parse url hash parameters and set corresponding values if 'code' or 'typeSystem' are encoded
+    //linkGen feature generates url containing both code & typeSystem
+    //use OR condition for future extension 
+    //allowing url with only code or typeSystem encoding be parsed here
+    if ($.bbq.getState('code') || $.bbq.getState('typeSystem')) {
       parseQueryString();
     }
     // otherwise just do an incremental update
@@ -389,6 +388,7 @@ function genericOptFrontendReady() {
       updateAppDisplay(newMode);
     }
   });
+
   initAceEditor();
 
   parseQueryString();
