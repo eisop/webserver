@@ -61,14 +61,12 @@ function init_java_backend_url() {
   }*/
 }
 
-
 /*====ace editor related===*/
 var pyInputAceEditor; // Ace editor object that contains the input code
 
 // silent flag for distinguish user editing and program setValue to ace text area
 // tricky, but this way is suggested by ace: https://github.com/ajaxorg/ace/issues/503
 ace_setValue_silent = false; 
-
 
 function initAceEditor() {
   pyInputAceEditor = ace.edit('codeInputPane');
@@ -109,7 +107,6 @@ function initAceEditor() {
   // https://github.com/ajaxorg/ace/wiki/Syntax-validation
   s.setOption("useWorker", false);
 
-
   var JAVA_BLANK_TEMPLATE = 'import org.checkerframework.checker.nullness.qual.Nullable;\n\
     class YourClassNameHere {\n\
       void foo(Object nn, @Nullable Object nbl) {\n\
@@ -140,7 +137,6 @@ function pyInputSetValue(dat) {
   clearFrontendInfo();
   // also scroll to top to make the UI more usable on smaller monitors
   $(document).scrollTop(0);
-
 }
 
 function pyInputGetScrollTop() {
