@@ -349,6 +349,8 @@ function selectedCheckerOnChange() {
 
 }
 
+//generate a permenate link with user input code and selected type system encoded
+//eg. hostName/#typeSystem=nullness&code=whatTheUserInputIsInTheEditor
 function codePermenateLinkGeneration(){
   var checker_value = $("#type_system").val();
   var typeSystemURL = encodeURI(checker_value);
