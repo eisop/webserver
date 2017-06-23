@@ -349,7 +349,7 @@ function selectedCheckerOnChange() {
 
 }
 
-function linkGen(){
+function codePermenateLinkGeneration(){
   var checker_value = $("#type_system").val();
   var typeSystemURL = encodeURI(checker_value);
   typeSystemURL = "#typeSystem=" + typeSystemURL;
@@ -359,7 +359,7 @@ function linkGen(){
   inputURL = "&code=" + inputURL;
 
   var curUrl = window.location.host + '/';
-  document.getElementById("link").value = (curUrl + typeSystemURL + inputURL);
+  document.getElementById("codePermenateLink").value = (curUrl + typeSystemURL + inputURL);
 }
 
 

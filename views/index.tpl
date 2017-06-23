@@ -131,9 +131,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p>
   </div>
 
-  <div class="linkGen">
-    <button type="button" onclick="linkGen()"> Generate link </button>
-    <input id = "link"> <p > </p>
+  <div>
+    <button type="button" onclick="codePermenateLinkGeneration()"> Generate link </button>
+    <input id = "codePermenateLink"> <p > </p>
   <div>
 
   <div id="frontendInfoOutput"></div>
