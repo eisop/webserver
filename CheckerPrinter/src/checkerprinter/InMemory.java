@@ -34,7 +34,7 @@ public class InMemory {
 
     String mainClass;
     String exceptionMsg;
-    List<String> checkerOptionsList;
+    ArrayList<String> checkerOptionsList; //need a mutable list and add more flags if cfg enabled
     Printer checkerPrinter;
 
     static final Map<String, String> checkerMap;
@@ -92,11 +92,35 @@ public class InMemory {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
-        this.checkerOptionsList = Arrays.asList( "-Xbootclasspath/p:" +
-                this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
-                "-processor",
-                checker);
+        this.checkerOptionsList = new ArrayList<String>();
+
+        this.checkerOptionsList.add("-Xbootclasspath/p:" + this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar");
+        this.checkerOptionsList.add("-processor");
+        this.checkerOptionsList.add(checker);
+
         if (optionsObject.getBoolean("has_cfg")) {
+
+            //ugly, how can this be improved?
+            if(! setupDir(new File("../CFG"))){              
+              this.exceptionMsg = "Error: Cannot setup directory CFG";
+              return false;  
+            } 
+            if(! setupDir(new File("..//CFG//bin"))){              
+              this.exceptionMsg = "Error: Cannot setup directory CFG/bin";
+              return false;  
+            } 
+            if(! setupDir(new File("..//CFG//dotfiles_default"))){              
+              this.exceptionMsg = "Error: Cannot setup directory CFG/dotfiles_default";
+              return false;  
+            } 
+
+            this.checkerOptionsList.add("-d");
+            this.checkerOptionsList.add("../CFG/bin");
+            this.checkerOptionsList.add("-classpath");
+            this.checkerOptionsList.add(this.CHECKER_FRAMEWORK + "/checker/dist/checker.jar");
+            this.checkerOptionsList.add("-Acfgviz=org.checkerframework.dataflow.cfg.DOTCFGVisualizer,verbose,outdir=../CFG/dotfiles_default");
+
+            //no need to set .src/*.java? use the json?
             // String cfgLevel = optionsObject.getString("cfg_level");
             // TODO: add CFG Visualization
         }
@@ -105,6 +129,7 @@ public class InMemory {
 
     // figure out the class name, then compile and run main([])
     InMemory(JsonObject frontend_data, String enabled_cf, Printer checkerPrinter) {
+      // System.out.println("\ntry calling inMemory\n");
         String usercode = frontend_data.getJsonString("usercode").getString();
         this.CHECKER_FRAMEWORK = enabled_cf;
         this.checkerPrinter = checkerPrinter;
@@ -113,6 +138,7 @@ public class InMemory {
             this.checkerPrinter.printException(this.exceptionMsg);
             return;
         }
+
         // not 100% accurate, if people have multiple top-level classes + public inner classes
         // first search public class, to avoid wrong catching a classname from  comments in usercode
         // as the public class name (if the comment before the public class declaration contains a "class" word)
@@ -153,4 +179,20 @@ public class InMemory {
             this.checkerPrinter.printDiagnosticReport(diagnosticList);
         }
     } 
+
+    //create a directory, if exists already, delete and recreate a directory
+    protected static boolean setupDir(File dir) {
+      if (dir.isDirectory()) {
+        String[] children = dir.list();
+        for (int i=0; i<children.length; i++) {
+            boolean success = setupDir(new File(dir, children[i]));
+            if (!success) {                
+              return false;
+            }
+        }
+      }
+    boolean success = dir.mkdir();
+    return success;
+  }
+
 }
