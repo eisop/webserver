@@ -34,7 +34,7 @@ public class InMemory {
 
     String mainClass;
     String exceptionMsg;
-    List<String> checkerOptionsList;
+    List<String> checkerOptionsList; 
     Printer checkerPrinter;
 
     static final Map<String, String> checkerMap;
@@ -92,13 +92,19 @@ public class InMemory {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
-        this.checkerOptionsList = Arrays.asList( "-Xbootclasspath/p:" +
-                this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
-                "-processor",
-                checker);
+        this.checkerOptionsList = new ArrayList<String>();
+
+        this.checkerOptionsList.add("-Xbootclasspath/p:" + this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar");
+        this.checkerOptionsList.add("-processor");
+        this.checkerOptionsList.add(checker);
+
         if (optionsObject.getBoolean("has_cfg")) {
-            // String cfgLevel = optionsObject.getString("cfg_level");
-            // TODO: add CFG Visualization
+
+            //assume exists CFG directory
+            this.checkerOptionsList.add("-classpath");
+            this.checkerOptionsList.add(this.CHECKER_FRAMEWORK + "/checker/dist/checker.jar");
+            this.checkerOptionsList.add("-Acfgviz=org.checkerframework.dataflow.cfg.DOTCFGVisualizer,verbose,outdir=../CFG");
+
         }
         return true;
     }
@@ -113,6 +119,7 @@ public class InMemory {
             this.checkerPrinter.printException(this.exceptionMsg);
             return;
         }
+
         // not 100% accurate, if people have multiple top-level classes + public inner classes
         // first search public class, to avoid wrong catching a classname from  comments in usercode
         // as the public class name (if the comment before the public class declaration contains a "class" word)
