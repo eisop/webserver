@@ -34,7 +34,7 @@ public class InMemory {
 
     String mainClass;
     String exceptionMsg;
-    ArrayList<String> checkerOptionsList; //need a mutable list and add more flags if cfg enabled
+    List<String> checkerOptionsList; 
     Printer checkerPrinter;
 
     static final Map<String, String> checkerMap;
@@ -100,36 +100,17 @@ public class InMemory {
 
         if (optionsObject.getBoolean("has_cfg")) {
 
-            //ugly, how can this be improved?
-            if(! setupDir(new File("../CFG"))){              
-              this.exceptionMsg = "Error: Cannot setup directory CFG";
-              return false;  
-            } 
-            if(! setupDir(new File("..//CFG//bin"))){              
-              this.exceptionMsg = "Error: Cannot setup directory CFG/bin";
-              return false;  
-            } 
-            if(! setupDir(new File("..//CFG//dotfiles_default"))){              
-              this.exceptionMsg = "Error: Cannot setup directory CFG/dotfiles_default";
-              return false;  
-            } 
-
-            this.checkerOptionsList.add("-d");
-            this.checkerOptionsList.add("../CFG/bin");
+            //assume exists CFG directory
             this.checkerOptionsList.add("-classpath");
             this.checkerOptionsList.add(this.CHECKER_FRAMEWORK + "/checker/dist/checker.jar");
-            this.checkerOptionsList.add("-Acfgviz=org.checkerframework.dataflow.cfg.DOTCFGVisualizer,verbose,outdir=../CFG/dotfiles_default");
+            this.checkerOptionsList.add("-Acfgviz=org.checkerframework.dataflow.cfg.DOTCFGVisualizer,verbose,outdir=../CFG");
 
-            //no need to set .src/*.java? use the json?
-            // String cfgLevel = optionsObject.getString("cfg_level");
-            // TODO: add CFG Visualization
         }
         return true;
     }
 
     // figure out the class name, then compile and run main([])
     InMemory(JsonObject frontend_data, String enabled_cf, Printer checkerPrinter) {
-      // System.out.println("\ntry calling inMemory\n");
         String usercode = frontend_data.getJsonString("usercode").getString();
         this.CHECKER_FRAMEWORK = enabled_cf;
         this.checkerPrinter = checkerPrinter;
@@ -179,20 +160,4 @@ public class InMemory {
             this.checkerPrinter.printDiagnosticReport(diagnosticList);
         }
     } 
-
-    //create a directory, if exists already, delete and recreate a directory
-    protected static boolean setupDir(File dir) {
-      if (dir.isDirectory()) {
-        String[] children = dir.list();
-        for (int i=0; i<children.length; i++) {
-            boolean success = setupDir(new File(dir, children[i]));
-            if (!success) {                
-              return false;
-            }
-        }
-      }
-    boolean success = dir.mkdir();
-    return success;
-  }
-
 }
