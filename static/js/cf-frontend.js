@@ -451,9 +451,15 @@ function setErrorTable(error_report) {
     var error = error_report[errorIndex];
     //add error to the last pos of err table
     var row = error_table.insertRow(-1);
+
+    //escape html special characters in the exception message.   
+    exception_msg = htmlspecialchars(error.exception_msg);
+    //Replace "\n" by html <br/> tag.
+    exception_msg = exception_msg.replace(/\n/g,"<br/>&nbsp");
+
     row.innerHTML = '<td>'+count+'</td>'+
         '<td>'+error.type+'</td>'+
-        '<td>'+error.exception_msg.replace(/\n/g,"<br/>&nbsp")+'</td>'+
+        '<td>'+exception_msg+'</td>'+
         '<td>'+error.line+'</td>'+
         '<td>'+error.offset+'</td>';
     row.setAttribute("onmouseover",
