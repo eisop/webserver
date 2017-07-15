@@ -22,6 +22,7 @@ package checkerprinter;
 
 import java.util.regex.*;
 import java.util.*;
+import java.util.Map.Entry;
 import java.io.*;
 
 import javax.tools.*;
@@ -29,6 +30,8 @@ import javax.tools.*;
 import traceprinter.ramtools.*;
 
 import javax.json.*;
+
+import org.yaml.snakeyaml.Yaml;
 
 public class InMemory {
 
@@ -103,14 +106,13 @@ public class InMemory {
             //assume exists CFG directory
             this.checkerOptionsList.add("-classpath");
             this.checkerOptionsList.add(this.CHECKER_FRAMEWORK + "/checker/dist/checker.jar");
-            this.checkerOptionsList.add("-Acfgviz=org.checkerframework.dataflow.cfg.DOTCFGVisualizer,verbose,outdir=../CFG");
-
+            this.checkerOptionsList.add("-Acfgviz=org.checkerframework.dataflow.cfg.DOTstringCFGVisualizer,verbose,outdir=../CFG");
         }
         return true;
     }
 
     // figure out the class name, then compile and run main([])
-    InMemory(JsonObject frontend_data, String enabled_cf, Printer checkerPrinter) {
+    InMemory(JsonObject frontend_data, String enabled_cf, Printer checkerPrinter){
         String usercode = frontend_data.getJsonString("usercode").getString();
         this.CHECKER_FRAMEWORK = enabled_cf;
         this.checkerPrinter = checkerPrinter;
@@ -135,6 +137,18 @@ public class InMemory {
                 return;
             }
         }
+
+
+
+        System.out.println("********************");
+        String la = "abcsadfklj\"sdakfjl";
+        System.out.println(la);
+        String laa = la.replaceAll("\"","\\\\\"");
+        System.out.println("&"+laa); 
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream old = System.out;
+        System.setOut(new PrintStream(baos));
+
         mainClass = m.group(1);
         System.err.println(mainClass);
         CompileToBytes c2b = new CompileToBytes();
@@ -145,6 +159,7 @@ public class InMemory {
         DiagnosticCollector<JavaFileObject> errorCollector = new DiagnosticCollector<>();
         c2b.diagnosticListener = errorCollector;
 
+
         bytecode = c2b.compileFile(mainClass, usercode);
 
         List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
@@ -154,10 +169,57 @@ public class InMemory {
         this.checkerPrinter.setExecCmd(this.checkerOptionsList
                 .subList(1, this.checkerOptionsList.size()));
 
+
+        System.out.flush();
+        String yamlCFGstr = baos.toString();  
+        System.setOut(old);
+//         String jsonCFGstr = "[ \n" + rawCFGstr.substring(0,rawCFGstr.length()-2) + "]";
+// System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
+//         System.out.println(jsonCFGstr);
+   //     System.out.println("#####################");
+
+      //  System.out.println(yamlCFGstr);  
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
+        Yaml yamlCfg = new Yaml();   
+        StringBuilder jsonCFGstr = new StringBuilder();
+
+    for (Object data : yamlCfg.loadAll(yamlCFGstr)) {
+        jsonCFGstr.append(data);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+    }
+    System.out.println(jsonCFGstr.toString());
+         //cfg " are escapsed!!!!!, \l also escaped
+
+        //if(cfgMap == null) System.out.println("is null");
+        //  JsonObjectBuilder builder = Json.createObjectBuilder();
+        //  for (Map.Entry<String, Object> entry : cfgMap.entrySet()) {
+       //     System.out.println(entry.getKey());
+           // builder.add(entry.getKey(), (JsonValue) entry.getValue());
+       //   }
+       //// JsonObject jsonCfg = builder.build();
+        //String jsonCFGstr = jsonCfg.toString();
+        //System.out.println(jsonCFGstr);
+        System.out.println("#####################");
+
+
+        // try {
+        //     FileWriter fstream = new FileWriter("../test/cfgout.txt");
+        //     BufferedWriter out = new BufferedWriter(fstream);
+        //    // out.write(jsonCFGstr);
+        //     out.close();
+        //     } catch (IOException e) {
+        //          System.out.println("something is wrong");
+        // }
+
+
         if(bytecode != null && diagnosticList.size() == 0){
             this.checkerPrinter.printSuccess();
         } else {
             this.checkerPrinter.printDiagnosticReport(diagnosticList);
         }
+
     } 
 }
