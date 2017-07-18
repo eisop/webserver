@@ -96,7 +96,7 @@ function initAceEditor() {
       delay: 100
     });
 
-  //session settings
+  // session settings
   var s = pyInputAceEditor.getSession();
   s.setFoldStyle('manual'); // no code folding indicators
   s.setMode("ace/mode/java");
@@ -114,7 +114,7 @@ function initAceEditor() {
 	nbl.toString(); // Error\n\
      }\n\
   }';
-  if($.trim(pyInputGetValue()) === ''){
+  if($.trim(pyInputGetValue()) === '') {
     pyInputSetValue(JAVA_BLANK_TEMPLATE);
   }
 
@@ -213,7 +213,7 @@ function executeCode() {
         setExecCmd(dataFromBackend.exec_cmd);
         enterDisplayMode();
       }
-      else if (backend_status == 'diagnostic'){
+      else if (backend_status == 'diagnostic') {
         $("#codeInputWarnings").text(REMINDE_STRING.FIX_BUG);
         setExecCmd(dataFromBackend.exec_cmd);
         pyInputSetValue(user_code);
@@ -260,12 +260,12 @@ var appMode = 'edit'; // 'edit' or 'display'. also support
 // sets globals such as rawInputLst, code input box, and toggle options
 function parseQueryString() {
   var queryStrOptions = getQueryStringOptions();
-  //parse url & set corresponding values
+  // parse url & set corresponding values
   if (queryStrOptions.precededCode) {
     pyInputSetValue(queryStrOptions.precededCode);
   }
-  //typeSystem starts as nullness, might be changed based on url parsing result
-  if(queryStrOptions.typeSystem){
+  // typeSystem starts as nullness, might be changed based on url parsing result
+  if(queryStrOptions.typeSystem) {
     $("#type_system").val(queryStrOptions.typeSystem);
   }
   // ugh tricky -- always start in edit mode by default, and then
@@ -290,9 +290,9 @@ function getQueryStringOptions() {
 
 /*====general frontend display functions====*/
 function setFronendInfo(lines, type) {
-  if(type == "error"){
+  if(type == "error") {
     $("#frontendInfoOutput").css('color', '#e93f34');
-  } else if (type == "success"){
+  } else if (type == "success") {
     $("#frontendInfoOutput").css('color', '#009900');
   }
   $("#frontendInfoOutput").html(lines.map(htmlspecialchars).join('<br/>'));
@@ -349,9 +349,9 @@ function selectedCheckerOnChange() {
 
 }
 
-//generate a permenate link with user input code and selected type system encoded
-//eg. hostName/#typeSystem=nullness&code=whatTheUserInputIsInTheEditor
-function codePermenateLinkGeneration(){
+// generate a permanent link with user input code and selected type system encoded
+// eg. hostName/#typeSystem=nullness&code=whatTheUserInputIsInTheEditor
+function codePermanentLinkGeneration() {
   var checker_value = $("#type_system").val();
   var typeSystemURL = encodeURI(checker_value);
   typeSystemURL = "#typeSystem=" + typeSystemURL;
@@ -372,17 +372,17 @@ function genericOptFrontendReady() {
   // thanks to http://benalman.com/projects/jquery-bbq-plugin/
   $(window).bind("hashchange", function(e) {
     
-    //parse url hash parameters and set corresponding values if 'code' or 'typeSystem' are encoded
-    //linkGen feature generates url containing both code & typeSystem
-    //use OR condition for future extension 
-    //allowing url with only code or typeSystem encoding be parsed here
+    // parse url hash parameters and set corresponding values if 'code' or 'typeSystem' are encoded
+    // linkGen feature generates url containing both code & typeSystem
+    // use OR condition for future extension
+    // allowing url with only code or typeSystem encoding be parsed here
     if ($.bbq.getState('code') || $.bbq.getState('typeSystem')) {
       parseQueryString();
     }
     // otherwise just do an incremental update
     else {
       var newMode = $.bbq.getState('mode');
-      //console.log('hashchange:', newMode, window.location.hash);
+      // console.log('hashchange:', newMode, window.location.hash);
       updateAppDisplay(newMode);
     }
   });
@@ -444,7 +444,7 @@ function enterEditMode() {
 
 function optFinishSuccessfulExecution() {
   enterDisplayMode(); // do this first!
-  pyInputAceEditor.getSession().on('change', function(){
+  pyInputAceEditor.getSession().on('change', function() {
       var cursorPos = pyInputAceEditor.getCursorPosition();
   });
 }
@@ -471,7 +471,7 @@ function setErrorTable(error_report) {
   for (var errorIndex in error_report) {
     count++;
     var error = error_report[errorIndex];
-    //add error to the last pos of err table
+    // add error to the last pos of err table
     var row = error_table.insertRow(-1);
     row.innerHTML = '<td>'+count+'</td>'+
         '<td>'+error.type+'</td>'+
@@ -530,7 +530,7 @@ function unbindChangeErrorStateListener() {
 }
 
 /*CheckerFramework: bind listener with exec_function to ace editor*/
-function bindChangeErrorStateListener(exec_function){
+function bindChangeErrorStateListener(exec_function) {
   changeErrorStateListener = exec_function;
   pyInputAceEditor.getSession().on("change", changeErrorStateListener);
 }
@@ -541,24 +541,24 @@ return: debounced function handle of _changeErrorState*/
 function registerChangeErrorState(annotationsArray) {
   var s = pyInputAceEditor.getSession();
   rowAnnotationMap = {};
-  for(var i=0; i < annotationsArray.length; i++){
+  for(var i=0; i < annotationsArray.length; i++) {
     var row = annotationsArray[i].row;
-    if(!( row in rowAnnotationMap)){
+    if(!( row in rowAnnotationMap)) {
       var indexArray = [];
       rowAnnotationMap[row] = indexArray;
     }
     rowAnnotationMap[row].push(i);
   }
   lastTimeRow = -1;
-  function _changeErrorState(){
+  function _changeErrorState() {
       var pos = pyInputAceEditor.getCursorPosition();
       var curRow = pos.row;
       var index;
       if(curRow == lastTimeRow)
         return;
       var indexArray = rowAnnotationMap[curRow];
-      if( typeof indexArray != "undefined"){
-        for(i in indexArray){
+      if( typeof indexArray != "undefined") {
+        for(i in indexArray) {
           var modAnnotation = annotationsArray[indexArray[i]];
           modAnnotation.type = 'info';
           modAnnotation.text = "previous " + modAnnotation.text;
@@ -568,7 +568,7 @@ function registerChangeErrorState(annotationsArray) {
         delete rowAnnotationMap[curRow];
       }
    }
-  function _debounceFunc(){
+  function _debounceFunc() {
     $.doTimeout(20, _changeErrorState);
   }
   return _debounceFunc;
@@ -592,8 +592,8 @@ function htmlspecialchars(str) {
     str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
 
     // ignore these for now ...
-    //str = str.replace(/"/g, "&quot;");
-    //str = str.replace(/'/g, "&#039;");
+    // str = str.replace(/"/g, "&quot;");
+    // str = str.replace(/'/g, "&#039;");
 
     str = str.replace(/</g, "&lt;");
     str = str.replace(/>/g, "&gt;");
@@ -610,7 +610,7 @@ function htmlspecialchars(str) {
 $(document).ready(function() {
   init_java_backend_url();
   genericOptFrontendReady(); // initialize at the end
-  //add onchange listener to update codeInputWarnings whenever user editing the code
+  // add onchange listener to update codeInputWarnings whenever user editing the code
   pyInputAceEditor.getSession().on("change", function() {
       function _updateToWriteCode() {
         $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE)
