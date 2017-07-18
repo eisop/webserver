@@ -361,7 +361,7 @@ function codePermanentLinkGeneration() {
   inputURL = "&code=" + inputURL;
 
   var curUrl = window.location.host + '/';
-  document.getElementById("codePermenateLink").value = (curUrl + typeSystemURL + inputURL);
+  document.getElementById("codePermanentLink").value = (curUrl + typeSystemURL + inputURL);
 }
 
 
