@@ -5,9 +5,12 @@ import java.util.List;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
+import java.util.Map;
+
 public abstract class Printer {
     String execCmd;
     String usercode;
+    String cfg; // key: className::methodName; field dotString
 
     public abstract void printException(String msg);
     public abstract void printSuccess();
@@ -27,6 +30,10 @@ public abstract class Printer {
            cmdSb.append(" "+option);
        }
        this.execCmd = cmdSb.toString();
+    }
+
+    public void setCfg(String cfg) {
+        this.cfg = cfg;
     }
 
     String fakify(String realcode) {

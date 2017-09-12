@@ -111,6 +111,38 @@ public class InMemory {
         return true;
     }
 
+    protected String parsecfg(String c2bStr, String checkerName) {
+      Yaml yamlCfg = new Yaml();
+      JsonObjectBuilder jsonCfg = Json.createObjectBuilder();
+
+      //each map: {className:, checker:, methodName:, dotString: "preprossed dot format"}
+      for(Object yamlList : yamlCfg.loadAll(c2bStr)) {
+        List<Object> cfgList = (List<Object>) yamlList;
+        for(Object oneYaml : cfgList) {
+          Map<String,Object> oneCfg = (Map<String,Object>) oneYaml;
+          String checker = (String)oneCfg.get("checker");
+          if(checker.toLowerCase().equals(checkerName)) {
+            //frontend checker name & cf checker name different in capitalization,
+            //convert to lowercase for all
+            jsonCfg.add(oneCfg.get("className")+"::"+oneCfg.get("methodName"),
+            (String)oneCfg.get("dotString"));
+          }
+        }
+      }
+      //{"class::methodName" : "dot", ...} format
+      return jsonCfg.build().toString();
+    }
+
+    void printOutput(JsonObject output) {
+        try {
+            PrintStream out = new PrintStream(System.out, true, "UTF-8");
+            out.print(output);
+        }
+        catch (UnsupportedEncodingException e) { //fallback
+            System.out.print(output);
+        }
+    }
+
     // figure out the class name, then compile and run main([])
     InMemory(JsonObject frontend_data, String enabled_cf, Printer checkerPrinter){
         String usercode = frontend_data.getJsonString("usercode").getString();
@@ -138,13 +170,6 @@ public class InMemory {
             }
         }
 
-
-
-        System.out.println("********************");
-        String la = "abcsadfklj\"sdakfjl";
-        System.out.println(la);
-        String laa = la.replaceAll("\"","\\\\\"");
-        System.out.println("&"+laa); 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream old = System.out;
         System.setOut(new PrintStream(baos));
@@ -159,67 +184,30 @@ public class InMemory {
         DiagnosticCollector<JavaFileObject> errorCollector = new DiagnosticCollector<>();
         c2b.diagnosticListener = errorCollector;
 
-
         bytecode = c2b.compileFile(mainClass, usercode);
 
         List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
 
-        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag";
+        System.out.flush();
+        String c2bStr = baos.toString();
+        System.setOut(old);
 
+        String cfgStr = new String();
+        Boolean hascfg = frontend_data.getJsonObject("options").getBoolean("has_cfg");
+        if(hascfg){
+            String checkerName = frontend_data.getJsonObject("options").getString("checker");
+            cfgStr = parsecfg(c2bStr,checkerName.toLowerCase());
+        }
+
+        this.checkerPrinter.setCfg(cfgStr);
+        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag"; // this will throw an error if fail?
         this.checkerPrinter.setExecCmd(this.checkerOptionsList
                 .subList(1, this.checkerOptionsList.size()));
-
-
-        System.out.flush();
-        String yamlCFGstr = baos.toString();  
-        System.setOut(old);
-//         String jsonCFGstr = "[ \n" + rawCFGstr.substring(0,rawCFGstr.length()-2) + "]";
-// System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
-//         System.out.println(jsonCFGstr);
-   //     System.out.println("#####################");
-
-      //  System.out.println(yamlCFGstr);  
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
-        Yaml yamlCfg = new Yaml();   
-        StringBuilder jsonCFGstr = new StringBuilder();
-
-    for (Object data : yamlCfg.loadAll(yamlCFGstr)) {
-        jsonCFGstr.append(data);
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-    }
-    System.out.println(jsonCFGstr.toString());
-         //cfg " are escapsed!!!!!, \l also escaped
-
-        //if(cfgMap == null) System.out.println("is null");
-        //  JsonObjectBuilder builder = Json.createObjectBuilder();
-        //  for (Map.Entry<String, Object> entry : cfgMap.entrySet()) {
-       //     System.out.println(entry.getKey());
-           // builder.add(entry.getKey(), (JsonValue) entry.getValue());
-       //   }
-       //// JsonObject jsonCfg = builder.build();
-        //String jsonCFGstr = jsonCfg.toString();
-        //System.out.println(jsonCFGstr);
-        System.out.println("#####################");
-
-
-        // try {
-        //     FileWriter fstream = new FileWriter("../test/cfgout.txt");
-        //     BufferedWriter out = new BufferedWriter(fstream);
-        //    // out.write(jsonCFGstr);
-        //     out.close();
-        //     } catch (IOException e) {
-        //          System.out.println("something is wrong");
-        // }
-
 
         if(bytecode != null && diagnosticList.size() == 0){
             this.checkerPrinter.printSuccess();
         } else {
             this.checkerPrinter.printDiagnosticReport(diagnosticList);
         }
-
-    } 
+    }
 }

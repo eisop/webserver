@@ -62,7 +62,8 @@ public class JsonPrinter extends Printer {
         JsonObjectBuilder output = Json.createObjectBuilder()
                 .add("backend_status", "pass")
                 .add("code", this.usercode)
-                .add("exec_cmd", this.execCmd);
+                .add("exec_cmd", this.execCmd)
+                .add("cfg", this.cfg);
         printOutput(output.build());
     }
 
@@ -74,7 +75,8 @@ public class JsonPrinter extends Printer {
         JsonObjectBuilder output = Json.createObjectBuilder()
                 .add("backend_status", "diagnostic")
                 .add("code", this.usercode)
-                .add("exec_cmd", this.execCmd);
+                .add("exec_cmd", this.execCmd)
+                .add("cfg", this.cfg);
         JsonArrayBuilder errorReportBuilder = Json.createArrayBuilder();
 
         for (Diagnostic<? extends JavaFileObject> err : diagnosticList) {
