@@ -49,7 +49,7 @@ var JAVA_BACKEND_URL;
 function init_java_backend_url() {
   var exec_url = $("#exec_url").attr("data-exec-url");
   if( typeof exec_url == "undefined" ) {
-    exec_url = "/exec"; //fall back to hard code
+    exec_url = "/exec"; // fall back to hard code
   }
   JAVA_BACKEND_URL = exec_url;
   /*CheckerFramework: currently we only have java_backend and we don't request by using jsonp.
@@ -106,7 +106,7 @@ function initAceEditor() {
       delay: 100
     });
 
-  //session settings
+  // session settings
   var s = pyInputAceEditor.getSession();
   s.setFoldStyle('manual'); // no code folding indicators
   s.setMode("ace/mode/java");
@@ -116,7 +116,7 @@ function initAceEditor() {
   // don't do real-time syntax checks:
   // https://github.com/ajaxorg/ace/wiki/Syntax-validation
   s.setOption("useWorker", false);
-  //initial blank input field with template
+  // initial blank input field with template
   if ($.trim(pyInputGetValue()) === '') {
       $("#type_system").val(TEMPLATE_CHECKER);
       pyInputSetValue(JAVA_BLANK_TEMPLATE);
@@ -175,7 +175,7 @@ function doneExecutingCode() {
 /*CheckerFramework: Override backend Option*/
 function getBaseBackendOptionsObj() {
   var ret = {checker: $('#type_system').val(),
-             has_cfg: $('#cfg').is(':checked'),
+             has_cfg: $('#show_cfg_avail').is(':checked'),
              cfg_level: $('#cfg_level').val(),
              verbose: $('#verbose').is(':checked')};
   return ret;
@@ -184,7 +184,7 @@ function getBaseBackendOptionsObj() {
 function executeCodeFromScratch() {
   // don't execute empty string:
   if ($.trim(pyInputGetValue()) == '') {
-setFronendInfo(["Type in some code to visualize."], "error");
+    setFronendInfo(["Type in some code to visualize."], "error");
     return;
   }
   executeCode();
@@ -207,6 +207,7 @@ function executeCode() {
       var error_report = dataFromBackend.error_report;
       var annotationsArray = [];
       var backend_status = dataFromBackend.backend_status;
+      var cfgAll = dataFromBackend.cfg;
       doneExecutingCode();// rain or shine, we're done executing!
         if(backend_status == 'exception') {
           setFronendInfo([dataFromBackend.exception_msg], "error");
@@ -217,7 +218,7 @@ function executeCode() {
         setExecCmd(dataFromBackend.exec_cmd);
         enterDisplayMode();
       }
-      else if (backend_status == 'diagnostic'){
+      else if (backend_status == 'diagnostic') {
         $("#codeInputWarnings").text(REMINDE_STRING.FIX_BUG);
         setExecCmd(dataFromBackend.exec_cmd);
         pyInputSetValue(user_code);
@@ -226,7 +227,17 @@ function executeCode() {
         optFinishSuccessfulExecution();
         bindChangeErrorStateListener(registerChangeErrorState(annotationsArray));
       }
+
+      $('#cfg_availMethods').empty();
+      if($('#show_cfg_avail').is(':checked')){
+        $("#cfgPane").show();
+        setAvailCFG(cfgAll);
+      }
+      else{
+        $("#cfgPane").hide();
+      }
     }
+
 
     // if you're in display mode, kick back into edit mode before
     // executing or else the display might not refresh properly ... ugh
@@ -288,9 +299,9 @@ function getQueryStringOptions() {
 
 /*====general frontend display functions====*/
 function setFronendInfo(lines, type) {
-  if(type == "error"){
+  if(type == "error") {
     $("#frontendInfoOutput").css('color', '#e93f34');
-  } else if (type == "success"){
+  } else if (type == "success") {
     $("#frontendInfoOutput").css('color', '#009900');
   }
   $("#frontendInfoOutput").html(lines.map(htmlspecialchars).join('<br/>'));
@@ -360,7 +371,7 @@ function genericOptFrontendReady() {
     // otherwise just do an incremental update
     else {
       var newMode = $.bbq.getState('mode');
-      //console.log('hashchange:', newMode, window.location.hash);
+      // console.log('hashchange:', newMode, window.location.hash);
       updateAppDisplay(newMode);
     }
   });
@@ -397,19 +408,21 @@ function genericOptFrontendReady() {
       // code necessarily being too big, so give it a second shot with an
       // empty diffs_json. if it STILL fails, then display the error
       // message and give up.
-setFronendInfo(["Server error! Your code might be too long for this tool. Shorten your code and re-try."], "error");
+    setFronendInfo(["Server error! Your code might be too long for this tool. Shorten your code and re-try."], "error");
     } else {
-setFronendInfo(["Server error! Your code might be taking too much time to run or using too much memory.",
+    setFronendInfo(["Server error! Your code might be taking too much time to run or using too much memory.",
                        "Please report a bug to admin."], "error");
     }
 
     doneExecutingCode();
-  });
+    });
 
   clearFrontendInfo();
 
   $("#executeBtn").attr('disabled', false);
   $("#executeBtn").click(executeCodeFromScratch);
+  $("#cfgBtn").attr('disabled', false);
+  $("#cfgBtn").click(setCFG);
 }
 
 function enterDisplayMode() {
@@ -422,7 +435,7 @@ function enterEditMode() {
 
 function optFinishSuccessfulExecution() {
   enterDisplayMode(); // do this first!
-  pyInputAceEditor.getSession().on('change', function(){
+  pyInputAceEditor.getSession().on('change', function() {
       var cursorPos = pyInputAceEditor.getCursorPosition();
   });
 }
@@ -449,7 +462,7 @@ function setErrorTable(error_report) {
   for (var errorIndex in error_report) {
     count++;
     var error = error_report[errorIndex];
-    //add error to the last pos of err table
+    // add error to the last pos of err table
     var row = error_table.insertRow(-1);
     row.innerHTML = '<td>'+count+'</td>'+
         '<td>'+error.type+'</td>'+
@@ -488,6 +501,107 @@ function setErrorAnnotations(error_report) {
    return annotationsArray;
 }
 
+
+
+/*setup CFG*/
+//this dotString follows the general dot grammar
+//label is the content appearing on a node
+//however, for CF cfg, the label is too long that if displayed on a node
+//it will decrease graph visibility
+//changes to the field are made
+function drawCFG(dotString){
+  //change label field to property for content display on click
+  dotString = dotString.replace('label','property');
+
+  var container = document.getElementById('cfgGraph');
+  // convert dotstring graph to vis.js accepted data format
+  var parsedData = vis.network.convertDot(dotString);
+
+  var data = {
+    nodes: parsedData.nodes,
+    edges: parsedData.edges
+  }
+  var options = parsedData.options;
+  options = {
+    //height: '800px',
+   // width: '800px',
+    manipulation: false,
+    height: '90%',
+    layout: {
+      hierarchical: {
+        enabled: true,
+        levelSeparation: 300
+      }
+    },
+    physics: {
+      hierarchicalRepulsion: {
+        nodeDistance: 300
+      },
+      stabilization: true
+    },
+    nodes:{
+      color: 'hotpink',
+      font: {
+        multi: true
+      }
+    },
+    edges:{
+      color: 'gray',
+      physics: false
+    },
+    interaction:{
+      hover: true,
+      zoomView: true,
+      dragView: true,
+      dragNodes: true
+    },
+    layout: {
+      hierarchical:{
+        direction: "UD",
+        sortMethod: "directed"
+      }
+    },
+  };
+
+  var CFGgraph = new vis.Network(container, data, options);
+  var CFGdata = new vis.DataSet(data);
+  //on click, display content of nodes
+  CFGgraph.on("click", function (params) {
+    var select = this.getNodeAt(params.pointer.DOM);
+    var allNodes = data.nodes;
+    for(let node of allNodes){
+      if(node.id == select){
+        var nodeContent = node.property;
+        //properly format white space of node content
+        nodeContent = nodeContent.replace(/\n|\r|\r\n/g, '<br>');
+        nodeContent = nodeContent.replace(/ /g, '&nbsp');
+        $('#nodeDets').html(nodeContent);
+        break;
+      }
+    }
+    this.unselectAll();
+  });
+}
+
+//set the drop down menu with all avaiable cfg generated
+function setAvailCFG(cfgAll){
+  var counter = 0;
+  JSON.parse(cfgAll, (key, value) => {
+    if(key != ""){
+      $('#cfg_availMethods').append($('<option>', {
+        value: value,
+        text: key
+      }));
+    }
+  });
+}
+
+function setCFG(){
+  var dotString = $("#cfg_availMethods").val();
+  drawCFG(dotString);
+  $("#cfgGraph").show();
+}
+
 /*CheckerFramework: helper function of error table*/
 function changeColorOver(e, line, column) {
     e.style.backgroundColor = "#d4d4d4";
@@ -508,7 +622,7 @@ function unbindChangeErrorStateListener() {
 }
 
 /*CheckerFramework: bind listener with exec_function to ace editor*/
-function bindChangeErrorStateListener(exec_function){
+function bindChangeErrorStateListener(exec_function) {
   changeErrorStateListener = exec_function;
   pyInputAceEditor.getSession().on("change", changeErrorStateListener);
 }
@@ -519,24 +633,24 @@ return: debounced function handle of _changeErrorState*/
 function registerChangeErrorState(annotationsArray) {
   var s = pyInputAceEditor.getSession();
   rowAnnotationMap = {};
-  for(var i=0; i < annotationsArray.length; i++){
+  for(var i=0; i < annotationsArray.length; i++) {
     var row = annotationsArray[i].row;
-    if(!( row in rowAnnotationMap)){
+    if(!( row in rowAnnotationMap)) {
       var indexArray = [];
       rowAnnotationMap[row] = indexArray;
     }
     rowAnnotationMap[row].push(i);
   }
   lastTimeRow = -1;
-  function _changeErrorState(){
+  function _changeErrorState() {
       var pos = pyInputAceEditor.getCursorPosition();
       var curRow = pos.row;
       var index;
       if(curRow == lastTimeRow)
         return;
       var indexArray = rowAnnotationMap[curRow];
-      if( typeof indexArray != "undefined"){
-        for(i in indexArray){
+      if( typeof indexArray != "undefined") {
+        for(i in indexArray) {
           var modAnnotation = annotationsArray[indexArray[i]];
           modAnnotation.type = 'info';
           modAnnotation.text = "previous " + modAnnotation.text;
@@ -546,7 +660,7 @@ function registerChangeErrorState(annotationsArray) {
         delete rowAnnotationMap[curRow];
       }
    }
-  function _debounceFunc(){
+  function _debounceFunc() {
     $.doTimeout(20, _changeErrorState);
   }
   return _debounceFunc;
@@ -570,8 +684,8 @@ function htmlspecialchars(str) {
     str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
 
     // ignore these for now ...
-    //str = str.replace(/"/g, "&quot;");
-    //str = str.replace(/'/g, "&#039;");
+    // str = str.replace(/"/g, "&quot;");
+    // str = str.replace(/'/g, "&#039;");
 
     str = str.replace(/</g, "&lt;");
     str = str.replace(/>/g, "&gt;");
@@ -588,7 +702,7 @@ function htmlspecialchars(str) {
 $(document).ready(function() {
   init_java_backend_url();
   genericOptFrontendReady(); // initialize at the end
-  //add onchange listener to update codeInputWarnings whenever user editing the code
+  // add onchange listener to update codeInputWarnings whenever user editing the code
   pyInputAceEditor.getSession().on("change", function() {
       function _updateToWriteCode() {
         $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE)
