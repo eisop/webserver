@@ -131,6 +131,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p>
   </div>
 
+  <div>
+    <button type="button" onclick="codePermanentLinkGeneration()"> Generate link </button>
+    <input id="codePermanentLink"/> <p> </p>
+  <div>
+
   <div id="frontendInfoOutput"></div>
 
   <div id="reportPane" style="display: none;">
