@@ -349,19 +349,24 @@ function selectedCheckerOnChange() {
 
 }
 
+//get the entire current state of the app
+function getAppState() {
+  return {
+    mode: appMode,
+    code: pyInputGetValue(),
+    typeSystem: $("#type_system").val(),
+  }
+
+}
+
 // generate a permanent link with user input code and selected type system encoded
 // eg. hostName/#typeSystem=nullness&code=whatTheUserInputIsInTheEditor
 function codePermanentLinkGeneration() {
-  var checker_value = $("#type_system").val();
-  var typeSystemURL = encodeURI(checker_value);
-  typeSystemURL = "#typeSystem=" + typeSystemURL;
-
-  var input = pyInputGetValue(); 
-  var inputURL = encodeURI(input);
-  inputURL = "&code=" + inputURL;
-
-  var curUrl = window.location.host + '/';
-  document.getElementById("codePermanentLink").value = (curUrl + typeSystemURL + inputURL);
+  var bbqArgs = getAppState();
+  var generatedLink = $.param.fragment(window.location.href, bbqArgs, 2 /* clobber all */);
+  $("#codePermanentLink").val(generatedLink);
+  $("#codePermanentLink").prop("disabled", true);
+  $("#codePermanentLink").show();
 }
 
 

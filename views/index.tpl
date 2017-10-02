@@ -133,7 +133,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div>
     <button type="button" onclick="codePermanentLinkGeneration()"> Generate link </button>
-    <input id="codePermanentLink"/> <p> </p>
+    <input id="codePermanentLink" style="display:none;"/>
   <div>
 
   <div id="frontendInfoOutput"></div>
