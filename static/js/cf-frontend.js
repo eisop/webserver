@@ -360,9 +360,7 @@ function codePermanentLinkGeneration() {
   var inputURL = encodeURI(input);
   inputURL = "&code=" + inputURL;
 
-  // TODO: "/live" is needed for eisop. What is the proper way
-  // to look up host and directory?
-  var curUrl = window.location.host + "/live/";
+  var curUrl = window.location.host + '/';
   document.getElementById("codePermanentLink").value = (curUrl + typeSystemURL + inputURL);
 }
 
