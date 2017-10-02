@@ -253,7 +253,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div id="versionPane">
     <!-- TODO: auto-update the version information -->
-    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.1.6 (1 Dec 2016)</p>
+    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.2.1 (29 Sep 2017)</p>
   </div>
 
 </div>
@@ -273,7 +273,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </p>
   </div>
   <div class = "footer_right">
-    <img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" style=""/>
+    <a href="http://checkerframework.org/">
+      <img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" style=""/>
+    </a>
   </div>
 </div>
 
