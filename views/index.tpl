@@ -133,7 +133,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div>
     <button type="button" onclick="codePermanentLinkGeneration()"> Generate link </button>
-    <input id="codePermanentLink" style="display:none;"/>
+    <input id="codePermanentLink" style="display:none;" size="60"/>
   <div>
 
   <div id="frontendInfoOutput"></div>
@@ -253,7 +253,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div id="versionPane">
     <!-- TODO: auto-update the version information -->
-    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.2.1 (29 Sep 2017)</p>
+    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 2.5.0 (2 Apr 2018)</p>
   </div>
 
 </div>
