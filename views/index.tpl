@@ -103,7 +103,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <option value="units">Units Checker</option>
   <option value="cons_value">Constant Value Checker</option>
   <option value="aliasing">Aliasing Checker</option>
-  <option value="linear">Linear Checker</option>
   <!-- IGJ and Javari are no longer supported
   <option value="igj">IGJ Checker</option>
   <option value="javari">Javari Checker</option>
@@ -222,7 +221,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
     </p>
 
-    <!-- call for examples for Constant Value , Aliasing, and Linear Checker
+    <!-- call for examples for Constant Value, and Aliasing Checker
          current just hide them-->
     <p data-checker-type="cons_value" style="display: none;">
       Constant Value (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#constant-value-checker" target="_blank"><i>manual</i></a>):
@@ -231,11 +230,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     <p data-checker-type="aliasing" style="display: none;">
       Aliasing (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#aliasing-checker" target="_blank"><i>manual</i></a>):
-      <a class="exampleLink" id="NoExample" href="#">NoExample</a> |
-    </p>
-
-    <p data-checker-type="linear" style="display: none;">
-      Linear (<a class="manualLink" href="http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#linear-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="NoExample" href="#">NoExample</a> |
     </p>
 
