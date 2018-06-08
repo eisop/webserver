@@ -91,6 +91,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       Choose a type system:
       <select id="type_system" onchange="selectedCheckerOnChange()">
   <option value="nullness">Nullness Checker</option>
+  <option value="optional">Optional Checker</option>
   <option value="map_key">Map Key Checker</option>
   <option value="interning">Interning Checker</option>
   <option value="lock">Lock Checker</option>
@@ -102,6 +103,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <option value="gui_effect">GUI Effect Checker</option>
   <option value="units">Units Checker</option>
   <option value="cons_value">Constant Value Checker</option>
+  <option value="index">Index Checker</option>
   <option value="aliasing">Aliasing Checker</option>
   <!-- IGJ and Javari are no longer supported
   <option value="igj">IGJ Checker</option>
@@ -160,6 +162,12 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       Nullness (<a class="manualLink" href="https://checkerframework.org/manual/#nullness-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="NullnessExampleLink" href="#">NullnessExample</a> |
       <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a>
+    </p>
+
+    <p data-checker-type="Optional">
+      Optional (<a class="manualLink" href="https://checkerframework.org/manual/#optional-checker" target="_blank"><i>manual</i></a>):
+      <a class="exampleLink" id="OptionalExampleLink" href="#">OptionalExample</a> |
+      <a class="exampleLink" id="OptionalExampleWithWarningsLink" href="#">OptionalExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="map_key">
@@ -221,16 +229,17 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
     </p>
 
-    <!-- call for examples for Constant Value, and Aliasing Checker
-         current just hide them-->
-    <p data-checker-type="cons_value" style="display: none;">
-      Constant Value (<a class="manualLink" href="https://checkerframework.org/manual/#constant-value-checker" target="_blank"><i>manual</i></a>):
-      <a class="exampleLink" id="NoExample" href="#">NoExample</a> |
+    <!-- call for examples for Index, Constant Value, and Aliasing Checker. -->
+    <p data-checker-type="cons_value">
+      Constant Value (<a class="manualLink" href="https://checkerframework.org/manual/#constant-value-checker" target="_blank"><i>manual</i></a>)
     </p>
 
-    <p data-checker-type="aliasing" style="display: none;">
-      Aliasing (<a class="manualLink" href="https://checkerframework.org/manual/#aliasing-checker" target="_blank"><i>manual</i></a>):
-      <a class="exampleLink" id="NoExample" href="#">NoExample</a> |
+    <p data-checker-type="index">
+      Index (<a class="manualLink" href="https://checkerframework.org/manual/#index-checker" target="_blank"><i>manual</i></a>)
+    </p>
+
+    <p data-checker-type="aliasing">
+      Aliasing (<a class="manualLink" href="https://checkerframework.org/manual/#aliasing-checker" target="_blank"><i>manual</i></a>)
     </p>
 
    <!--  <p data-checker-type="igj">

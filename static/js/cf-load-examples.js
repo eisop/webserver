@@ -10,6 +10,10 @@ var JAVA_EXAMPLES = {
   NullnessExampleWithWarningsLink: 'examples/nullness/NullnessExampleWithWarnings.java',
   NullnessExampleLink: 'examples/nullness/NullnessExample.java',
 
+  /*Optional Checker examples*/
+  OptionalExampleWithWarningsLink: 'examples/optional/OptionalExampleWithWarnings.java',
+  OptionalExampleLink: 'examples/optional/OptionalExample.java',
+
   /*MapKeyChecker examples*/
   MapKeyExampleWithWarningsLink: 'examples/map_key/MapKeyExampleWithWarnings.java',
 
