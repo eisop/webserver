@@ -41,6 +41,7 @@ public class InMemory {
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
         tempMap.put("nullness", "org.checkerframework.checker.nullness.NullnessChecker");
+        tempMap.put("optional", "org.checkerframework.checker.optional.OptionalChecker");
         //since generally don't directly call map key checker, I mapping it to nullness here
         tempMap.put("map_key", "org.checkerframework.checker.nullness.NullnessChecker");
         tempMap.put("regex", "org.checkerframework.checker.regex.RegexChecker");
@@ -57,6 +58,7 @@ public class InMemory {
         tempMap.put("gui_effect", "org.checkerframework.checker.guieffect.GuiEffectChecker");
         tempMap.put("units", "org.checkerframework.checker.units.UnitsChecker");
         tempMap.put("cons_value", "org.checkerframework.common.value.ValueChecker");
+        tempMap.put("index", "org.checkerframework.checker.index.IndexChecker");
         checkerMap = Collections.unmodifiableMap(tempMap);
     }
     private final String CHECKER_FRAMEWORK;
