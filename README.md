@@ -31,14 +31,14 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
 2. In the clone, run `./shell-scripts/deploy-checkerweb.sh` with one
    of these options:
 
-  1. If you want to deploy this server with the newest development version
+* If you want to deploy this server with the newest development version
   of the Checker Framework from
   `https://github.com/typetools/checker-framework`, run:
 
     ```
     ./shell-scripts/deploy-checkerweb.sh
     ```
-  2. If you want to deploy this server with the newest released
+* If you want to deploy this server with the newest released
   version of the Checker Framework from `http://checkerframework.org`,
   run:
 
@@ -49,7 +49,7 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
     ```
     ./shell-scripts/deploy-checkerweb.sh -r http://types.cs.washington.edu/checker-framework/current/checker-framework-1.9.13.zip
     ```
-  3. If you want to deploy this server with an existing local copy of
+* If you want to deploy this server with an existing local copy of
   the Checker Framework, run:
 
     ```
