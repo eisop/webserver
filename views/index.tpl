@@ -164,7 +164,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a>
     </p>
 
-    <p data-checker-type="Optional">
+    <p data-checker-type="optional">
       Optional (<a class="manualLink" href="https://checkerframework.org/manual/#optional-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="OptionalExampleLink" href="#">OptionalExample</a> |
       <a class="exampleLink" id="OptionalExampleWithWarningsLink" href="#">OptionalExampleWithWarnings</a>
