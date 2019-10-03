@@ -12,9 +12,11 @@
 # first change to script directory so relative path works again
 cd $(dirname "$0")
 
-# tricky, currently need hard code JAVA_HOME and JSR308 path here in
-# order to let this script work normally in Apache wsgi mode.
-JAVA_HOME=${JAVA_HOME:-$(dirname $(dirname $(dirname $(readlink -f $(/usr/bin/which java)))))}
+if [ "$(uname)" = "Darwin" ] ; then
+  JAVA_HOME=${JAVA_HOME:-$(/usr/libexec/java_home)}
+else
+  JAVA_HOME=${JAVA_HOME:-$(dirname "$(dirname "$(readlink -f "$(command -v javac)")")")}
+fi
 
 # CF=$(cd ../enabled-checker-framework && pwd)
 CF=$2
