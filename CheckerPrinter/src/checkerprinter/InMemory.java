@@ -1,34 +1,32 @@
-/*****************************************************************************
-InMemory: major entry of checkerprinter
-This file is modified based on the traceprinter package from java_jail:https://github.com/daveagp/java_jail 
-with  GNU AFFERO GENERAL PUBLIC LICENSE Version 3. 
-Modified by Charles Chen (charleszhuochen@gmail.com) Mar 2016
-===original doc as below===
-traceprinter: a Java package to print traces of Java programs
-David Pritchard (daveagp@gmail.com), created May 2013
-
-The contents of this directory are released under the GNU Affero 
-General Public License, versions 3 or later. See LICENSE or visit:
-http://www.gnu.org/licenses/agpl.html
-
-See README for documentation on this package.
-
-This file was originally based on 
-com.sun.tools.example.trace.Trace, written by Robert Field.
-
-******************************************************************************/
-
+/*
+ * InMemory: major entry of checkerprinter.
+ *
+ * This file is modified based on the traceprinter package from java_jail:
+ * https://github.com/daveagp/java_jail with GNU AFFERO GENERAL PUBLIC LICENSE
+ * Version 3.
+ *
+ * Modified by Charles Chen (charleszhuochen@gmail.com) Mar 2016
+ *
+ * ===original doc as below===
+ *
+ * traceprinter: a Java package to print traces of Java programs David Pritchard
+ * (daveagp@gmail.com), created May 2013
+ *
+ * The contents of this directory are released under the GNU Affero General Public License,
+ * versions 3 or later. See LICENSE or visit: http://www.gnu.org/licenses/agpl.html
+ *
+ * See README for documentation on this package.
+ *
+ * This file was originally based on com.sun.tools.example.trace.Trace, written by Robert Field.
+ */
 package checkerprinter;
 
-import java.util.regex.*;
-import java.util.*;
 import java.io.*;
-
-import javax.tools.*;
-
-import traceprinter.ramtools.*;
-
+import java.util.*;
+import java.util.regex.*;
 import javax.json.*;
+import javax.tools.*;
+import traceprinter.ramtools.*;
 
 public class InMemory {
 
@@ -38,11 +36,12 @@ public class InMemory {
     Printer checkerPrinter;
 
     static final Map<String, String> checkerMap;
+
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
         tempMap.put("nullness", "org.checkerframework.checker.nullness.NullnessChecker");
         tempMap.put("optional", "org.checkerframework.checker.optional.OptionalChecker");
-        //since generally don't directly call map key checker, I mapping it to nullness here
+        // since generally don't directly call map key checker, I mapping it to nullness here
         tempMap.put("map_key", "org.checkerframework.checker.nullness.NullnessChecker");
         tempMap.put("regex", "org.checkerframework.checker.regex.RegexChecker");
         tempMap.put("interning", "org.checkerframework.checker.interning.InterningChecker");
@@ -61,28 +60,31 @@ public class InMemory {
         tempMap.put("index", "org.checkerframework.checker.index.IndexChecker");
         checkerMap = Collections.unmodifiableMap(tempMap);
     }
+
     private final String CHECKER_FRAMEWORK;
     Map<String, byte[]> bytecode;
 
-    public final static long startTime = System.currentTimeMillis();
+    public static final long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
-        assert args.length == 2 : "this program needs two command line arguments: "
-                + "args[0]: location of checker framework"
-                + "argd[1]: isRise4Fun, indicates whether should use Rise4FunPrinter";
-            boolean isRise4Fun = Boolean.valueOf(args[1]);
-            Printer checkerPrinter = null;
-            if(isRise4Fun) {
-                checkerPrinter = new Rise4FunPrinter();
-            } else {
-                checkerPrinter = new JsonPrinter();
-            }
+        assert args.length == 2
+                : "this program needs two command line arguments: "
+                        + "args[0]: location of checker framework"
+                        + "argd[1]: isRise4Fun, indicates whether should use Rise4FunPrinter";
+        boolean isRise4Fun = Boolean.valueOf(args[1]);
+        Printer checkerPrinter = null;
+        if (isRise4Fun) {
+            checkerPrinter = new Rise4FunPrinter();
+        } else {
+            checkerPrinter = new JsonPrinter();
+        }
 
         try {
-            new InMemory(Json.createReader(new InputStreamReader(System.in, "UTF-8")).readObject(), args[0],
+            new InMemory(
+                    Json.createReader(new InputStreamReader(System.in, "UTF-8")).readObject(),
+                    args[0],
                     checkerPrinter);
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             checkerPrinter.setUsercode(null);
             checkerPrinter.printException("Internal IOException");
         }
@@ -94,10 +96,11 @@ public class InMemory {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
-        this.checkerOptionsList = Arrays.asList( "-Xbootclasspath/p:" +
-                this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
-                "-processor",
-                checker);
+        this.checkerOptionsList =
+                Arrays.asList(
+                        "-Xbootclasspath/p:" + this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
+                        "-processor",
+                        checker);
         if (optionsObject.getBoolean("has_cfg")) {
             // String cfgLevel = optionsObject.getString("cfg_level");
             // TODO: add CFG Visualization
@@ -117,15 +120,18 @@ public class InMemory {
         }
         // not 100% accurate, if people have multiple top-level classes + public inner classes
         // first search public class, to avoid wrong catching a classname from  comments in usercode
-        // as the public class name (if the comment before the public class declaration contains a "class" word)
+        // as the public class name (if the comment before the public class declaration contains a
+        // "class" word)
         Pattern p = Pattern.compile("public\\s+class\\s+([a-zA-Z0-9_]+)\\b");
         Matcher m = p.matcher(usercode);
         if (!m.find()) {
-            // if usercode does not have a public class, then is safe to using looser rgex to catch class name
+            // if usercode does not have a public class, then is safe to using looser rgex to catch
+            // class name
             p = Pattern.compile("class\\s+([a-zA-Z0-9_]+)\\b");
             m = p.matcher(usercode);
-            if(!m.find()) {
-                this.exceptionMsg = "Error: Make sure your code includes at least one 'class \u00ABClassName\u00BB'";
+            if (!m.find()) {
+                this.exceptionMsg =
+                        "Error: Make sure your code includes at least one 'class \u00ABClassName\u00BB'";
                 this.checkerPrinter.printException(this.exceptionMsg);
                 return;
             }
@@ -146,13 +152,13 @@ public class InMemory {
 
         assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag";
 
-        this.checkerPrinter.setExecCmd(this.checkerOptionsList
-                .subList(1, this.checkerOptionsList.size()));
+        this.checkerPrinter.setExecCmd(
+                this.checkerOptionsList.subList(1, this.checkerOptionsList.size()));
 
-        if(bytecode != null && diagnosticList.size() == 0){
+        if (bytecode != null && diagnosticList.size() == 0) {
             this.checkerPrinter.printSuccess();
         } else {
             this.checkerPrinter.printDiagnosticReport(diagnosticList);
         }
-    } 
+    }
 }

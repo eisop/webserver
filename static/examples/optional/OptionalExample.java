@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-/**
+/*
  * Test case for flow-sensitivity of Optional.isPresent().
  * Source file:
  *   checker/tests/optional/FlowSensitivity.java

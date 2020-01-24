@@ -1,8 +1,6 @@
 import org.checkerframework.checker.igj.qual.*;
 
-/**
- * An Immutable class that represents a date
- */
+/** An Immutable class that represents a date */
 @Immutable
 class Date {
     int time; // epoch time
@@ -11,18 +9,29 @@ class Date {
         this.time = time;
     }
 
-    public int getYear() { return 0; }
-    public int getMonth() { return 0; }
-    public int getDay() { return 0; }
+    public int getYear() {
+        return 0;
+    }
+
+    public int getMonth() {
+        return 0;
+    }
+
+    public int getDay() {
+        return 0;
+    }
 
     public int testMutate() {
-        this.time = 4;  // Error: Cannot re-assign in a method with RO receiver
-        this.time++;    // Error: Cannot re-assign in a method with RO receiver
+        this.time = 4; // Error: Cannot re-assign in a method with RO receiver
+        this.time++; // Error: Cannot re-assign in a method with RO receiver
         return this.time;
     }
 
-    public int mutableReciever(/*@Mutable*/ Date this) // Error: No method with mutable receiver within Immutable Class
-    { return 0; }
+    public int mutableReciever(
+            /*@Mutable*/ Date this) // Error: No method with mutable receiver within Immutable Class
+            {
+        return 0;
+    }
 }
 
 @I
@@ -35,11 +44,21 @@ class Point {
         setY(y);
     }
 
-    void setX(@AssignsFields Point this, double x) { this.x = x; }
-    void setY(@AssignsFields Point this, double y) { this.y = y; }
+    void setX(@AssignsFields Point this, double x) {
+        this.x = x;
+    }
 
-    double getX(/*@ReadOnly*/ Point this) { return x; }
-    double getY(/*@ReadOnly*/ Point this) { return y; }
+    void setY(@AssignsFields Point this, double y) {
+        this.y = y;
+    }
+
+    double getX(/*@ReadOnly*/ Point this) {
+        return x;
+    }
+
+    double getY(/*@ReadOnly*/ Point this) {
+        return y;
+    }
 
     public int hashCode(/*@ReadOnly*/ Point this) {
         x += 4; // Error: ReadOnly receiver
@@ -47,14 +66,13 @@ class Point {
     }
 
     public static @I Point getMidPoint(@I Point p1, @I Point p2) {
-        return new @I Point((p1.getX() + p2.getX()) / 2.0,
-                            (p1.getY() + p2.getY()) / 2.0);
+        return new @I Point((p1.getX() + p2.getX()) / 2.0, (p1.getY() + p2.getY()) / 2.0);
     }
 
     public static void test() {
-        @Immutable Point p1 = new /*@Immutable*/ Point(1,1);
-        @Immutable Point p2 = new /*@Mutable*/ Point (1, 1); // Error: Incompatible types
-        @Mutable Point p3 = new /*@Mutable*/ Point(1,1);
+        @Immutable Point p1 = new /*@Immutable*/ Point(1, 1);
+        @Immutable Point p2 = new /*@Mutable*/ Point(1, 1); // Error: Incompatible types
+        @Mutable Point p3 = new /*@Mutable*/ Point(1, 1);
 
         @ReadOnly Point p4 = new /*@Mutable*/ Point(1, 1);
 
@@ -73,39 +91,43 @@ class Point {
 @I
 public class IGJExampleWithWarnings {
 
-    void mutableReceiver(/*@Mutable*/ IGJExampleWithWarnings this) { }
-    void readOnlyReceiver(/*@ReadOnly*/ IGJExampleWithWarnings this) { }
-    void immutableReceiver(/*@Immutable*/ IGJExampleWithWarnings this) { }
+    void mutableReceiver(/*@Mutable*/ IGJExampleWithWarnings this) {}
 
-    static void isMutable(@Mutable IGJExampleWithWarnings tc)  { }
-    static void isImmutable(@Immutable IGJExampleWithWarnings tc) { }
-    static void isRO(@ReadOnly IGJExampleWithWarnings tc) { }
+    void readOnlyReceiver(/*@ReadOnly*/ IGJExampleWithWarnings this) {}
+
+    void immutableReceiver(/*@Immutable*/ IGJExampleWithWarnings this) {}
+
+    static void isMutable(@Mutable IGJExampleWithWarnings tc) {}
+
+    static void isImmutable(@Immutable IGJExampleWithWarnings tc) {}
+
+    static void isRO(@ReadOnly IGJExampleWithWarnings tc) {}
 
     IGJExampleWithWarnings() {
         readOnlyReceiver();
-        mutableReceiver();   // Error: cannot call method with mutable receiver
-        immutableReceiver();  // Error: Cannot call method with immutable receiver
+        mutableReceiver(); // Error: cannot call method with mutable receiver
+        immutableReceiver(); // Error: Cannot call method with immutable receiver
     }
 
     void testMethod1(/*@ReadOnly*/ IGJExampleWithWarnings this) {
         readOnlyReceiver();
-        mutableReceiver();   // Error: cannot call method with mutable receiver within method with ReadOnly receiver
+        mutableReceiver(); // Error: cannot call method with mutable receiver within method with
+                           // ReadOnly receiver
         isRO(this);
-        isMutable(this);    // Error: this escapes as RO
+        isMutable(this); // Error: this escapes as RO
     }
 
     void testMethod2(/*@Mutable*/ IGJExampleWithWarnings this) {
-        immutableReceiver();  // Error: cannot call method with immutable receiver
+        immutableReceiver(); // Error: cannot call method with immutable receiver
         isRO(this);
-        isMutable(this);    // this escapes as mutable
-        isImmutable(this);  // Error: this escapes as Immutable
+        isMutable(this); // this escapes as mutable
+        isImmutable(this); // Error: this escapes as Immutable
     }
 
     void testMethod3(/*@Immutable*/ IGJExampleWithWarnings this) {
         immutableReceiver();
         isRO(this);
-        isMutable(this);    // Error: this escapes as immutable
-        isImmutable(this);  // this escapes as mutable
+        isMutable(this); // Error: this escapes as immutable
+        isImmutable(this); // this escapes as mutable
     }
-
 }

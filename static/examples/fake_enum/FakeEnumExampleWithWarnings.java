@@ -10,7 +10,9 @@ class TestStatic {
 
 public class FakeEnumExampleWithWarnings {
     @Fenum("A") int state1 = TestStatic.ACONST1; // ok
+
     @Fenum("B") int state2 = TestStatic.ACONST1; // Incompatible fenums forbidden!
+
     void fenumArg(@Fenum("A") int p) {}
 
     void foo() {

@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Optional;
 
-/**
+/*
  * Test case for rule #2: "Never use Optional.get() unless you can prove that the Optional is
  * present."
  * Source from:

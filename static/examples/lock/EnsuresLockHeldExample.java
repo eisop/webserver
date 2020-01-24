@@ -1,6 +1,5 @@
-import org.checkerframework.checker.lock.qual.*;
-
 import java.util.concurrent.locks.ReentrantLock;
+import org.checkerframework.checker.lock.qual.*;
 
 public class EnsuresLockHeldExample {
 
@@ -19,7 +18,7 @@ public class EnsuresLockHeldExample {
      * given boolean value (true or false), the given expressions are
      * known to be objects used as locks and are known to be in a
      * locked state after the method returns; */
-    @EnsuresLockHeldIf(expression="lock", result=true)
+    @EnsuresLockHeldIf(expression = "lock", result = true)
     public boolean tryEnter() {
         return lock.tryLock();
     }

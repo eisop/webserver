@@ -4,8 +4,8 @@ public class HoldingExampleWithWarnings {
 
     void helper1(@GuardedBy("MyClass.myLock") Object a) {
         a.toString(); // ILLEGAL: the lock is not held
-        synchronized(MyClass.myLock) {
-            a.toString();  // OK: the lock is held
+        synchronized (MyClass.myLock) {
+            a.toString(); // OK: the lock is held
         }
     }
 
@@ -19,7 +19,7 @@ public class HoldingExampleWithWarnings {
     }
 
     void myMethod2(@GuardedBy("MyClass.myLock") Object e) {
-        helper1(e);  // OK to pass to another routine without holding the lock
+        helper1(e); // OK to pass to another routine without holding the lock
         e.toString(); // ILLEGAL: the lock is not held
         synchronized (MyClass.myLock) {
             helper2(e);

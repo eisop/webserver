@@ -9,5 +9,4 @@ public class RegexExampleWithWarnings {
         String s = /*infered with @Regex(0)*/ m.group(1); // illegal, because only 0 groups
         // guarrenteed in m
     }
-
 }

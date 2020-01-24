@@ -1,14 +1,13 @@
+import java.util.concurrent.locks.ReentrantLock;
 import org.checkerframework.checker.lock.qual.*;
 import org.checkerframework.dataflow.qual.SideEffectFree;
-
-import java.util.concurrent.locks.ReentrantLock;
 
 public class LockingFreeExampleWithWarnings {
     private Object myField;
     private final ReentrantLock lock; // Initialized in the constructor
     private @GuardedBy("lock") Object x; // Initialized in the constructor
 
-    public LockingFreeExampleWithWarnings () {
+    public LockingFreeExampleWithWarnings() {
         this.lock = new ReentrantLock();
         this.x = new Object();
     }
@@ -35,15 +34,15 @@ public class LockingFreeExampleWithWarnings {
         lock.unlock();
     }
 
-    void myUnannotatedEmptyMethod() {
-    }
+    void myUnannotatedEmptyMethod() {}
 
     @MayReleaseLocks
     void clientMethod() {
         if (lock.tryLock()) {
             x.toString(); // OK: the lock is held
             myLockingFreeMethod();
-            x.toString(); // OK: the lock is still known to be held since myLockingFreeMethod is locking-free
+            x.toString(); // OK: the lock is still known to be held since myLockingFreeMethod
+                          // is locking-free
             mySideEffectFreeMethod();
             x.toString(); // OK: the lock is still known to be held since mySideEffectFreeMethod
                           // is side-effect-free
