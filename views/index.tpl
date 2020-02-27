@@ -232,6 +232,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <!-- call for examples for Index, Constant Value, and Aliasing Checker. -->
     <p data-checker-type="cons_value">
       Constant Value (<a class="manualLink" href="https://checkerframework.org/manual/#constant-value-checker" target="_blank"><i>manual</i></a>)
+      <a class="exampleLink" id="ConstantExampleLink" href="#">ConstantExample</a>
     </p>
 
     <p data-checker-type="index">
