@@ -54,6 +54,9 @@ var JAVA_EXAMPLES = {
   SignatureExampleWithWarningsLink: 'examples/signature/SignatureExampleWithWarnings.java',
   SignatureExampleLink: 'examples/signature/SignatureExample.java',
 
+  /*Index Checker examples*/
+  IndexExample: 'examples/index/IndexExample.java',
+
   /*GUIEffect Checker examples*/
   GUIEffectExampleWithWarningsLink: 'examples/gui_effect/GUIEffectExampleWithWarnings.java',
 
