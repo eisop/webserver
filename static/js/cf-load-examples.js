@@ -60,7 +60,10 @@ var JAVA_EXAMPLES = {
   /*Units Checker examples*/
   SimpleDemoWithWarningsLink: 'examples/units/SimpleDemoWithWarnings.java',
   MethodsDemoWithWarningsLink: 'examples/units/MethodsDemoWithWarnings.java',
-  PolyUnitDemoWithWarningsLink: 'examples/units/PolyUnitDemoWithWarnings.java'
+  PolyUnitDemoWithWarningsLink: 'examples/units/PolyUnitDemoWithWarnings.java',
+
+  /*Constant Checker example*/
+  ConstantExampleLink: 'examples/constant_example/ConstantExample.java'
 };
 
 /**clear all frontend display infos
