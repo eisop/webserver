@@ -57,6 +57,9 @@ var JAVA_EXAMPLES = {
   /*GUIEffect Checker examples*/
   GUIEffectExampleWithWarningsLink: 'examples/gui_effect/GUIEffectExampleWithWarnings.java',
 
+  /*Aliasing Checker examples*/
+  AliasingExample: 'examples/aliasing/AliasingExample.java',
+
   /*Units Checker examples*/
   SimpleDemoWithWarningsLink: 'examples/units/SimpleDemoWithWarnings.java',
   MethodsDemoWithWarningsLink: 'examples/units/MethodsDemoWithWarnings.java',
