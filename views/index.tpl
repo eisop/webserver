@@ -236,6 +236,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     <p data-checker-type="index">
       Index (<a class="manualLink" href="https://checkerframework.org/manual/#index-checker" target="_blank"><i>manual</i></a>)
+      <a class="exampleLink" id="IndexExample" href="#">IndexExample</a>
     </p>
 
     <p data-checker-type="aliasing">
