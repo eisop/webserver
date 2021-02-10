@@ -36,15 +36,15 @@ from bottle import route, get, request, run, template, static_file, url, default
 app = Bottle()
 default_app.push(app)
 
-import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
+import io # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 
 appPath = dirname(abspath(__file__))
 
-cfPath = join(appPath, "dev-checker-framework")
+cfPath = join(appPath, "dev-checker-framework/checker-framework-3.9.1")
 isRise4Fun = False
 
 @route('/')
@@ -60,11 +60,13 @@ def route_static(filepath=None):
 
 @get('/exec', name='exec')
 def get_exec():
+  print ("cfPath"+cfPath)
   java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8'),
     cfPath, str(isRise4Fun)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   (stdout, stderr) = java_backend.communicate()
+  
   if java_backend.returncode != 0:
-    print ("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr))
+    print(("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr)))
     result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
   else:  
     result = stdout
