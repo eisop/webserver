@@ -32,7 +32,7 @@
 from os.path import join, dirname, abspath
 import subprocess
 
-from bottle import route, get, request, run, template, static_file, url, default_app, Bottle, TEMPLATE_PATH, abort
+from bottle import route, get, request, run, template, static_file, url, default_app, Bottle, TEMPLATE_PATH, abort, response
 app = Bottle()
 default_app.push(app)
 
@@ -66,9 +66,9 @@ def get_exec():
   if java_backend.returncode != 0:
     print ("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr))
     result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
-    return result
   else:  
     result = stdout
+  response.add_header("Content-Type", "application/json")
   return result
 
 if __name__ == "__main__":
