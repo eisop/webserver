@@ -36,14 +36,14 @@ from bottle import route, get, request, run, template, static_file, url, default
 app = Bottle()
 default_app.push(app)
 
-import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
+import io # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
-import urllib
-import urllib2
+import urllib.request,urllib.parse,urllib.error
+import urllib.request,urllib.error,urllib.parse
 
 appPath = dirname(abspath(__file__))
-
+#the dev-checker-framework parameter is machine-dependent and should be replaced with e.g. dev-checker-framework-3.9.1
 cfPath = join(appPath, "dev-checker-framework")
 isRise4Fun = False
 
