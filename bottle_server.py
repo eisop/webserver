@@ -35,7 +35,6 @@ import subprocess
 from bottle import route, get, request, run, template, static_file, url, default_app, Bottle, TEMPLATE_PATH, abort, response
 app = Bottle()
 default_app.push(app)
-
 import io # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
@@ -43,8 +42,8 @@ import urllib.request, urllib.parse, urllib.error
 import urllib.request, urllib.error, urllib.parse
 
 appPath = dirname(abspath(__file__))
-
-cfPath = join(appPath, "dev-checker-framework/checker-framework-3.9.1")
+CF="dev-checker-framework/checker-framework-3.9.1"
+cfPath = join(appPath, CF)
 isRise4Fun = False
 
 @route('/')
@@ -54,24 +53,42 @@ def route_static(filepath=None):
         # rise4fun is a web service, and it not serves as a web interface.
         # Thus we should deny user acess the index page from rise4fun url.
         if isRise4Fun:
-          abort(401, "Sorry, access denied.")
+            abort(401, "Sorry, access denied.")
         return template('index', root=appPath, get_url=app.get_url)
     return static_file(filepath, root=join(appPath, 'static'))
 
+@get('/version', name='version')
+def get_version():
+    print('In version')
+    version_backend=subprocess.Popen(['./shell-scripts/build-checker-framework.sh', CF], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    (stdout, stderr)=version_backend.communicate()
+
+    if version_backend.returncode != 0:
+        print(("Error: CheckerPrinter failed %d %s %s" % (version_backend.returncode,stdout, stderr)))
+        result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
+    else:
+        result=stdout
+    response.add_header("Content-Type", "application/json")
+    return str(result,'utf-8')
+
+
 @get('/exec', name='exec')
 def get_exec():
-  print ("cfPath"+cfPath)
-  java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8'),
-    cfPath, str(isRise4Fun)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-  (stdout, stderr) = java_backend.communicate()
-  
-  if java_backend.returncode != 0:
-    print(("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr)))
-    result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
-  else:  
-    result = stdout
-  response.add_header("Content-Type", "application/json")
-  return result
+    print ("cfPath"+cfPath)
+    java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8'),
+                                     cfPath, str(isRise4Fun)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    (stdout, stderr) = java_backend.communicate()
+    print(java_backend.communicate())
+
+    if java_backend.returncode != 0:
+        print(("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr)))
+        result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
+    else:
+        result = stdout
+    response.add_header("Content-Type", "application/json")
+    print(type(result))
+    return result
 
 if __name__ == "__main__":
     run(host='127.0.0.1', port=8081, reloader=True)

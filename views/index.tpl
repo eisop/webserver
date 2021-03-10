@@ -254,6 +254,12 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </div>
 
 
+
+  <div>
+  <button id="versionNumber" class="bigBtn" type="button">Version Number</button>
+
+ <div>
+
   <div id="versionPane">
     <!-- TODO: auto-update the version information -->
     <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 3.3.0 (1 Apr 2020)</p>

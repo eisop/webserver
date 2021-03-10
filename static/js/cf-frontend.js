@@ -1,12 +1,8 @@
 /*This file is modified based on Online Python Tutor:
-
 Online Python Tutor
 https://github.com/pgbovine/OnlinePythonTutor/
-
 ====Original document showed as below====
-
 Copyright (C) Philip J. Guo (philip@pgbovine.net)
-
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
@@ -14,10 +10,8 @@ without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
 the following conditions:
-
 The above copyright notice and this permission notice shall be included
 in all copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -25,7 +19,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 */
 
 // include this file BEFORE any OPT frontend file
@@ -45,6 +38,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*====deployment====*/
 var JAVA_BACKEND_URL;
+var VERSION_BACKEND_URL;
 
 function init_java_backend_url() {
   var exec_url = $("#exec_url").attr("data-exec-url");
@@ -60,13 +54,29 @@ function init_java_backend_url() {
     JAVA_BACKEND_URL = "http://" + ENDPOINT_ADDRESS + exec_url;
   }*/
 }
+function init_version_backend_url() {
+  var version_url = $("#version_url").attr("data-version-url");
+  if( typeof version_url == "undefined" ) {
+    version_url = "/version"; //fall back to hard code
+  }
+  VERSION_BACKEND_URL = version_url;
+  /*CheckerFramework: currently we only have java_backend and we don't request by using jsonp.
+   *keep this here for future if decide using jsonp someday*/
+  /*if(window.location.protocol == 'https:') {
+    JAVA_BACKEND_URL = "https://" + ENDPOINT_ADDRESS + exec_url;
+  } else {
+    JAVA_BACKEND_URL = "http://" + ENDPOINT_ADDRESS + exec_url;
+  }*/
+}
+
+
 
 /*====ace editor related===*/
 var pyInputAceEditor; // Ace editor object that contains the input code
 
 // silent flag for distinguish user editing and program setValue to ace text area
 // tricky, but this way is suggested by ace: https://github.com/ajaxorg/ace/issues/503
-ace_setValue_silent = false; 
+ace_setValue_silent = false;
 
 function initAceEditor() {
   pyInputAceEditor = ace.edit('codeInputPane');
@@ -89,12 +99,12 @@ function initAceEditor() {
   // $('#resizable_codeInput').css('max-height', '60%');
 
   $("#resizable_codeInput").resizable({
-      resize: function( event, ui ) {
-        pyInputAceEditor.resize();
-      },
-      handles:'s,e',
-      delay: 100
-    });
+    resize: function( event, ui ) {
+      pyInputAceEditor.resize();
+    },
+    handles:'s,e',
+    delay: 100
+  });
 
   // session settings
   var s = pyInputAceEditor.getSession();
@@ -123,7 +133,7 @@ class YourClassNameHere {\n\
 
 // abstraction so that we can use either CodeMirror or Ace as our code editor
 function pyInputGetValue() {
-    return pyInputAceEditor.getValue();
+  return pyInputAceEditor.getValue();
 }
 
 function pyInputSetValue(dat) {
@@ -131,7 +141,7 @@ function pyInputSetValue(dat) {
   // https://github.com/ajaxorg/ace/issues/503
   ace_setValue_silent = true;
   pyInputAceEditor.setValue(dat.rtrim() /* kill trailing spaces */,
-                              -1 /* do NOT select after setting text */);
+      -1 /* do NOT select after setting text */);
   ace_setValue_silent = false;
 
   clearFrontendInfo();
@@ -171,20 +181,46 @@ function doneExecutingCode() {
 /*CheckerFramework: Override backend Option*/
 function getBaseBackendOptionsObj() {
   var ret = {checker: $('#type_system').val(),
-             has_cfg: $('#cfg').is(':checked'),
-             cfg_level: $('#cfg_level').val(),
-             verbose: $('#verbose').is(':checked')};
+    has_cfg: $('#cfg').is(':checked'),
+    cfg_level: $('#cfg_level').val(),
+    verbose: $('#verbose').is(':checked')};
   return ret;
 }
 
 function executeCodeFromScratch() {
   // don't execute empty string:
   if ($.trim(pyInputGetValue()) == '') {
-setFronendInfo(["Type in some code to visualize."], "error");
+    setFronendInfo(["Type in some code to visualize."], "error");
     return;
   }
   executeCode();
 }
+
+function executeVersion() {
+  console.log("Clciked version from scarch");
+  //var version_num={version_num:}
+  /*CheckerFramework: callback function of checking user code
+    *the element.type in error_report is related to java backend CheckerPrinter
+    */
+  function execCall () {
+    console.log("hellooo");
+  }
+
+  version_url = VERSION_BACKEND_URL;
+
+ // assert(version_url);
+
+  $.ajax({
+    url: version_url,
+    timeout:10000,
+    dataType:"text",
+    success:  function(data) {
+      $("#versionNumber").html(data);}
+
+  });
+}
+
+
 
 function executeCode() {
   var backendOptionsObj = getBaseBackendOptionsObj();
@@ -192,65 +228,67 @@ function executeCode() {
   /*CheckerFramework: callback function of checking user code
     *the element.type in error_report is related to java backend CheckerPrinter
     */
-    function execCallback(dataFromBackend) {
-      if( !dataFromBackend ) {
-        setFronendInfo(["Error: 324 empty response from server."], "error");
-        doneExecutingCode();
-        $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE);
-        return;
-      }
-      var user_code = dataFromBackend.code;
-      var error_report = dataFromBackend.error_report;
-      var annotationsArray = [];
-      var backend_status = dataFromBackend.backend_status;
-      doneExecutingCode();// rain or shine, we're done executing!
-        if(backend_status == 'exception') {
-          setFronendInfo([dataFromBackend.exception_msg], "error");
-      }
-      else if (backend_status == 'pass') {
-        $("#codeInputWarnings").text(REMINDE_STRING.PASSED);
-        setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " passed!"], "success");
-        setExecCmd(dataFromBackend.exec_cmd);
-        enterDisplayMode();
-      }
-      else if (backend_status == 'diagnostic') {
-        $("#codeInputWarnings").text(REMINDE_STRING.FIX_BUG);
-        setExecCmd(dataFromBackend.exec_cmd);
-        pyInputSetValue(user_code);
-        annotationsArray = setErrorAnnotations(error_report);
-        setErrorTable(error_report);
-        optFinishSuccessfulExecution();
-        bindChangeErrorStateListener(registerChangeErrorState(annotationsArray));
-      }
+  function execCallback(dataFromBackend) {
+    if( !dataFromBackend ) {
+      setFronendInfo(["Error: 324 empty response from server."], "error");
+      doneExecutingCode();
+      $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE);
+      return;
     }
+    console.log(dataFromBackend)
+    var user_code = dataFromBackend.code;
+    var error_report = dataFromBackend.error_report;
+    var annotationsArray = [];
+    var backend_status = dataFromBackend.backend_status;
+    doneExecutingCode();// rain or shine, we're done executing!
+    if(backend_status == 'exception') {
+      setFronendInfo([dataFromBackend.exception_msg], "error");
+      console.log(dataFromBackend.exception_msg);
+    }
+    else if (backend_status == 'pass') {
+      $("#codeInputWarnings").text(REMINDE_STRING.PASSED);
+      setFronendInfo([$("#type_system option[value="+backendOptionsObj.checker+"]").text() + " passed!"], "success");
+      setExecCmd(dataFromBackend.exec_cmd);
+      enterDisplayMode();
+    }
+    else if (backend_status == 'diagnostic') {
+      $("#codeInputWarnings").text(REMINDE_STRING.FIX_BUG);
+      setExecCmd(dataFromBackend.exec_cmd);
+      pyInputSetValue(user_code);
+      annotationsArray = setErrorAnnotations(error_report);
+      setErrorTable(error_report);
+      optFinishSuccessfulExecution();
+      bindChangeErrorStateListener(registerChangeErrorState(annotationsArray));
+    }
+  }
 
-    // if you're in display mode, kick back into edit mode before
-    // executing or else the display might not refresh properly ... ugh
-    // krufty FIXME
-    enterEditMode();
-    clearExecCmd();
-    clearFrontendInfo();
-    clearErrorTable();
-    unbindChangeErrorStateListener();
-    pyInputAceEditor.getSession().clearAnnotations();
+  // if you're in display mode, kick back into edit mode before
+  // executing or else the display might not refresh properly ... ugh
+  // krufty FIXME
+  enterEditMode();
+  clearExecCmd();
+  clearFrontendInfo();
+  clearErrorTable();
+  unbindChangeErrorStateListener();
+  pyInputAceEditor.getSession().clearAnnotations();
 
-    startExecutingCode();
+  startExecutingCode();
 
-    backend_url = JAVA_BACKEND_URL;
+  backend_url = JAVA_BACKEND_URL;
 
-    assert(backend_url);
+  assert(backend_url);
 
-    var inputObj = {};
-    inputObj.usercode = codeToExec;
-    inputObj.options = backendOptionsObj;
-
-    $.ajax({
-      url: backend_url,
-      data: {frontend_data : JSON.stringify(inputObj)},
-      dataType: "json",
-      timeout:10000,
-      success: execCallback
-    });
+  var inputObj = {};
+  inputObj.usercode = codeToExec;
+  inputObj.options = backendOptionsObj;
+ console.log(inputObj)
+ $.ajax({
+    url: backend_url,
+    data: {frontend_data : JSON.stringify(inputObj)},
+    dataType: "json",
+    timeout:10000,
+    success: execCallback
+  });
 }
 
 /*====jquery bbq====*/
@@ -272,7 +310,7 @@ function parseQueryString() {
   // switch to display mode only after the code successfully executes
   appMode = 'edit';
   if ((queryStrOptions.appMode == 'display' ||
-       queryStrOptions.appMode == 'visualize' /* 'visualize' is deprecated */) &&
+      queryStrOptions.appMode == 'visualize' /* 'visualize' is deprecated */) &&
       queryStrOptions.precededCode /* jump to display only with pre-seeded code */) {
     executeCode(queryStrOptions.precededCodeCurInstr); // will switch to 'display' mode
   }
@@ -282,10 +320,10 @@ function parseQueryString() {
 // parsing the URL query string hash
 function getQueryStringOptions() {
   return {precededCode: $.bbq.getState('code'),
-          typeSystem: $.bbq.getState('typeSystem'),
-          precededCodeCurInstr: Number($.bbq.getState('curInstr')),
-          appMode: $.bbq.getState('mode')
-          };
+    typeSystem: $.bbq.getState('typeSystem'),
+    precededCodeCurInstr: Number($.bbq.getState('curInstr')),
+    appMode: $.bbq.getState('mode')
+  };
 }
 
 /*====general frontend display functions====*/
@@ -316,7 +354,7 @@ function updateAppDisplay(newAppMode) {
   if (appMode === undefined || appMode == 'edit') {
     appMode = 'edit'; // canonicalize
     pyInputAceEditor.setReadOnly(false);
-  
+
     $("#reportPane").hide();
     // $("#javaOptionsPane").show();
     $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE);
@@ -370,13 +408,24 @@ function codePermanentLinkGeneration() {
 }
 
 
+/*function getVersionNumber() {
+// ;  // replace ^ if using ES modules
+  var helloWorld="helloWorld";
+
+  $("#versionNumber").click(executeVersion)
+  $("#versionNumber").prop("disabled", true);
+  $("#versionNumber").show();
+  }
+*/
+
+
 /*====general functions====*/
 // run at the END so that everything else can be initialized first
 function genericOptFrontendReady() {
   // be friendly to the browser's forward and back buttons
   // thanks to http://benalman.com/projects/jquery-bbq-plugin/
   $(window).bind("hashchange", function(e) {
-    
+
     // parse url hash parameters and set corresponding values if 'code' or 'typeSystem' are encoded
     // linkGen feature generates url containing both code & typeSystem
     // use OR condition for future extension
@@ -403,7 +452,6 @@ function genericOptFrontendReady() {
       This jqxhr.responseText might be indicative of the URL being too
       long, since the error message returned by the server is something
       like this in nginx:
-
 <html>
 <head><title>414 Request-URI Too Large</title></head>
 <body bgcolor="white">
@@ -411,7 +459,6 @@ function genericOptFrontendReady() {
 <hr><center>nginx</center>
 </body>
 </html>
-
       Note that you'll probably need to customize this check for your server. */
     if (jqxhr && jqxhr.responseText.indexOf('414') >= 0) {
 
@@ -424,10 +471,10 @@ function genericOptFrontendReady() {
       // code necessarily being too big, so give it a second shot with an
       // empty diffs_json. if it STILL fails, then display the error
       // message and give up.
-setFronendInfo(["Server error! Your code might be too long for this tool. Shorten your code and re-try."], "error");
+      setFronendInfo(["Server error! Your code might be too long for this tool. Shorten your code and re-try."], "error");
     } else {
-setFronendInfo(["Server error! Your code might be taking too much time to run or using too much memory.",
-                       "Please report a bug to admin."], "error");
+      setFronendInfo(["Server error! Your code might be taking too much time to run or using too much memory.",
+        "Please report a bug to admin."], "error");
     }
 
     doneExecutingCode();
@@ -437,6 +484,9 @@ setFronendInfo(["Server error! Your code might be taking too much time to run or
 
   $("#executeBtn").attr('disabled', false);
   $("#executeBtn").click(executeCodeFromScratch);
+
+  $("#versionNumber").attr('disabled', false);
+  $("#versionNumber").click(executeVersion);
 }
 
 function enterDisplayMode() {
@@ -450,7 +500,7 @@ function enterEditMode() {
 function optFinishSuccessfulExecution() {
   enterDisplayMode(); // do this first!
   pyInputAceEditor.getSession().on('change', function() {
-      var cursorPos = pyInputAceEditor.getCursorPosition();
+    var cursorPos = pyInputAceEditor.getCursorPosition();
   });
 }
 
@@ -479,7 +529,7 @@ function setErrorTable(error_report) {
     // add error to the last pos of err table
     var row = error_table.insertRow(-1);
 
-    //escape html special characters in the exception message.   
+    //escape html special characters in the exception message.
     exception_msg = htmlspecialchars(error.exception_msg);
     //Replace "\n" by html <br/> tag.
     exception_msg = exception_msg.replace(/\n/g,"<br/>&nbsp");
@@ -490,10 +540,10 @@ function setErrorTable(error_report) {
         '<td>'+error.line+'</td>'+
         '<td>'+error.offset+'</td>';
     row.setAttribute("onmouseover",
-      "changeColorOver(this,"+ (error.line-1) +","+(error.offset-1)+")");
+        "changeColorOver(this,"+ (error.line-1) +","+(error.offset-1)+")");
     row.setAttribute("onmouseout", "changeColorOut(this)");
-   } 
-   $("#error_table").show();
+  }
+  $("#error_table").show();
 }
 
 /*CheckerFramework: set annotations to ace editor
@@ -507,31 +557,31 @@ function setErrorAnnotations(error_report) {
       column: error.offset -1,
       text: error.exception_msg,
       type: error.type
-    }; 
-     /*CHECKER_FRAMWORK:
-  One problem of ace editor is it can only show one annotation on
-  one line at the same time. Thus, if a line has multiple errors, the
-  annotation would only show the one that comes first in this array.
-  (but all errors would show on the error_table)*/
+    };
+    /*CHECKER_FRAMWORK:
+ One problem of ace editor is it can only show one annotation on
+ one line at the same time. Thus, if a line has multiple errors, the
+ annotation would only show the one that comes first in this array.
+ (but all errors would show on the error_table)*/
     annotationsArray.push(annotation);
     var s = pyInputAceEditor.getSession();
     s.clearAnnotations();
     s.setAnnotations(annotationsArray);
-   }
-   return annotationsArray;
+  }
+  return annotationsArray;
 }
 
 /*CheckerFramework: helper function of error table*/
 function changeColorOver(e, line, column) {
-    e.style.backgroundColor = "#d4d4d4";
-    pyInputAceEditor.navigateTo(line, column);
-        
+  e.style.backgroundColor = "#d4d4d4";
+  pyInputAceEditor.navigateTo(line, column);
+
 }
 
 /*CheckerFramework: helper function of error table*/
 function changeColorOut(e) {
-    e.style.backgroundColor = "#ffffff";
-  }
+  e.style.backgroundColor = "#ffffff";
+}
 
 /*CheckerFramework: unbind listener from ace editor*/
 function unbindChangeErrorStateListener() {
@@ -562,23 +612,23 @@ function registerChangeErrorState(annotationsArray) {
   }
   lastTimeRow = -1;
   function _changeErrorState() {
-      var pos = pyInputAceEditor.getCursorPosition();
-      var curRow = pos.row;
-      var index;
-      if(curRow == lastTimeRow)
-        return;
-      var indexArray = rowAnnotationMap[curRow];
-      if( typeof indexArray != "undefined") {
-        for(i in indexArray) {
-          var modAnnotation = annotationsArray[indexArray[i]];
-          modAnnotation.type = 'info';
-          modAnnotation.text = "previous " + modAnnotation.text;
-          s.clearAnnotations();
-          s.setAnnotations(annotationsArray);
-        }
-        delete rowAnnotationMap[curRow];
+    var pos = pyInputAceEditor.getCursorPosition();
+    var curRow = pos.row;
+    var index;
+    if(curRow == lastTimeRow)
+      return;
+    var indexArray = rowAnnotationMap[curRow];
+    if( typeof indexArray != "undefined") {
+      for(i in indexArray) {
+        var modAnnotation = annotationsArray[indexArray[i]];
+        modAnnotation.type = 'info';
+        modAnnotation.text = "previous " + modAnnotation.text;
+        s.clearAnnotations();
+        s.setAnnotations(annotationsArray);
       }
-   }
+      delete rowAnnotationMap[curRow];
+    }
+  }
   function _debounceFunc() {
     $.doTimeout(20, _changeErrorState);
   }
@@ -620,12 +670,13 @@ function htmlspecialchars(str) {
 
 $(document).ready(function() {
   init_java_backend_url();
+  init_version_backend_url();
   genericOptFrontendReady(); // initialize at the end
   // add onchange listener to update codeInputWarnings whenever user editing the code
   pyInputAceEditor.getSession().on("change", function() {
-      function _updateToWriteCode() {
-        $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE)
-      }
+    function _updateToWriteCode() {
+      $("#codeInputWarnings").html(REMINDE_STRING.WRITE_CODE)
+    }
     if (ace_setValue_silent) return;
     $.doTimeout(300, _updateToWriteCode);
   });
