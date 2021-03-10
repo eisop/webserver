@@ -2,5 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/jsr308/annotation-tools" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/jsr308/checker-framework" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/jsr308/jdk" vcs="Git" />
   </component>
 </project>
