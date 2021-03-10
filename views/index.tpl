@@ -253,6 +253,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p> -->
   </div>
 
+  <div>
+    <button id="versionNumber" class="bigBtn" type="button">Version Number</button>
+   <div>
+
 
   <div id="versionPane">
     <!-- TODO: auto-update the version information -->

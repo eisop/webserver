@@ -45,6 +45,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*====deployment====*/
 var JAVA_BACKEND_URL;
+var VERSION_BACKEND_URL;
 
 function init_java_backend_url() {
   var exec_url = $("#exec_url").attr("data-exec-url");
@@ -59,6 +60,14 @@ function init_java_backend_url() {
   } else {
     JAVA_BACKEND_URL = "http://" + ENDPOINT_ADDRESS + exec_url;
   }*/
+}
+
+function init_version_backend_url() {
+  var version_url = $("#version_url").attr("data-version-url");
+  if( typeof version_url == "undefined" ) {
+    version_url = "/version"; //fall back to hard code
+  }
+  VERSION_BACKEND_URL = version_url;
 }
 
 /*====ace editor related===*/
@@ -185,6 +194,19 @@ setFronendInfo(["Type in some code to visualize."], "error");
   }
   executeCode();
 }
+
+function executeVersion() {
+  version_url = VERSION_BACKEND_URL;
+  //This will change the button itself
+  $.ajax({
+    url: version_url,
+    timeout:10000,
+    dataType:"text",
+    success:  function(data) {
+      $("#versionNumber").html(data);}
+  });
+}
+
 
 function executeCode() {
   var backendOptionsObj = getBaseBackendOptionsObj();
@@ -437,6 +459,8 @@ setFronendInfo(["Server error! Your code might be taking too much time to run or
 
   $("#executeBtn").attr('disabled', false);
   $("#executeBtn").click(executeCodeFromScratch);
+  $("#versionNumber").attr('disabled', false);
+  $("#versionNumber").click(executeVersion);
 }
 
 function enterDisplayMode() {
@@ -620,6 +644,7 @@ function htmlspecialchars(str) {
 
 $(document).ready(function() {
   init_java_backend_url();
+  init_version_backend_url();
   genericOptFrontendReady(); // initialize at the end
   // add onchange listener to update codeInputWarnings whenever user editing the code
   pyInputAceEditor.getSession().on("change", function() {
