@@ -62,14 +62,14 @@ def route_static(filepath=None):
 
 @get('/version', name='version')
 def get_version():
-    version_backend=subprocess.Popen(['./shell-scripts/run-version-checker.sh', CF], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    (stdout, stderr)=version_backend.communicate()
+    version_backend = subprocess.Popen(['./shell-scripts/run-version-checker.sh', cfPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    (stdout, stderr) = version_backend.communicate()
 
     if version_backend.returncode != 0:
-        print("Error: CheckerPrinter failed %d %s %s" % (version_backend.returncode,stdout, stderr))
+        print("Error: Version checker failed %d %s %s" % (version_backend.returncode,stdout, stderr))
         result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
     else:
-        result=stdout
+        result = stdout
     response.add_header("Content-Type", "application/json")
     return str(result, 'utf-8')
 

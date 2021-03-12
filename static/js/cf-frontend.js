@@ -169,7 +169,7 @@ var REMINDE_STRING = {
 function startExecutingCode() {
   $('#codeInputWarnings').html(REMINDE_STRING.EXECUTING);
   $('#executeBtn').html(REMINDE_STRING.EXECUTING);
-  $('#executeBtn').attr('disabled', true);
+ // $('#executeBtn').attr('disabled', true);
 }
 
 function doneExecutingCode() {
@@ -203,7 +203,10 @@ function executeVersion() {
     timeout:10000,
     dataType:"text",
     success:  function(data) {
-      $("#versionNumber").html(data);}
+      $("#versionNumber").val(data);
+      $("#versionNumber").prop("disabled", true);
+      $("#versionNumber").show();
+    }
   });
 }
 
