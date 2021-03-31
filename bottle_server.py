@@ -36,14 +36,17 @@ from bottle import route, get, request, run, template, static_file, url, default
 app = Bottle()
 default_app.push(app)
 
-import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
+import io # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
-import urllib
-import urllib2
+import urllib.request,urllib.parse,urllib.error
+import urllib.request,urllib.error,urllib.parse
 
 appPath = dirname(abspath(__file__))
-
+# The Checker Framework path parameter default.
+# The dev-checker-framework subdirectory should be a symbolic link to the Checker Framework to use.
+# This parameter can be set by different deployments of the server, e.g. in
+# https://github.com/eisop/webserver/blob/44c3c7b1c9740e7c921fe3365a8eabb5bc2766cd/wsgi-scripts/checkerweb.wsgi#L14
 cfPath = join(appPath, "dev-checker-framework")
 isRise4Fun = False
 
