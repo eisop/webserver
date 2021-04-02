@@ -36,15 +36,17 @@ from bottle import route, get, request, run, template, static_file, url, default
 app = Bottle()
 default_app.push(app)
 
-import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
+import io # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
-import urllib
-import urllib2
+
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 
 appPath = dirname(abspath(__file__))
 
-cfPath = join(appPath, "dev-checker-framework")
+CF="dev-checker-framework/checker-framework-3.9.1"
+cfPath = join(appPath, CF)
 isRise4Fun = False
 
 @route('/')
@@ -57,6 +59,19 @@ def route_static(filepath=None):
           abort(401, "Sorry, access denied.")
         return template('index', root=appPath, get_url=app.get_url)
     return static_file(filepath, root=join(appPath, 'static'))
+
+@get('/version', name='version')
+def get_version():
+    version_backend = subprocess.Popen(['./shell-scripts/run-version-checker.sh', cfPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    (stdout, stderr) = version_backend.communicate()
+
+    if version_backend.returncode != 0:
+        print("Error: Version checker failed %d %s %s" % (version_backend.returncode,stdout, stderr))
+        result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
+    else:
+        result = stdout
+    response.add_header("Content-Type", "application/json")
+    return str(result, 'utf-8')
 
 @get('/exec', name='exec')
 def get_exec():
