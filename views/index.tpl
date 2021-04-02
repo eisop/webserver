@@ -254,7 +254,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   </div>
 
   <div>
-    <button onclick="executeVersion()" class="bigBtn" type="button">Version Number</button>
+    <button id="versionButton" onclick="executeVersion()" class="bigBtn" type="button">Version Number</button>
     <input id="versionNumber" style="display:none;" size="60"/>
   </div>
 
