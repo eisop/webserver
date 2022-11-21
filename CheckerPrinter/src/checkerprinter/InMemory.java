@@ -96,9 +96,22 @@ public class InMemory {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
+        /*
+         "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+                    "-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+                    "-processorpath", "$CHECKERFRAMEWORK/checker/dist/checker.jar",
+                    "-cp", "$CHECKERFRAMEWORK/checker/dist/checker-qual.jar",
+        */
         this.checkerOptionsList =
                 Arrays.asList(
-                        "-Xbootclasspath/p:" + this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
+                   
                         "-processor",
                         checker);
         if (optionsObject.getBoolean("has_cfg")) {
@@ -150,10 +163,10 @@ public class InMemory {
 
         List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
 
-        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag";
+        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/a: flag";
 
         this.checkerPrinter.setExecCmd(
-                this.checkerOptionsList.subList(1, this.checkerOptionsList.size()));
+                this.checkerOptionsList.subList(0, this.checkerOptionsList.size()));
 
         if (bytecode != null && diagnosticList.size() == 0) {
             this.checkerPrinter.printSuccess();
