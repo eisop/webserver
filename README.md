@@ -59,6 +59,7 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
     ```
     ./shell-scripts/deploy-checkerweb.sh -l ../jsr308/checker-framework
     ```
+If there are issues with instantiating processors: [additional configuration info](https://github.com/padenaa/webserver/blob/cf_path/shell-scripts/README.md)
 
 3. Customize the vhost configuration file: *wsgi-scripts/checkerweb-wsgi.conf*
 
