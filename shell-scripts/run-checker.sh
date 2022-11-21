@@ -20,6 +20,10 @@ fi
 
 # CF=$(cd ../enabled-checker-framework && pwd)
 CF=$2
+
+# if CF=$2 doesnt work, manually set CF to your local copy's path to the checker framework as shown
+# CF=/home/[your_user]/var/www/webserver/[local_copy_folder]/checker-framework
+
 IS_RISE4FUN=$3
 
 cat <<ENDEND | $JAVA_HOME/bin/java -Xmx2500M -Xbootclasspath/a:$CF/checker/dist/javac.jar -ea -ea:com.sun.tools... -cp $CF/checker/dist/checker.jar:../CheckerPrinter/bin:../CheckerPrinter/javax.json-1.0.jar:$JAVA_HOME/lib/tools.jar checkerprinter.InMemory $CF $IS_RISE4FUN
