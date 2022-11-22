@@ -1,18 +1,33 @@
-checkerprinter: a Java package that using checkerframework check and print check result of Java programs. This package is modified based on the traceprinter package from java_jail:https://github.com/daveagp/java_jail with  GNU AFFERO GENERAL PUBLIC LICENSE Version 3. Modified by Charles Chen (charleszhuochen@gmail.com) Mar 2016
-===Major modification===
-1. remove traceprinter.VMCommander, traceprinter.shoelace, traceprinter.JSONTracingThread cause we don't need to execute the user code.
+# CheckerPrinter
 
-2. remove un-need methods in traceprinter.JDI2JSON.
+A Java package to check a given Java program using the Checker Framework and
+format the results.
 
-3. Change traceprinter.JDI2JSON to checkerprinter.CHECKER2JSON, change JSON format adapt to the frontend of checkerframework webserver.
+This package is based on the traceprinter package from java_jail:
+https://github.com/daveagp/java_jail with GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3. Modified by Charles Chen (charleszhuochen@gmail.com) Mar 2016.
+
+## Major modifications
+
+1. Remove traceprinter.VMCommander, traceprinter.shoelace, and
+traceprinter.JSONTracingThread because we do not need to execute the user code.
+
+2. Remove unused methods in traceprinter.JDI2JSON.
+
+3. Change traceprinter.JDI2JSON to checkerprinter.CHECKER2JSON, adapt the JSON
+format to the frontend of the Checker Framework webserver.
 
 4. Modified InMemory.java:
-	1. add initCheckerArgs to init checker arguments
-	2. add printCheckerReport to print checker result in JSON format
-	3. modified InMemory constructor: add JSR308 field to store JSR308 environment variable.(JSR308 will passed as command line argument to InMemory. e.g java -cp ... InMemory $JSR308)
-	4. add checkerMap to store mapping of frontend parameter to real checker
+	1. add initCheckerArgs to initialize checker arguments.
+	2. add printCheckerReport to print checker result in JSON format.
+  3. modified InMemory constructor: add JSR308 field to store JSR308 environment
+     variable. (JSR308 will be passed as command line argument to InMemory, e.g
+     java -cp ... InMemory $JSR308).
+  4. add checkerMap to store mapping of frontend parameter to real checker.
 
-===the original README from traceprinter as below ===
+
+## The original README from traceprinter follows below
+
 traceprinter: a Java package to print traces of Java programs
 David Pritchard (daveagp@gmail.com), created May 2013
 
