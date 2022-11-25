@@ -127,9 +127,17 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <!-- <input id="verbose" type="checkbox"/>verbose<br/> -->
     </div>
 
-    <p>
+    <div id="javaOptionsPane" style="margin-top: 20px;">
+      Choose additional assertions option
+      <select id="assertion" onchange="selectedOptionOnChange()">
+      <option value="assumeAssertionsAreEnabled">Assume assertions are enabled</option>
+      <option value="assumeAssertionsAreDisabled">Assume assertions are disabled</option>
+      </select>
+    </div>
+  <p>
       <button id="executeBtn" class="bigBtn" type="button">Check</button>
-    </p>
+  </p>
+    
   </div>
 
   <div>

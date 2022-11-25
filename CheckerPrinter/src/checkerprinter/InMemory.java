@@ -36,6 +36,7 @@ public class InMemory {
     Printer checkerPrinter;
 
     static final Map<String, String> checkerMap;
+    static final Map<String, String> assertionOptionMap;
 
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
@@ -59,6 +60,11 @@ public class InMemory {
         tempMap.put("cons_value", "org.checkerframework.common.value.ValueChecker");
         tempMap.put("index", "org.checkerframework.checker.index.IndexChecker");
         checkerMap = Collections.unmodifiableMap(tempMap);
+
+        HashMap<String, String> tempMap2 = new HashMap<String, String>();
+        tempMap2.put("assumeAssertionsAreEnabled", "-AassumeAssertionsAreEnabled");
+        tempMap2.put("assumeAssertionsAreDisabled", "-AassumeAssertionsAreDisabled");
+        assertionOptionMap = Collections.unmodifiableMap(tempMap2);
     }
 
     private final String CHECKER_FRAMEWORK;
@@ -96,8 +102,13 @@ public class InMemory {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
-        /*
-         "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        String assertionOption = InMemory.assertionOptionMap.get(optionsObject.getString("assertion"));
+        if (assertionOption == null){
+            this.exceptionMsg = "Error: Cannot find indicated assertion enablement preference.";
+            return false;
+        }
+        /* for java 17, add the following flags
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
                     "-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
                     "-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
                     "-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
@@ -111,7 +122,7 @@ public class InMemory {
         */
         this.checkerOptionsList =
                 Arrays.asList(
-                   
+                        assertionOption,
                         "-processor",
                         checker);
         if (optionsObject.getBoolean("has_cfg")) {

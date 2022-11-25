@@ -171,6 +171,7 @@ function doneExecutingCode() {
 /*CheckerFramework: Override backend Option*/
 function getBaseBackendOptionsObj() {
   var ret = {checker: $('#type_system').val(),
+             assertion: $('#assertion').val(),
              has_cfg: $('#cfg').is(':checked'),
              cfg_level: $('#cfg_level').val(),
              verbose: $('#verbose').is(':checked')};
@@ -268,6 +269,10 @@ function parseQueryString() {
   if(queryStrOptions.typeSystem) {
     $("#type_system").val(queryStrOptions.typeSystem);
   }
+  // assertion option starts as no selection, can be changed based on chosen input
+  if(queryStrOptions.assertion){
+    $("#assertion").val(queryStrOptions.assertion);
+  }
   // ugh tricky -- always start in edit mode by default, and then
   // switch to display mode only after the code successfully executes
   appMode = 'edit';
@@ -283,6 +288,7 @@ function parseQueryString() {
 function getQueryStringOptions() {
   return {precededCode: $.bbq.getState('code'),
           typeSystem: $.bbq.getState('typeSystem'),
+          assertion: $.bbq.getState('assertion'),
           precededCodeCurInstr: Number($.bbq.getState('curInstr')),
           appMode: $.bbq.getState('mode')
           };
@@ -349,12 +355,18 @@ function selectedCheckerOnChange() {
 
 }
 
+function selectedOptionOnChange() {
+  var assertion_option = $("#assertion").val();
+  console.log(assertion_option)
+}
+
 //get the entire current state of the app
 function getAppState() {
   return {
     mode: appMode,
     code: pyInputGetValue(),
     typeSystem: $("#type_system").val(),
+    assertion: $("#assertion").val()
   }
 
 }
@@ -381,7 +393,7 @@ function genericOptFrontendReady() {
     // linkGen feature generates url containing both code & typeSystem
     // use OR condition for future extension
     // allowing url with only code or typeSystem encoding be parsed here
-    if ($.bbq.getState('code') || $.bbq.getState('typeSystem')) {
+    if ($.bbq.getState('code') || $.bbq.getState('typeSystem') || $.bbq.getState('assertion')) {
       parseQueryString();
     }
     // otherwise just do an incremental update
