@@ -147,7 +147,7 @@ if py3k:
     from urllib.parse import urlencode, quote as urlquote, unquote as urlunquote
     urlunquote = functools.partial(urlunquote, encoding='latin1')
     from http.cookies import SimpleCookie
-    from collections import MutableMapping as DictMixin
+    from collections.abc import MutableMapping as DictMixin
     import pickle
     from io import BytesIO
     from configparser import ConfigParser, Error as ConfigParserError
@@ -1087,7 +1087,7 @@ class Bottle(object):
             new_iter = itertools.chain([first], iout)
         elif isinstance(first, str):
             encoder = lambda x: x.encode(response.charset)
-            new_iter = map(encoder, itertools.chain([first], iout))
+            new_iter = list(map(encoder, itertools.chain([first], iout)))
         else:
             msg = 'Unsupported response type: %s' % type(first)
             return self._cast(HTTPError(500, msg))
@@ -2082,19 +2082,19 @@ class MultiDict(DictMixin):
             return [(k, v[-1]) for k, v in list(self.dict.items())]
 
         def iterkeys(self):
-            return iter(self.dict.keys())
+            return iter(list(self.dict.keys()))
 
         def itervalues(self):
-            return (v[-1] for v in self.dict.values())
+            return (v[-1] for v in list(self.dict.values()))
 
         def iteritems(self):
-            return ((k, v[-1]) for k, v in self.dict.items())
+            return ((k, v[-1]) for k, v in list(self.dict.items()))
 
         def iterallitems(self):
-            return ((k, v) for k, vl in self.dict.items() for v in vl)
+            return ((k, v) for k, vl in list(self.dict.items()) for v in vl)
 
         def allitems(self):
-            return [(k, v) for k, vl in self.dict.items() for v in vl]
+            return [(k, v) for k, vl in list(self.dict.items()) for v in vl]
 
     def get(self, key, default=None, index=-1, type=None):
         """ Return the most recent value for a key.
@@ -4029,6 +4029,7 @@ DEBUG = False
 NORUN = False  # If set, run() does nothing. Used by load_app()
 
 #: A dict to map HTTP status codes (e.g. 404) to phrases (e.g. 'Not Found')
+import http.client
 HTTP_CODES = http.client.responses.copy()
 HTTP_CODES[418] = "I'm a teapot"  # RFC 2324
 HTTP_CODES[428] = "Precondition Required"
