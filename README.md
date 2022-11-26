@@ -125,8 +125,10 @@ In the clone, directly run:
 python bottle_server.py
 ```
 
-This will active a bottle server listening on port 8081, and can be
+Note that this project uses Python3. This will active a bottle server listening on port 8081, and can be
 stopped by ctrl-C in the terminal.
+
+To update bottle.py, one must use ```2to3 -w bottle.py```. No local  modifications of the bottle.py need to be done.
 
 This is the easiest way to run a test server to have a look at your
 changes immediately.
