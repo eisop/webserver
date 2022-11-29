@@ -22,6 +22,6 @@ fi
 CF=$2
 IS_RISE4FUN=$3
 
-cat <<ENDEND | $JAVA_HOME/bin/java -Xmx2500M -Xbootclasspath/a:$CF/checker/dist/javac.jar -ea -ea:com.sun.tools... -cp $CF/checker/dist/checker.jar:../CheckerPrinter/bin:../CheckerPrinter/javax.json-1.0.jar:$JAVA_HOME/lib/tools.jar checkerprinter.InMemory $CF $IS_RISE4FUN
+cat <<ENDEND | $JAVA_HOME/bin/java -Xmx2500M -ea -ea:com.sun.tools... -cp $CF/checker/dist/checker.jar:../CheckerPrinter/bin:../CheckerPrinter/javax.json-1.0.jar:$CF/checker/dist/javac.jar checkerprinter.InMemory $CF $IS_RISE4FUN
 $1
 ENDEND

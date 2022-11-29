@@ -40,7 +40,6 @@ from io import StringIO # NB: don't use cStringIO since it doesn't support unico
 import json
 # import pg_logger
 import urllib
-##import urllib2
 
 appPath = dirname(abspath(__file__))
 
@@ -71,7 +70,7 @@ def get_exec():
   else:  
     result = stdout
   response.add_header("Content-Type", "application/json")
-  return result 
+  return result
 
 if __name__ == "__main__":
     run(host='127.0.0.1', port=8081, reloader=True)

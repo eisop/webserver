@@ -96,7 +96,7 @@ public class InMemory {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
-        /*
+        /* for java11+ add the following:
          "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
                     "-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
                     "-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
@@ -111,7 +111,6 @@ public class InMemory {
         */
         this.checkerOptionsList =
                 Arrays.asList(
-                   
                         "-processor",
                         checker);
         if (optionsObject.getBoolean("has_cfg")) {
@@ -163,10 +162,9 @@ public class InMemory {
 
         List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
 
-        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/a: flag";
 
-        this.checkerPrinter.setExecCmd(
-                this.checkerOptionsList.subList(0, this.checkerOptionsList.size()));
+
+        this.checkerPrinter.setExecCmd(this.checkerOptionsList);
 
         if (bytecode != null && diagnosticList.size() == 0) {
             this.checkerPrinter.printSuccess();
