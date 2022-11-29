@@ -36,11 +36,10 @@ from bottle import route, get, request, run, template, static_file, url, default
 app = Bottle()
 default_app.push(app)
 
-import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
+from io import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
 import urllib
-import urllib2
 
 appPath = dirname(abspath(__file__))
 
@@ -63,6 +62,8 @@ def get_exec():
   java_backend = subprocess.Popen(['./shell-scripts/run-checker.sh', request.query.frontend_data.encode('utf8'),
     cfPath, str(isRise4Fun)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   (stdout, stderr) = java_backend.communicate()
+
+  print("Java backend output: %d %s %s" % (java_backend.returncode,stdout, stderr)) ## added for debugging
   if java_backend.returncode != 0:
     print ("Error: CheckerPrinter failed %d %s %s" % (java_backend.returncode,stdout, stderr))
     result = json.dumps({'backend_status':'exception', 'exception_msg':'500 Server Internal Error.'})
