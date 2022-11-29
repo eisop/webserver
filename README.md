@@ -26,7 +26,9 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
 
 1. Clone this project in the `/var/www` directory:
 
-  ```git clone https://github.com/eisop/webserver.git```
+    ```
+    git clone https://github.com/eisop/webserver.git
+    ```
 
 2. In the clone, run `./shell-scripts/deploy-checkerweb.sh` with one
    of these options:
@@ -38,6 +40,7 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
     ```
     ./shell-scripts/deploy-checkerweb.sh
     ```
+
 * If you want to deploy this server with the newest released
   version of the Checker Framework from `http://checkerframework.org`,
   run:
@@ -47,8 +50,9 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
     ```
     e.g.
     ```
-    ./shell-scripts/deploy-checkerweb.sh -r http://types.cs.washington.edu/checker-framework/current/checker-framework-1.9.13.zip
+    ./shell-scripts/deploy-checkerweb.sh -r https://github.com/typetools/checker-framework/releases/download/checker-framework-3.10.0/checker-framework-3.10.0.zip
     ```
+
 * If you want to deploy this server with an existing local copy of
   the Checker Framework, run:
 
@@ -81,10 +85,14 @@ https://github.com/eisop/webserver/blob/master/README-eisop.txt
 5. Restart the apache2 server:
 
   In *RHEL 7* do:
-  ```sudo apachectl restart```
+  ```
+  sudo apachectl restart
+  ```
 
   In *Ubuntu* do:
-  ```sudo service apache2 restart```
+  ```
+  sudo service apache2 restart
+  ```
 
 
 ## Setting Up a Test Server
@@ -113,7 +121,9 @@ responsibility to ensure the passed location is correct.
 ### Running a server in a terminal using Bottle Server
 
 In the clone, directly run:
-```python bottle_server.py```
+```
+python bottle_server.py
+```
 
 This will active a bottle server listening on port 8081, and can be
 stopped by ctrl-C in the terminal.
