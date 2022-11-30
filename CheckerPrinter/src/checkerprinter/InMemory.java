@@ -36,6 +36,9 @@ public class InMemory {
     Printer checkerPrinter;
 
     static final Map<String, String> checkerMap;
+    static final Map<String, String> assertionOptionMap;
+    static final Map<String, String> sideEffectOptionMap;
+    static final Map<String, String> purityCheckMap;
 
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
@@ -59,6 +62,23 @@ public class InMemory {
         tempMap.put("cons_value", "org.checkerframework.common.value.ValueChecker");
         tempMap.put("index", "org.checkerframework.checker.index.IndexChecker");
         checkerMap = Collections.unmodifiableMap(tempMap);
+
+        HashMap<String, String> tempMap2 = new HashMap<String, String>();
+        tempMap2.put("assumeAssertionsAreEnabled", "-AassumeAssertionsAreEnabled");
+        tempMap2.put("assumeAssertionsAreDisabled", "-AassumeAssertionsAreDisabled");
+        assertionOptionMap = Collections.unmodifiableMap(tempMap2);
+
+        HashMap<String, String> tempMap3 = new HashMap<String, String>();
+        tempMap3.put("noSelection", "");
+        tempMap3.put("assumeSideEffectFree", "-AassumeSideEffectFree");
+        tempMap3.put("assumeDeterministic", "-AassumeDeterministic");
+        tempMap3.put("assumePure", "-AassumePure");
+        sideEffectOptionMap = Collections.unmodifiableMap(tempMap3);
+
+        HashMap<String, String> tempMap4 = new HashMap<String, String>();
+        tempMap4.put("noSelection", "");
+        tempMap4.put("checkPurityAnnotations", "-AcheckPurityAnnotations");
+        purityCheckMap = Collections.unmodifiableMap(tempMap4);
     }
 
     private final String CHECKER_FRAMEWORK;
@@ -92,15 +112,39 @@ public class InMemory {
 
     protected boolean initCheckerArgs(JsonObject optionsObject) {
         String checker = InMemory.checkerMap.get(optionsObject.getString("checker"));
+        this.checkerOptionsList = new ArrayList<String>();
         if (checker == null) {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
-        this.checkerOptionsList =
-                Arrays.asList(
-                        "-Xbootclasspath/p:" + this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
-                        "-processor",
-                        checker);
+        String assertionOption = InMemory.assertionOptionMap.get(optionsObject.getString("assertion"));
+        if (assertionOption != ""){
+            this.checkerOptionsList.add(assertionOption);
+        }
+        String sideEffectOption = InMemory.sideEffectOptionMap.get(optionsObject.getString("side_effects"));
+        if (sideEffectOption != ""){
+           this.checkerOptionsList.add(sideEffectOption);
+        }
+        String purityCheck = InMemory.purityCheckMap.get(optionsObject.getString("purity_check"));
+        if (purityCheck != ""){
+            this.checkerOptionsList.add(purityCheck);
+        }
+        /* for java 17, add the following flags
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+                    "-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+                    "-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+                    "-processorpath", "$CHECKERFRAMEWORK/checker/dist/checker.jar",
+                    "-cp", "$CHECKERFRAMEWORK/checker/dist/checker-qual.jar",
+        */
+        
+        this.checkerOptionsList.add("-processor");
+        this.checkerOptionsList.add(checker);
         if (optionsObject.getBoolean("has_cfg")) {
             // String cfgLevel = optionsObject.getString("cfg_level");
             // TODO: add CFG Visualization
@@ -150,10 +194,10 @@ public class InMemory {
 
         List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
 
-        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag";
+        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/a: flag";
 
         this.checkerPrinter.setExecCmd(
-                this.checkerOptionsList.subList(1, this.checkerOptionsList.size()));
+                this.checkerOptionsList.subList(0, this.checkerOptionsList.size()));
 
         if (bytecode != null && diagnosticList.size() == 0) {
             this.checkerPrinter.printSuccess();
