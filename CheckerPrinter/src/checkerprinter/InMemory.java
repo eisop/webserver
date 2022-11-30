@@ -37,6 +37,8 @@ public class InMemory {
 
     static final Map<String, String> checkerMap;
     static final Map<String, String> assertionOptionMap;
+    static final Map<String, String> sideEffectOptionMap;
+    static final Map<String, String> purityCheckMap;
 
     static {
         HashMap<String, String> tempMap = new HashMap<String, String>();
@@ -65,6 +67,18 @@ public class InMemory {
         tempMap2.put("assumeAssertionsAreEnabled", "-AassumeAssertionsAreEnabled");
         tempMap2.put("assumeAssertionsAreDisabled", "-AassumeAssertionsAreDisabled");
         assertionOptionMap = Collections.unmodifiableMap(tempMap2);
+
+        HashMap<String, String> tempMap3 = new HashMap<String, String>();
+        tempMap3.put("noSelection", "");
+        tempMap3.put("assumeSideEffectFree", "-AassumeSideEffectFree");
+        tempMap3.put("assumeDeterministic", "-AassumeDeterministic");
+        tempMap3.put("assumePure", "-AassumePure");
+        sideEffectOptionMap = Collections.unmodifiableMap(tempMap3);
+
+        HashMap<String, String> tempMap4 = new HashMap<String, String>();
+        tempMap4.put("noSelection", "");
+        tempMap4.put("checkPurityAnnotations", "-AcheckPurityAnnotations");
+        purityCheckMap = Collections.unmodifiableMap(tempMap4);
     }
 
     private final String CHECKER_FRAMEWORK;
@@ -98,14 +112,22 @@ public class InMemory {
 
     protected boolean initCheckerArgs(JsonObject optionsObject) {
         String checker = InMemory.checkerMap.get(optionsObject.getString("checker"));
+        this.checkerOptionsList = new ArrayList<String>();
         if (checker == null) {
             this.exceptionMsg = "Error: Cannot find indicated checker.";
             return false;
         }
         String assertionOption = InMemory.assertionOptionMap.get(optionsObject.getString("assertion"));
-        if (assertionOption == null){
-            this.exceptionMsg = "Error: Cannot find indicated assertion enablement preference.";
-            return false;
+        if (assertionOption != ""){
+            this.checkerOptionsList.add(assertionOption);
+        }
+        String sideEffectOption = InMemory.sideEffectOptionMap.get(optionsObject.getString("side_effects"));
+        if (sideEffectOption != ""){
+           this.checkerOptionsList.add(sideEffectOption);
+        }
+        String purityCheck = InMemory.purityCheckMap.get(optionsObject.getString("purity_check"));
+        if (purityCheck != ""){
+            this.checkerOptionsList.add(purityCheck);
         }
         /* for java 17, add the following flags
                     "-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
@@ -120,11 +142,9 @@ public class InMemory {
                     "-processorpath", "$CHECKERFRAMEWORK/checker/dist/checker.jar",
                     "-cp", "$CHECKERFRAMEWORK/checker/dist/checker-qual.jar",
         */
-        this.checkerOptionsList =
-                Arrays.asList(
-                        assertionOption,
-                        "-processor",
-                        checker);
+        
+        this.checkerOptionsList.add("-processor");
+        this.checkerOptionsList.add(checker);
         if (optionsObject.getBoolean("has_cfg")) {
             // String cfgLevel = optionsObject.getString("cfg_level");
             // TODO: add CFG Visualization
