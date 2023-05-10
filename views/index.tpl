@@ -39,7 +39,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
 
 <head>
-  <title>Checker Framework Live Demo</title>
+  <title>EISOP Checker Framework Live Demo</title>
   <!-- no-cache tags
        https://www.mnot.net/cache_docs/#META -->
   <meta http-equiv="cache-control" content="no-cache" />
@@ -256,7 +256,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div id="versionPane">
     <!-- TODO: auto-update the version information -->
-    <p style="margin-top: 25px; font-weight: bold;">Checker Framework version 3.21.3 (1 Mar 2022)</p>
+    <p style="margin-top: 25px; font-weight: bold;">EISOP Checker Framework version 3.34.0-eisop1 (May 9, 2023)</p>
   </div>
 
 </div>
@@ -264,9 +264,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <div id="footer">
   <div class = "footer_left">
       <p>For more information see
-      <a href="https://checkerframework.org/">https://checkerframework.org/</a>
+      <a href="https://eisop.github.io/">https://eisop.github.io/</a>
       and
-      <a href=" http://eisop.uwaterloo.ca/">http://eisop.uwaterloo.ca/</a>
+      <a href=" http:///checkerframework.org">http://checkerframework.org/</a>
       </p>
       <p>
     Built with code from the amazing
@@ -276,7 +276,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </p>
   </div>
   <div class = "footer_right">
-    <a href="https://checkerframework.org/">
+    <a href="https://eisop.github.io/">
       <img src="{{ get_url('static', filepath='img/CFLogo.png') }}" alt="Checker Framework logo" style=""/>
     </a>
   </div>

@@ -1,7 +1,7 @@
 # [Checker Framework](http://checkerframework.org) live demo webserver
 
-This is the live demo webserver for the [Checker
-Framework](http://checkerframework.org).
+This is the live demo webserver for the [EISOP Checker
+Framework](https://eisop.github.io/).
 
 This webserver is developed based on the [Online Python
 Tutor](http://github.com/pgbovine/OnlinePythonTutor/) and [java
