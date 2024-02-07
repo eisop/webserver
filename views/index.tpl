@@ -240,6 +240,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     <p data-checker-type="aliasing">
       Aliasing (<a class="manualLink" href="https://checkerframework.org/manual/#aliasing-checker" target="_blank"><i>manual</i></a>)
+      <a class="manualLink" id="AliasingExample" href="#">AliasChecker</a>
     </p>
 
    <!--  <p data-checker-type="igj">
