@@ -127,9 +127,37 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       <!-- <input id="verbose" type="checkbox"/>verbose<br/> -->
     </div>
 
-    <p>
+    <div id="javaOptionsPane" style="margin-top: 20px;">
+      Enable or disable assertions: 
+      <select id="assertion" >
+      <option value="assumeAssertionsAreEnabled">Assume assertions are enabled</option>
+      <option value="assumeAssertionsAreDisabled">Assume assertions are disabled</option>
+      </select>
+    </div>
+
+    <div id="javaOptionsPane" style="margin-top: 20px;">
+      Set assumptions for side effect free and deterministic methods:
+      <select id="side_effects" onchange="sideEffectOptionChange()">
+      <option value="noSelection">No selection</option>
+      <option value="assumeSideEffectFree">Assume all methods are side effect free</option>
+      <option value="assumeDeterministic">Assume all methods are deterministic</option>
+      <option value="assumePure">Assume all methods are pure </option>
+      </select>
+    </div>
+
+    <div id="javaOptionsPane" style="margin-top: 20px;">
+      Set preference for purity annotations:
+      <select id="purity_check" onchange="purityCheckOptionChange()">
+      <option value="noSelection">Don't check purity annotations</option>
+      <option value="checkPurityAnnotations">Check purity annotations</option>
+      </select>
+    </div>
+
+
+  <p>
       <button id="executeBtn" class="bigBtn" type="button">Check</button>
-    </p>
+  </p>
+    
   </div>
 
   <div>

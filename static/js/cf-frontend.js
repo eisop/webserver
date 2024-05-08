@@ -171,6 +171,9 @@ function doneExecutingCode() {
 /*CheckerFramework: Override backend Option*/
 function getBaseBackendOptionsObj() {
   var ret = {checker: $('#type_system').val(),
+             assertion: $('#assertion').val(),
+             side_effects: $('#side_effects').val(),
+             purity_check: $('#purity_check').val(),
              has_cfg: $('#cfg').is(':checked'),
              cfg_level: $('#cfg_level').val(),
              verbose: $('#verbose').is(':checked')};
@@ -268,6 +271,19 @@ function parseQueryString() {
   if(queryStrOptions.typeSystem) {
     $("#type_system").val(queryStrOptions.typeSystem);
   }
+  // assertion option starts as assertion disabled, can be changed based on chosen input
+  if(queryStrOptions.assertion){
+    $("#assertion").val(queryStrOptions.assertion);
+  }
+  //side effect assumption option
+  if(queryStrOptions.side_effects){
+    $('#side_effects').val(queryStrOptions.side_effects)
+  }
+  //purity check option
+  if (queryStrOptions.purity_check){
+    $('purity_check').val(queryStrOptions.purity_check)
+  }
+
   // ugh tricky -- always start in edit mode by default, and then
   // switch to display mode only after the code successfully executes
   appMode = 'edit';
@@ -283,6 +299,9 @@ function parseQueryString() {
 function getQueryStringOptions() {
   return {precededCode: $.bbq.getState('code'),
           typeSystem: $.bbq.getState('typeSystem'),
+          assertion: $.bbq.getState('assertion'),
+          side_effects: $.bbq.getState('side_effects'),
+          purity_check: $.bbq.getState('purity_check'),
           precededCodeCurInstr: Number($.bbq.getState('curInstr')),
           appMode: $.bbq.getState('mode')
           };
@@ -345,8 +364,6 @@ function selectedCheckerOnChange() {
   var href = $("#examplesPane p[data-checker-type="+checker_value+"]").children("a.manualLink").attr("href");
 
   $("#selectedCheckerManual").attr("href", href).text("manual of " + checker_name);
-
-
 }
 
 //get the entire current state of the app
@@ -355,6 +372,9 @@ function getAppState() {
     mode: appMode,
     code: pyInputGetValue(),
     typeSystem: $("#type_system").val(),
+    assertion: $("#assertion").val(),
+    side_effects: $("#side_effects").val(),
+    purity_check: $('#purity_check').val()
   }
 
 }
@@ -381,7 +401,7 @@ function genericOptFrontendReady() {
     // linkGen feature generates url containing both code & typeSystem
     // use OR condition for future extension
     // allowing url with only code or typeSystem encoding be parsed here
-    if ($.bbq.getState('code') || $.bbq.getState('typeSystem')) {
+    if ($.bbq.getState('code') || $.bbq.getState('typeSystem') || $.bbq.getState('assertion') || $.bbq.getState('side_effects') || $.bbq.getState('purity_check')) {
       parseQueryString();
     }
     // otherwise just do an incremental update
