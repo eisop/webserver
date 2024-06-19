@@ -98,7 +98,6 @@ public class InMemory {
         }
         this.checkerOptionsList =
                 Arrays.asList(
-                        "-Xbootclasspath/p:" + this.CHECKER_FRAMEWORK + "/checker/dist/jdk8.jar",
                         "-processor",
                         checker);
         if (optionsObject.getBoolean("has_cfg")) {
@@ -150,10 +149,7 @@ public class InMemory {
 
         List<Diagnostic<? extends JavaFileObject>> diagnosticList = errorCollector.getDiagnostics();
 
-        assert this.checkerOptionsList.size() > 1 : "at least should have -Xbootclasspath/p: flag";
-
-        this.checkerPrinter.setExecCmd(
-                this.checkerOptionsList.subList(1, this.checkerOptionsList.size()));
+        this.checkerPrinter.setExecCmd(this.checkerOptionsList);
 
         if (bytecode != null && diagnosticList.size() == 0) {
             this.checkerPrinter.printSuccess();
