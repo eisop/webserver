@@ -99,7 +99,9 @@ public class InMemory {
         this.checkerOptionsList =
                 Arrays.asList(
                         "-processor",
-                        checker);
+                        checker,
+                        // Do not check JRE version, to allow updates on server.
+                        "-AnoJreVersionCheck");
         if (optionsObject.getBoolean("has_cfg")) {
             // String cfgLevel = optionsObject.getString("cfg_level");
             // TODO: add CFG Visualization
