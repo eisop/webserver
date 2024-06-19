@@ -22,6 +22,6 @@ fi
 CF=$2
 IS_RISE4FUN=$3
 
-cat <<ENDEND | $JAVA_HOME/bin/java -Xmx2500M -ea -ea:com.sun.tools... -cp $CF/checker/dist/checker.jar:$CF/checker/dist/javac.jar:../CheckerPrinter/bin:../CheckerPrinter/javax.json-1.0.jar checkerprinter.InMemory $CF $IS_RISE4FUN
+cat <<ENDEND | $JAVA_HOME/bin/java -Xmx2500M -ea -ea:com.sun.tools... --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED -cp $CF/checker/dist/checker.jar:$CF/checker/dist/javac.jar:../CheckerPrinter/bin:../CheckerPrinter/javax.json-1.0.jar checkerprinter.InMemory $CF $IS_RISE4FUN
 $1
 ENDEND
