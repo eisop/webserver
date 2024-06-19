@@ -36,11 +36,10 @@ from bottle import route, get, request, run, template, static_file, url, default
 app = Bottle()
 default_app.push(app)
 
-import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
+from io import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
 import json
 # import pg_logger
 import urllib
-import urllib2
 
 appPath = dirname(abspath(__file__))
 
