@@ -69,7 +69,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <body>
   <div class = "header">
-    <header>Checker Framework Live Demo</header>
+    <header>EISOP Checker Framework Live Demo</header>
   </div>
 
 
@@ -256,7 +256,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   <div id="versionPane">
     <!-- TODO: auto-update the version information -->
-    <p style="margin-top: 25px; font-weight: bold;">EISOP Checker Framework version 3.34.0-eisop1 (May 9, 2023)</p>
+    <p style="margin-top: 25px; font-weight: bold;">EISOP Checker Framework version 3.42.0-eisop3 (Mar 1, 2024)</p>
   </div>
 
 </div>
