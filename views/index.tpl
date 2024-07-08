@@ -110,7 +110,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <option value="javari">Javari Checker</option>
    -->
       </select>
-      <a id="selectedCheckerManual" href="https://checkerframework.org/manual/#nullness-checker" target="_blank">manual of Nullness Checker</a>
+      <a id="selectedCheckerManual" href="https://eisop.github.io/cf/manual/#nullness-checker" target="_blank">manual of Nullness Checker</a>
       <br/>
 
       <!-- comming soon! -->
@@ -159,30 +159,30 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <p style="margin-top: 25px; font-weight: bold;">Examples:</p>
 
     <p data-checker-type="nullness">
-      Nullness (<a class="manualLink" href="https://checkerframework.org/manual/#nullness-checker" target="_blank"><i>manual</i></a>):
+      Nullness (<a class="manualLink" href="https://eisop.github.io/cf/manual/#nullness-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="NullnessExampleLink" href="#">NullnessExample</a> |
       <a class="exampleLink" id="NullnessExampleWithWarningsLink" href="#">NullnessExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="optional">
-      Optional (<a class="manualLink" href="https://checkerframework.org/manual/#optional-checker" target="_blank"><i>manual</i></a>):
+      Optional (<a class="manualLink" href="https://eisop.github.io/cf/manual/#optional-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="OptionalExampleLink" href="#">OptionalExample</a> |
       <a class="exampleLink" id="OptionalExampleWithWarningsLink" href="#">OptionalExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="map_key">
-      MapKey (<a class="manualLink" href="https://checkerframework.org/manual/#map-key-checker" target="_blank"><i>manual</i></a>):
+      MapKey (<a class="manualLink" href="https://eisop.github.io/cf/manual/#map-key-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="MapKeyExampleWithWarningsLink" href="#">MapKeyExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="interning">
-      Interning (<a class="manualLink" href="https://checkerframework.org/manual/#interning-checker" target="_blank"><i>manual</i></a>):
+      Interning (<a class="manualLink" href="https://eisop.github.io/cf/manual/#interning-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="InterningExampleLink" href="#">InterningExample</a> |
       <a class="exampleLink" id="InterningExampleWithWarningsLink" href="#">InterningExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="lock">
-      Lock (<a class="manualLink" href="https://checkerframework.org/manual/#lock-checker" target="_blank"><i>manual</i></a>):
+      Lock (<a class="manualLink" href="https://eisop.github.io/cf/manual/#lock-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="GuardedByExampleWithWarningsLink" href="#">GuardedByExampleWithWarnings</a> |
       <a class="exampleLink" id="HoldingExampleWithWarningsLink" href="#">HoldingExampleWithWarnings</a> |
       <a class="exampleLink" id="EnsuresLockHeldExampleLink" href="#">EnsuresLockHeldExample</a> |
@@ -190,40 +190,40 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </p>
 
     <p data-checker-type="fake_enum">
-      Fake Enumeration (<a class="manualLink" href="https://checkerframework.org/manual/#fenum-checker" target="_blank"><i>manual</i></a>):
+      Fake Enumeration (<a class="manualLink" href="https://eisop.github.io/cf/manual/#fenum-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="FakeEnumExampleWithWarningsLink" href="#">FakeEnumExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="tainting">
-      Tainting (<a class="manualLink" href="https://checkerframework.org/manual/#tainting-checker" target="_blank"><i>manual</i></a>):
+      Tainting (<a class="manualLink" href="https://eisop.github.io/cf/manual/#tainting-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="TaintingExampleWithWarningsLink" href="#">TaintingExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="regex">
-      Regular Expression (<a class="manualLink" href="https://checkerframework.org/manual/#regex-checker" target="_blank"><i>manual</i></a>):
+      Regular Expression (<a class="manualLink" href="https://eisop.github.io/cf/manual/#regex-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="RegexExampleWithWarningsLink" href="#">RegexExampleWithWarnings</a> |
       <a class="exampleLink" id="RegexConcatenationExampleLink" href="#">RegexConcatenationExample</a>
     </p>
 
     <p data-checker-type="format_string">
-      Format String (<a class="manualLink" href="https://checkerframework.org/manual/#formatter-checker" target="_blank"><i>manual</i></a>):
+      Format String (<a class="manualLink" href="https://eisop.github.io/cf/manual/#formatter-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="FormatStringExampleWithWarningsLink" href="#">FormatStringExampleWithWarnings</a>
       <!-- <a class="exampleLink" id="FormatStringMissedAlarmsLink" href="#">FormatStringMissedAlarms</a> | -->
     </p>
 
     <p data-checker-type="signature">
-      Signature Strings (<a class="manualLink" href="https://checkerframework.org/manual/#signature-checker" target="_blank"><i>manual</i></a>):
+      Signature Strings (<a class="manualLink" href="https://eisop.github.io/cf/manual/#signature-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="SignatureExampleWithWarningsLink" href="#">SignatureExampleWithWarnings</a> |
       <a class="exampleLink" id="SignatureExampleLink" href="#">SignatureExample</a>
     </p>
 
     <p data-checker-type="gui_effect">
-      GUI Effect (<a class="manualLink" href="https://checkerframework.org/manual/#guieffect-checker" target="_blank"><i>manual</i></a>):
+      GUI Effect (<a class="manualLink" href="https://eisop.github.io/cf/manual/#guieffect-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="GUIEffectExampleWithWarningsLink" href="#">GUIEffectExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="units">
-      Units (<a class="manualLink" href="https://checkerframework.org/manual/#units-checker" target="_blank"><i>manual</i></a>):
+      Units (<a class="manualLink" href="https://eisop.github.io/cf/manual/#units-checker" target="_blank"><i>manual</i></a>):
       <a class="exampleLink" id="SimpleDemoWithWarningsLink" href="#">SimpleDemoWithWarnings</a> |
       <a class="exampleLink" id="MethodsDemoWithWarningsLink" href="#">MethodsDemoWithWarnings</a> |
       <a class="exampleLink" id="PolyUnitDemoWithWarningsLink" href="#">PolyUnitDemoWithWarnings</a>
@@ -231,24 +231,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     <!-- call for examples for Index, Constant Value, and Aliasing Checker. -->
     <p data-checker-type="cons_value">
-      Constant Value (<a class="manualLink" href="https://checkerframework.org/manual/#constant-value-checker" target="_blank"><i>manual</i></a>)
+      Constant Value (<a class="manualLink" href="https://eisop.github.io/cf/manual/#constant-value-checker" target="_blank"><i>manual</i></a>)
     </p>
 
     <p data-checker-type="index">
-      Index (<a class="manualLink" href="https://checkerframework.org/manual/#index-checker" target="_blank"><i>manual</i></a>)
+      Index (<a class="manualLink" href="https://eisop.github.io/cf/manual/#index-checker" target="_blank"><i>manual</i></a>)
     </p>
 
     <p data-checker-type="aliasing">
-      Aliasing (<a class="manualLink" href="https://checkerframework.org/manual/#aliasing-checker" target="_blank"><i>manual</i></a>)
+      Aliasing (<a class="manualLink" href="https://eisop.github.io/cf/manual/#aliasing-checker" target="_blank"><i>manual</i></a>)
     </p>
 
    <!--  <p data-checker-type="igj">
-      IGJ immutability(<a href="https://checkerframework.org/manual/#igj-checker"><i>manual</i></a>):
+      IGJ immutability(<a href="https://eisop.github.io/cf/manual/#igj-checker"><i>manual</i></a>):
       <a class="exampleLink" id="IGJExampleWithWarningsLink" href="#">IGJExampleWithWarnings</a>
     </p>
 
     <p data-checker-type="javari">
-      Javari immutability(<a href="https://checkerframework.org/manual/#javari-checker"><i>manual</i></a>):
+      Javari immutability(<a href="https://eisop.github.io/cf/manual/#javari-checker"><i>manual</i></a>):
       <a class="exampleLink" id="JavariExampleWithWarningsLink" href="#">JavariExampleWithWarnings</a>
     </p> -->
   </div>
@@ -264,9 +264,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <div id="footer">
   <div class = "footer_left">
       <p>For more information see
-      <a href="https://eisop.github.io/">https://eisop.github.io/</a>
-      and
-      <a href=" http:///checkerframework.org">http://checkerframework.org/</a>
+      <a href="https://eisop.github.io/">https://eisop.github.io/</a>.
       </p>
       <p>
     Built with code from the amazing
